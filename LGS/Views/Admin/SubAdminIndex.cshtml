@@ -1,0 +1,241 @@
+﻿@model LGS.Models.AdminViewModels.DashboardViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "SubAdmins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* <link rel="stylesheet" href="/admin-lte/datatables.net-bs/css/dataTables.bootstrap.min.css"> *@
+
+<section class="content-header">
+    <h1>
+        Admin Dashboard
+        <small>LGS Control Panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-dashboard"></i> Level</a>
+        </li>
+        <li class="active">Admin Dashboard</li>
+    </ol>
+</section>
+<hr/>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Sub-Admins View Panel</h3>
+
+                <div class="box-tools pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">
+                            <i class="fa fa-user"> Add SubAdmin </i>
+                        </button>
+                        @* <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> *@
+                        @*     <i class="fa fa-user"></i> *@
+                        @* </button> *@
+                        @* <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"> *@
+                        @*     <i class="fa fa-wrench"></i> *@
+                        @* </button> *@
+                        @* <ul class="dropdown-menu" role="menu"> *@
+                        @*     <li class="divider"></li> *@
+                        @* *@
+                        @*     <li> *@
+                        @*         <a href="#">Add Sub-Admin</a> *@
+                        @*     </li> *@
+                        @*     $1$ <li> #1# *@
+                        @*     $1$     <a href="#">Another action</a> #1# *@
+                        @*     $1$ </li> #1# *@
+                        @*     $1$ <li> #1# *@
+                        @*     $1$     <a href="#">Something else here</a> #1# *@
+                        @*     $1$ </li> #1# *@
+                        @*     $1$ <li class="divider"></li> #1# *@
+                        @*     $1$ <li> #1# *@
+                        @*     $1$     <a href="#">Separated link</a> #1# *@
+                        @*     $1$ </li> #1# *@
+                        @* </ul> *@
+                    </div>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    @* <button type="button" class="btn btn-box-tool" data-widget="remove"> *@
+                    @*     <i class="fa fa-times"></i> *@
+                    @* </button> *@
+
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                @if (Model.UserViewModels == null || Model.UserViewModels.Count == 0)
+                {
+                    <p style="text-align: center">
+                        <b>No sub-admins found.</b>
+                    </p>
+                }
+                else
+                {
+                    foreach (var subAdmin in Model.UserViewModels)
+                    {
+                        <div class="col-md-3">
+                            <div class="box box-primary">
+                                <div class="box-body box-profile">
+                                    @if (string.IsNullOrEmpty(subAdmin.SubAdmin.ProfilePhoto))
+                                    {
+                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                    }
+                                    else
+                                    {
+                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/@subAdmin.SubAdmin.ProfilePhoto" alt="User profile picture">
+                                    }
+                                    <a href="/Admin">
+                                        <h3 class="profile-username text-center">@subAdmin.User.FullName</h3>
+                                    </a>
+                                    <p class="text-muted text-center">@subAdmin.RoleName</p>
+                                    
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item">
+                                            <b>Email Address :</b> <a class="pull-right">@subAdmin.User.Email</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Created Date</b> <a class="pull-right">@subAdmin.SubAdmin.CreatedDate.ToShortDateString()</a>
+                                        </li>
+                                    </ul>
+
+                                   
+
+                                    @* <a href="#" class="btn btn-primary btn-block"> *@
+                                    @*     <b>Follow</b> *@
+                                    @* </a> *@
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+
+                    }
+                }
+
+                <!-- /.row -->
+            </div>
+            <!-- ./box-body -->
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block border-right">
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block border-right">
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block border-right">
+                            @* <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span> *@
+                            @* <h5 class="description-header">$24,813.53</h5> *@
+                            @* <span class="description-text">TOTAL PROFIT</span> *@
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block">
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+
+
+
+
+<div class="modal modal-info fade" id="modal-info" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Sub-Admin Registration Form</h4>
+            </div>
+            @using (Html.BeginForm("SubAdminRegisterPage", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"></h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" style="color: black">Email Address</label>
+                                @* <input type="email" class="form-control" name="Email" id="exampleInputEmail1" required placeholder="Enter Email"> *@
+                                @Html.TextBoxFor(m => m.RegisterVm.Email, new { @class = "form-control", @placeholder = "Email" })
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputFullName1" style="color: black">Full Name</label>
+                                @* <input type="text" class="form-control" name="FullName" id="exampleInputFullName1" required placeholder="Enter Full Name"> *@
+                                @Html.TextBoxFor(m => m.RegisterVm.FullName, new { @class = "form-control", @placeholder = "Full Name" })
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword1" style="color: black">Password</label>
+                                @* <input type="password" class="form-control" name="Password" id="exampleInputPassword1" required placeholder="Enter Password"> *@
+                                @Html.PasswordFor(m => m.RegisterVm.Password, new { @class = "form-control", @placeholder = "Password" })
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputConfirmPassword1" style="color: black">Confirm Password</label>
+                                @Html.PasswordFor(m => m.RegisterVm.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+
+                    </div>
+
+
+                    @* <p>One fine body…</p> *@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Save changes</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@* <script src="/admin-lte/datatables.net/js/jquery.dataTables.min.js"></script> *@
+@* <script src="/admin-lte/datatables.net-bs/js/dataTables.bootstrap.min.js"></script> *@
+@* *@
+@* <script src="/admin-lte/jquery-slimscroll/jquery.slimscroll.min.js"></script> *@

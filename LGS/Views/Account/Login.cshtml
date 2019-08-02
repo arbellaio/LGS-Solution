@@ -1,0 +1,71 @@
+﻿@using LGS.Models
+@model LoginViewModel
+@{
+    Layout = "../Shared/_LayoutAccount.cshtml";
+    ViewBag.Title = "Login - LGS";
+}
+<div class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="../../index2.html">
+                <b>LGS</b>LTE
+            </a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group has-feedback">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                @Html.CheckBoxFor(m => m.RememberMe) Remember Me
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                <br>
+                @* Enable this once you have account confirmation enabled for password reset functionality*@
+
+                @Html.ActionLink("Register as a new user", "Register", "", new { @class = "text-center" })
+
+
+            }
+        </div>
+        @* <div class="col-md-4"> *@
+        @*     <section id="socialLoginForm"> *@
+        @*         @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel {ReturnUrl = ViewBag.ReturnUrl}) *@
+        @*     </section> *@
+        @* </div> *@
+    </div>
+
+
+
+    <!-- /.login-box-body -->
+    <!-- /.login-box -->
+
+   
+</div>
