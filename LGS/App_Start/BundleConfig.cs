@@ -16,11 +16,14 @@ namespace LGS
                                   "~/admin-lte/ckeditor/ckeditor.js",
                                   "~/admin-lte/ckeditor/styles.js",
                                   "~/admin-lte/ckeditor/config.js",
+                                  "~/admin-lte/plugins/iCheck/icheck.min.js",
                                   "~/admin-lte/js/chart.js",
                                   "~/admin-lte/js/jquery.min.js",
                                   "~/admin-lte/js/fastclick.js",
                                   "~/Scripts/jquery-ui-1.10.1.custom.min.js",
                                   "~/Scripts/respond.js",
+                                  "~/Scripts/moment.min.js",
+                                  "~/Scripts/datetimeFormat.js",
                                  "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
                 ));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -38,6 +41,7 @@ namespace LGS
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/cardview.css",
+                      "~/Content/Loader.css",
                       "~/Content/iFrameLayout.css",
                       "~/admin-lte/css/AdminLTE.css",
                       "~/admin-lte/css/font-awesome.css",
@@ -45,7 +49,8 @@ namespace LGS
                       "~/admin-lte/ckeditor/skins/moono-lisa/editor.css",
                       "~/admin-lte/ckeditor/skins/moono-lisa/dialog.css",
                       "~/admin-lte/css/skins/skin-purple-light.css",
-                      "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"
+                      "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
+                      "~/admin-lte/plugins/iCheck/square/blue.css"
                     ));
         }
     }

@@ -1,4 +1,5 @@
-﻿@model LGS.Models.AdminViewModels.DashboardViewModels.DashboardViewModel
+﻿@using LGS.AppProperties
+@model LGS.Models.AdminViewModels.DashboardViewModels.DashboardViewModel
 
 @{
     ViewBag.Title = "Clients";
@@ -18,7 +19,7 @@
         <li class="active">Admin Dashboard</li>
     </ol>
 </section>
-<hr />
+<hr/>
 
 
 <div class="row">
@@ -35,6 +36,7 @@
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">
                             <i class="fa fa-user"> Add Client </i>
                         </button>
+                     
 
                         @* <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> *@
                         @*     <i class="fa fa-user"></i> *@
@@ -56,6 +58,34 @@
                 </div>
             </div>
             <!-- /.box-header -->
+
+            @* SUCCESS ALERT DIV *@
+            @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulRegistration))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Great! </strong> Client is Registered.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.UserExist))
+            {
+                <div id="alert" class="alert alert-error alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <strong>Sorry! </strong> User already exist with this email.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.InvalidModel))
+            {
+                <div id="alert" class="alert alert-error alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <strong>Sorry! </strong> Something is wrong with information you entered.
+                </div>
+            }
+
+            @*SUCCESS ALERT DIV CLOSED*@
 
             <div class="box-body">
                 @if (Model.UserViewModels == null || Model.UserViewModels.Count == 0)
@@ -155,7 +185,7 @@
                 </button>
                 <h4 class="modal-title">Client Registration Form</h4>
             </div>
-            @using (Html.BeginForm("ClientRegister", "Admin", FormMethod.Post))
+            @using (Ajax.BeginForm("ClientRegister", "Admin", new AjaxOptions {HttpMethod = "POST"}))
             {
                 @Html.AntiForgeryToken()
 
@@ -170,32 +200,29 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="box-body">
-
+                         
                             <div class="form-group">
                                 <label for="exampleInputEmail1" style="color: black">Email Address</label>
-                                @* <input type="email" class="form-control" name="Email" id="exampleInputEmail1" required placeholder="Enter Email"> *@
                                 @Html.TextBoxFor(m => m.RegisterVm.Email, new {@class = "form-control", @placeholder = "Email"})
 
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputFullName1" style="color: black">Full Name</label>
-                                @* <input type="text" class="form-control" name="FullName" id="exampleInputFullName1" required placeholder="Enter Full Name"> *@
-                                @Html.TextBoxFor(m => m.RegisterVm.FullName, new { @class = "form-control", @placeholder = "Full Name" })
+                                @Html.TextBoxFor(m => m.RegisterVm.FullName, new {@class = "form-control", @placeholder = "Full Name"})
 
                             </div>
 
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1" style="color: black">Password</label>
-                                @* <input type="password" class="form-control" name="Password" id="exampleInputPassword1" required placeholder="Enter Password"> *@
-                                @Html.PasswordFor(m => m.RegisterVm.Password, new {@class = "form-control", @placeholder="Password"})
+                                @Html.PasswordFor(m => m.RegisterVm.Password, new {@class = "form-control", @placeholder = "Password"})
 
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputConfirmPassword1" style="color: black">Confirm Password</label>
-                                @Html.PasswordFor(m => m.RegisterVm.ConfirmPassword, new {@class = "form-control", @placeholder="Confirm Password"})
+                                @Html.PasswordFor(m => m.RegisterVm.ConfirmPassword, new {@class = "form-control", @placeholder = "Confirm Password"})
 
                             </div>
 
@@ -217,6 +244,19 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+@*SUCCESS ALERT DIV JQUERY*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    setTimeout(function() {
+            $("#alert").fadeTo(1000, 200).slideUp(200,
+                function() {
+                    $("#alert").remove();
+                });
+        },
+        1000); //5000=5 seconds
+</script>
+@*SUCCESS ALERT DIV JQUERY*@
 
 
 @* <script src="/admin-lte/datatables.net/js/jquery.dataTables.min.js"></script> *@

@@ -11,9 +11,8 @@ namespace LGS.Models.Users
         [ForeignKey("AppUserId")]
         public virtual ApplicationUser User { get; set; }
         public string AppUserId { get; set; }
-        public string PhoneNumber { get; set; }
         public string ProfilePhoto { get; set; }
-
+        public bool IsBlocked { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using LGS.AppProperties;
 using LGS.Data;
 using LGS.Data.Services.UserServices;
 using LGS.Data.ViewModels.AdminViewModels;
+using LGS.Extensions;
 using LGS.Helpers.UsersHelper;
 using LGS.Models;
 using LGS.Models.AdminViewModels.DashboardViewModels;
@@ -84,6 +86,10 @@ namespace LGS.Controllers.Admin
 
         public async Task<ActionResult> SubAdminIndex()
         {
+            if (TempData[AppConstants.AlertDialog] == null)
+                TempData[AppConstants.AlertDialog] = 0;
+            ViewBag.AlertDialog = (int) TempData[AppConstants.AlertDialog];
+
             //Get Dashboard Data
             var dashboardViewModel = await Service.GetAdminDashboardViewData();
 
@@ -100,14 +106,15 @@ namespace LGS.Controllers.Admin
                 return View(dashboardVm);
             }
 
-            return View();
+            return View("Index");
         }
 
 
-        
-
         public async Task<ActionResult> ClientIndex()
         {
+            if (TempData[AppConstants.AlertDialog] == null)
+                TempData[AppConstants.AlertDialog] = 0;
+            ViewBag.AlertDialog = (int) TempData[AppConstants.AlertDialog];
             //Get Dashboard Data
             var dashboardViewModel = await Service.GetAdminDashboardViewData();
 
@@ -129,89 +136,131 @@ namespace LGS.Controllers.Admin
 
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ClientRegister(DashboardViewModel dashboardViewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = dashboardViewModel.RegisterVm.Email, Email = dashboardViewModel.RegisterVm.Email, FullName = dashboardViewModel.RegisterVm.FullName };
-                var result = await UserManager.CreateAsync(user, dashboardViewModel.RegisterVm.Password);
-                if (result.Succeeded)
+                if (!await Service.CheckUserExistAgainstEmail(dashboardViewModel.RegisterVm.Email))
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    var client = new Client
+                    var user = new ApplicationUser
                     {
-                        AppUserId = user.Id,
-                        CreatedDate = DateTime.UtcNow,
-                        UpdatedDate = DateTime.UtcNow,
+                        UserName = dashboardViewModel.RegisterVm.Email, Email = dashboardViewModel.RegisterVm.Email,
+                        FullName = dashboardViewModel.RegisterVm.FullName
                     };
-                    var isClientAdded = await Service.RegisterClientUser(client);
-                    Console.WriteLine("Client is Register :" + isClientAdded);
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    await this.UserManager.AddToRoleAsync(user.Id, RoleName.Client);
-                    return RedirectToAction("ClientIndex", "Admin");
+                    var result = await UserManager.CreateAsync(user, dashboardViewModel.RegisterVm.Password);
+                    if (result.Succeeded)
+                    {
+//                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var client = new Client
+                        {
+                            AppUserId = user.Id,
+                            CreatedDate = DateTime.UtcNow,
+                            UpdatedDate = DateTime.UtcNow,
+                        };
+                        var isClientAdded = await Service.RegisterClientUser(client);
+                        Console.WriteLine("Client is Register :" + isClientAdded);
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        await this.UserManager.AddToRoleAsync(user.Id, RoleName.Client);
+                        TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulRegistration;
+                        return RedirectToAction("ClientIndex", "Admin");
+                    }
                 }
 
+                TempData[AppConstants.AlertDialog] = LgsAlertEnums.UserExist;
+                return RedirectToAction("ClientIndex", "Admin");
             }
 
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("ClientIndex","Admin");
+            return RedirectToAction("ClientIndex", "Admin");
         }
 
 
-
-
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubAdminRegister(DashboardViewModel dashboardViewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = dashboardViewModel.RegisterVm.Email, Email = dashboardViewModel.RegisterVm.Email, FullName = dashboardViewModel.RegisterVm.FullName };
-                var result = await UserManager.CreateAsync(user, dashboardViewModel.RegisterVm.Password);
-                if (result.Succeeded)
+                if (!await Service.CheckUserExistAgainstEmail(dashboardViewModel.RegisterVm.Email))
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    var subAdmin = new SubAdmin
+                    var user = new ApplicationUser
                     {
-                        AppUserId = user.Id,
-                        CreatedDate = DateTime.UtcNow,
-                        UpdatedDate = DateTime.UtcNow,
+                        UserName = dashboardViewModel.RegisterVm.Email, Email = dashboardViewModel.RegisterVm.Email,
+                        FullName = dashboardViewModel.RegisterVm.FullName
                     };
-                    var isSubAdminAdded = await Service.RegisterSubAdminUser(subAdmin);
-                    Console.WriteLine("SubAdmin is Register :" + isSubAdminAdded);
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    await this.UserManager.AddToRoleAsync(user.Id, RoleName.SubAdmin);
-                    return RedirectToAction("SubAdminIndex", "Admin");
-                }
+                    var result = await UserManager.CreateAsync(user, dashboardViewModel.RegisterVm.Password);
+                    if (result.Succeeded)
+                    {
+//                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var subAdmin = new SubAdmin
+                        {
+                            AppUserId = user.Id,
+                            CreatedDate = DateTime.UtcNow,
+                            UpdatedDate = DateTime.UtcNow,
+                        };
+                        var isSubAdminAdded = await Service.RegisterSubAdminUser(subAdmin);
+                        Console.WriteLine("SubAdmin is Register :" + isSubAdminAdded);
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        await this.UserManager.AddToRoleAsync(user.Id, RoleName.SubAdmin);
 
+                        TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulRegistration;
+                        return RedirectToAction("SubAdminIndex", "Admin");
+                    }
+                }
+                TempData[AppConstants.AlertDialog] = LgsAlertEnums.UserExist;
+                return RedirectToAction("SubAdminIndex", "Admin");
             }
 
-            // If we got this far, something failed, redisplay form
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
             return RedirectToAction("SubAdminIndex", "Admin");
         }
 
 
-
-        public async Task<ActionResult> SubAdminDetail()
+        public async Task<ActionResult> SubAdminDetails(int id)
         {
+            if (id == 0) return Json("");
+            var userVm = await Service.GetSubAdminUserById(id);
+            return Json(userVm,JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpPost]
+        public async Task<ActionResult> SubAdminDetails(DashboardViewModel dashboardViewModel)
+        {
+            if (dashboardViewModel?.RegisterVm != null && dashboardViewModel.IsEnable && dashboardViewModel.SubAdminUserId > 0)
+            {
+                var userVmInDb = await Service.GetSubAdminUserById(dashboardViewModel.SubAdminUserId);
+                if (userVmInDb?.User != null && userVmInDb.SubAdmin != null)
+                {
+                    userVmInDb.User.FullName = dashboardViewModel.RegisterVm.FullName;
+                    userVmInDb.User.Email = dashboardViewModel.RegisterVm.Email;
+                    var isUpdated = await Service.UpdateSubAdminAppUser(userVmInDb);
+                    if (isUpdated)
+                    {
+                        TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulUpdate;
+                        return RedirectToAction("SubAdminIndex", "Admin");
+                    }
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+                    return RedirectToAction("SubAdminIndex", "Admin");
+                }
+            }
+
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+            return RedirectToAction("SubAdminIndex", "Admin");
         }
 
 
         public ActionResult LiveChat()
         {
-
             return View("LiveChatIndex");
         }
 

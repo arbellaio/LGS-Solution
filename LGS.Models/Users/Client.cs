@@ -16,12 +16,11 @@ namespace LGS.Models.Users
         [ForeignKey("AppUserId")]
         public virtual ApplicationUser User { get; set; }
         public string AppUserId { get; set; }
-        public string PhoneNumber { get; set; }
         public string FacebookPageLink { get; set; }
         public string ProfilePhoto { get; set; }
 
-        //        public string FacebookId { get; set; }
-        //        public string GoogleId { get; set; }
+        public string FacebookId { get; set; }
+        public string GoogleId { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]

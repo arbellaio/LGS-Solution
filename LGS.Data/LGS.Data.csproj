@@ -63,6 +63,10 @@
     <Compile Include="Migrations\201907281904498_profilepicture_property_added.Designer.cs">
       <DependentUpon>201907281904498_profilepicture_property_added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908112030470_Update_Client_SubAdmin.cs" />
+    <Compile Include="Migrations\201908112030470_Update_Client_SubAdmin.Designer.cs">
+      <DependentUpon>201908112030470_Update_Client_SubAdmin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\UserServices\AdminService.cs" />
@@ -85,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907281904498_profilepicture_property_added.resx">
       <DependentUpon>201907281904498_profilepicture_property_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908112030470_Update_Client_SubAdmin.resx">
+      <DependentUpon>201908112030470_Update_Client_SubAdmin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

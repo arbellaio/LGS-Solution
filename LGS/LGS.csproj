@@ -187,6 +187,7 @@
   <ItemGroup>
     <Compile Include="AppProperties\AppConstants.cs" />
     <Compile Include="AppProperties\AppStrings.cs" />
+    <Compile Include="AppProperties\LgsEnums.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Controllers\Analytics\AnalyticsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Extensions\NotificationExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3496,10 +3498,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cardview - Copy.css" />
     <Content Include="Content\cardview.css" />
+    <Content Include="Content\copper-loader.gif" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\bg2.jpg" />
     <Content Include="Content\iFrameLayout.css" />
+    <Content Include="Content\Loader.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
     <Content Include="Content\tether\tether-theme-arrows.css" />
@@ -3564,6 +3568,7 @@
     <Content Include="admin-lte\ckeditorO\skins\moono-lisa\readme.md" />
     <Content Include="admin-lte\ckeditorO\skins\moono\readme.md" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\datetimeFormat.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -3571,11 +3576,17 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.10.1.custom.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\tether.js" />
     <Content Include="Scripts\tether.min.js" />
@@ -3620,6 +3631,8 @@
     <Content Include="Views\Admin\SubAdminIndex.cshtml" />
     <Content Include="Views\Admin\ClientIndex.cshtml" />
     <Content Include="Views\Admin\LiveChatIndex.cshtml" />
+    <Content Include="Views\Shared\_Notifications.cshtml" />
+    <Content Include="Views\Admin\SubAdminIndex - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

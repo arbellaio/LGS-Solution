@@ -20,3 +20,4 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Debug\LG
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Reset.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.csproj.GenerateResource.cache
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.profilepicture_property_added.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Update_Client_SubAdmin.resources

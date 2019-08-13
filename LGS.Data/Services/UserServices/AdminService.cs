@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
@@ -87,7 +88,7 @@ namespace LGS.Data.Services.UserServices
         public async Task<DashboardViewModel> GetAdminDashboardViewData()
         {
             var users = await _context.Users.Include(x => x.Roles).ToListAsync();
-            var analyticsUnique = await _context.Database.SqlQuery<Analytics_Visits>("SELECT DISTINCT IpAddress FROM Analytics_Visits").ToListAsync();
+            var analyticsUnique = await _context.Database.SqlQuery<Analytics_Visits>("select distinct IpAddress FROM Analytics_Visits").ToListAsync();
 
             var dashboardViewModel = new DashboardViewModel
             {
@@ -99,45 +100,108 @@ namespace LGS.Data.Services.UserServices
 
         public async Task<List<UserViewModel>> GetSubAdminsUserVm(List<UserViewModel> users)
         {
-            foreach (var user in users)
+            if (users != null && users.Count > 0)
             {
-                var subAdmin = await _context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.User.Id));
-                if (subAdmin != null)
+                foreach (var user in users)
                 {
-                    user.SubAdmin = subAdmin;
+                    var subAdmin = await _context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.User.Id));
+                    if (subAdmin != null)
+                    {
+                        user.SubAdmin = subAdmin;
+                    }
                 }
+
+                return users;
             }
 
-            return users;
+            return null;
         }
 
         public async Task<List<UserViewModel>> GetClientsUserVm(List<UserViewModel> users)
         {
-            foreach (var user in users)
+            if (users != null && users.Count > 0)
             {
-                var client = await _context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.User.Id));
-                if (client != null)
+                foreach (var user in users)
                 {
-                    user.Client = client;
+                    var client = await _context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.User.Id));
+                    if (client != null)
+                    {
+                        user.Client = client;
+                    }
                 }
+
+                return users;
             }
 
-            return users;
+            return null;
         }
+
+        public async Task<bool> CheckUserExistAgainstEmail(string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
+                if (user == null)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
+
+        public async Task<UserViewModel> GetSubAdminUserById(int id)
+        {
+            if (id != 0)
+            {
+                var subAdmin = await _context.SubAdmins.Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
+                var userVm = new UserViewModel
+                {
+                    SubAdmin = subAdmin,
+                    User = subAdmin?.User
+                };
+                return userVm;
+            }
+
+            return null;
+        }
+
+        public async Task<bool> UpdateSubAdminAppUser(UserViewModel userViewModel)
+        {
+            if (userViewModel?.SubAdmin != null)
+            {
+                var subAdminAppUser = await GetSubAdminUserById(userViewModel.SubAdmin.Id);
+                if (subAdminAppUser != null)
+                {
+                    subAdminAppUser.SubAdmin.UpdatedDate = DateTime.UtcNow;
+                    subAdminAppUser.User.FullName = userViewModel.User.FullName;
+                    subAdminAppUser.User.Email = userViewModel.User.Email;
+                     _context.Users.AddOrUpdate(subAdminAppUser.User);
+                     _context.SubAdmins.AddOrUpdate(subAdminAppUser.SubAdmin);
+                     await _context.SaveChangesAsync();
+                     return true;
+                }
+
+                return false;
+            }
+
+            return false;
+        }
+
     }
 
     public interface IAdminService
     {
         Task<bool> RegisterClientUser(Client client);
-        Task<bool> RegisterSubAdminUser(SubAdmin client);
+        Task<bool> RegisterSubAdminUser(SubAdmin subAdmin);
+        Task<bool> UpdateSubAdminAppUser(UserViewModel userViewModel);
         Task<DashboardViewModel> GetAdminDashboardViewData();
         Task<List<UserViewModel>> GetSubAdminsUserVm(List<UserViewModel> users);
         Task<List<UserViewModel>> GetClientsUserVm(List<UserViewModel> users);
 
-//        Task<bool> GetClientUserByUserEmail();
-//        Task<bool> GetClientUserByAppUserId();
-//        Task<bool> GetClientUserByClientUserId();
-//        Task<bool> GetCustomerUserByCustomerUserId();
-//        Task<bool> GetCustomerUserByAppUserId();
+        Task<bool> CheckUserExistAgainstEmail(string email);
+        Task<UserViewModel> GetSubAdminUserById(int id);
+
+
     }
 }

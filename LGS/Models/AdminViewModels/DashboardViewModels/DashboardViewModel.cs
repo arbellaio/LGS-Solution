@@ -8,15 +8,37 @@ namespace LGS.Models.AdminViewModels.DashboardViewModels
 {
     public class DashboardViewModel
     {
+        #region Dashboard Home Page Properties
+
         public int RegisteredClients { get; set; }
         public int RegisteredSubAdmins { get; set; }
         public int UniqueUsers { get; set; }
+
+
+        #endregion
+
+
+        #region Sub-Admin / Client List Property
+
         public List<UserViewModel> UserViewModels { get; set; }
 
-        #region Client Registration
+
+
+        #endregion
+
+
+        #region Miscellaneous
+        public bool IsEnable { get; set; }
+        public int SubAdminUserId { get; set; }
+
+
+
+        #endregion
+
+
+        #region Client  / Sub-Admin Registration Property
 
         public RegisterViewModel RegisterVm { get; set; }
-        
 
         #endregion
     }
