@@ -1,0 +1,749 @@
+﻿@using LGS.AppProperties
+@model LGS.Data.ViewModels.AdminViewModels.CompanyViewModel
+@{
+    ViewBag.Title = "CompanyDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+
+    <div class="row">
+        @* SUCCESS ALERT DIV *@
+        @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulRegistration))
+        {
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Company is Registered.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUpdate))
+        {
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Company is Updated.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulDelete))
+        {
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Company is Deleted.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.UserExist))
+        {
+            <div id="alert" class="alert alert-error alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                <strong>Failure! </strong> User already exist with this email.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulBlock))
+        {
+            <div id="alert" class="alert alert-error alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Company has been blocked.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUnBlock))
+        {
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Company has been unblocked.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.InvalidModel))
+        {
+            <div id="alert" class="alert alert-error alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                <strong>Failure! </strong> Something is wrong with information you entered.
+            </div>
+        }
+
+        @*SUCCESS ALERT DIV CLOSED*@
+        <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    @if (string.IsNullOrEmpty(Model.Company.LogoPath))
+                    {
+                        <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                    }
+                    else
+                    {
+                        var absolutePath = HttpContext.Current.Server.MapPath("~/" + Model.Company.LogoPath);
+                        if (!@File.Exists(absolutePath))
+                        {
+                            <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                        }
+                        else
+                        {
+                            <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="@Model.Company.LogoPath" alt="User profile picture">
+                        }
+                    }
+                    <h3 class="profile-username text-center">@Model.Company.CompanyName</h3>
+
+                    <p class="text-muted text-center">Company</p>
+
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>About Co. </b> <a class="pull-right">@Model.Company.MainDescription</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Created Date</b> <a class="pull-right">@Model.Company.CreatedDate.ToShortDateString()</a>
+                        </li>
+                        <li class="list-group-item">
+                            @* <b>Ratings</b> <a class="pull-right">@Model.Company.Ratings</a> *@
+                            <b>Ratings</b>
+                            <a class="pull-right">
+                                <span id="rateYo"></span>
+                                @* <span id=stars></span> *@
+                            </a>
+                        </li>
+                    </ul>
+
+                    <a href="/admin/blockcompany/@Model.Company.Id?clientId=@Model.UserViewModel.Client.Id" id="BlockCompany" class="btn btn-warning btn-block">
+                        @if (Model.Company.IsBlocked)
+                        {
+                            <b>Unblock Company</b>
+                        }
+                        else
+                        {
+                            <b>Block Company</b>
+                        }
+                    </a>
+                    @* <a href="/admin/deletecompany/@Model.Company.Id" id="DeleteCompany" class="btn btn-danger btn-block"> *@
+                    @*     <b>Delete Company</b> *@
+                    @* </a> *@
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- About Me Box -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">About Me</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+
+                    <p class="text-muted">
+                        B.S. in Computer Science from the University of Tennessee at Knoxville
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+
+                    <p class="text-muted">Malibu, California</p>
+
+                    <hr>
+
+                    <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+
+                    <p>
+                        <span class="label label-danger">UI Design</span>
+                        <span class="label label-success">Coding</span>
+                        <span class="label label-info">Javascript</span>
+                        <span class="label label-warning">PHP</span>
+                        <span class="label label-primary">Node.js</span>
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#activity" data-toggle="tab" aria-expanded="true">Company Profile</a>
+                    </li>
+
+
+                    @* Company Edit Page *@
+                    @* <li class=""> *@
+                    @*     <a href="#settings" data-toggle="tab" aria-expanded="false">Company Edit Page</a> *@
+                    @* </li> *@
+
+                    @* Company Edit Page *@
+                    
+
+                    <li class="">
+                        <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Company Transactions</a>
+                    </li>
+
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="activity">
+                        <!-- Post -->
+                        <div class="box-body">
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-building-o"></i>
+
+                                    <h3 class="box-title">@Model.Company.CompanyName</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Complete Co. Name</dt>
+                                        <dd>@Model.Company.MainDescription.</dd>
+
+                                        <dt style="margin-top: 5px">Phone Number</dt>
+                                        <dd style="margin-top: 5px">@Model.Company.PhoneNumber.</dd>
+
+                                        <dt style="margin-top: 5px">Company Email</dt>
+                                        <dd style="margin-top: 5px">@Model.Company.CompanyEmail.</dd>
+
+                                        <dt style="margin-top: 5px">Street No.</dt>
+                                        <dd style="margin-top: 5px">@Model.Company.AddressTwoStreet.</dd>
+
+                                        <dt style="margin-top: 5px">Plot No. / Shop No.</dt>
+                                        <dd style="margin-top: 5px">@Model.Company.AddressOneUnit.</dd>
+
+                                        <dt style="margin-top: 5px">Postal Code</dt>
+                                        <dd style="margin-top: 5px">@Model.Company.PostalCode.</dd>
+
+                                        <dt style="margin-top: 5px">City / District</dt>
+                                        <dd style="margin-top: 5px">@Model.Company.AddressThreeLocality.</dd>
+
+
+                                        <dt style="margin-top: 35px">Short Description</dt>
+                                        <dd style="margin-top: 35px"> @Html.Raw(@Model.Company.ShortDescription)</dd>
+                                    </dl>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"></h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="box-group" id="accordion">
+                                        <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                        <div class="panel box box-primary">
+                                            <div class="box-header with-border">
+                                                <h4 class="box-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="True">
+                                                        Detailed Description
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                                                <div class="box-body">
+                                                    @Html.Raw(@Model.Company.LongDescription)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel box box-danger">
+                                            <div class="box-header with-border">
+                                                <h4 class="box-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="True">
+                                                        Our Location
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="panel-collapse in" aria-expanded="true">
+                                                <div class="box-body">
+                                                    <div id="mapIframe">
+                                                        @if (!string.IsNullOrEmpty(Model.Company.MapLocation))
+                                                        {
+                                                            @Html.Raw(@Model.Company.MapLocation)
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <iframe width="800" height="500" id="gmap_canvas1" src=" https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                                                            </iframe>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+                        <!-- /.post -->
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="timeline">
+                        <!-- The timeline -->
+                        <ul class="timeline timeline-inverse">
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="" id="timeLabel">
+                                    10 Feb. 2014
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->
+                            <!-- timeline item -->
+                            <li>
+                                <i class="fa fa-money" id="moneySymbol"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+
+                                    <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
+
+                                    <div class="timeline-body">
+                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                                        quora plaxo ideeli hulu weebly balihoo...
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a class="btn btn-primary btn-xs">View Details</a>
+                                        <a class="btn btn-danger btn-xs">Hide</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- END timeline item -->
+                            <!-- timeline item -->
+                            <li>
+                                <i class="fa fa-money" id="moneySymbol"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+
+                                    <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
+
+                                    <div class="timeline-body">
+                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                                        quora plaxo ideeli hulu weebly balihoo...
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a class="btn btn-primary btn-xs">View Details</a>
+                                        <a class="btn btn-danger btn-xs">Hide</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- END timeline item -->
+                            <!-- timeline item -->
+                            <!-- END timeline item -->
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="" id="timeLabel2">
+                                    3 Feb. 2014
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->
+                            <!-- timeline item -->
+                            <li>
+                                <i class="fa fa-money" id="moneySymbol"></i>
+
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+
+                                    <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
+
+                                    <div class="timeline-body">
+                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                                        quora plaxo ideeli hulu weebly balihoo...
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a class="btn btn-primary btn-xs">View Details</a>
+                                        <a class="btn btn-danger btn-xs">Hide</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- END timeline item -->
+                            <li>
+                                <i class="fa fa-clock-o bg-gray"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.tab-pane -->
+                    @* Edit Company Page Tab *@
+                    <div class="tab-pane" id="settings">
+                        <div class="box-body">
+                            @using (Ajax.BeginForm("CompanyDetailUpdate", "Admin", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <i class="fa fa-building-o"></i>
+                                        <input type="hidden" name="Company.ClientId" value="@Model.UserViewModel.Client.Id" />
+                                        <input type="hidden" name="Company.Id" value="@Model.Company.Id" />
+                                        <input type="hidden" name="Company.Ratings" id="CompanyRating" value="@Model.Company.Ratings" />
+                                        <input type="hidden" name="Company.LogoPath" value="@Model.Company.LogoPath" />
+
+                                        <input type="file" id="my_file" disabled name="CompanyLogoPic" style="display: none;" />
+
+                                        <h3 class="box-title">
+                                            <input type="text" placeholder="Company Title Short" id="CompanyNameEdit" name="Company.CompanyName" value="@Model.Company.CompanyName"> <label for="CompanyNameEdit" style="color: red; opacity: 0.5">For eg. XYZ Co. Ltd</label>
+                                        </h3>
+                                        <h3 class="box-title pull-right">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <button type="submit" class="btn btn-danger">Save</button>
+                                            </div>
+                                        </h3>
+
+                                    </div>
+
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <dl class="dl-horizontal">
+                                            <dt>Complete Co. Name</dt>
+                                            <dd>
+                                                <input type="text" name="Company.MainDescription" style="width: 300px" id="CompanyMainDescriptionEdit" placeholder="Company Full Name / Slogan" value="@Model.Company.MainDescription">
+                                                <label for="CompanyMainDescriptionEdit" style="color: red; opacity: 0.5">For eg. XYZ Cement Manufacturing Co. Ltd</label>
+                                            </dd>
+
+                                            <dt style="margin-top: 5px">Phone Number</dt>
+                                            <dd style="margin-top: 5px">
+                                                <input type="text" name="Company.PhoneNumber" style="width: 300px" id="CompanyPhoneNumberEdit" placeholder="Phone Number" value="@Model.Company.PhoneNumber">
+                                                @* <label for="CompanyPhoneNumberEdit" style="color: red; opacity: 0.5">Enter company phone number</label> *@
+                                            </dd>
+
+                                            <dt style="margin-top: 5px">Company Email</dt>
+                                            <dd style="margin-top: 5px">
+                                                <input type="text" name="Company.CompanyEmail" style="width: 300px" id="CompanyEmailEdit" placeholder="Company Email" value="@Model.Company.CompanyEmail">
+                                                @* <label for="CompanyEmailEdit" style="color: red; opacity: 0.5">Enter company email address</label> *@
+                                            </dd>
+
+
+                                            <dt style="margin-top: 5px">Street No.</dt>
+                                            <dd style="margin-top: 5px">
+                                                <input type="text" name="Company.AddressTwoStreet" style="width: 300px" id="CompanyAddressTwoStreetEdit" placeholder="Street No." value="@Model.Company.AddressTwoStreet">
+                                                @* <label for="CompanyAddressTwoStreetEdit" style="color: red; opacity: 0.5">Enter Street No. Town etc.</label> *@
+                                            </dd>
+
+                                            <dt style="margin-top: 5px">Plot No. / Shop No.</dt>
+                                            <dd style="margin-top: 5px">
+                                                <input type="text" name="Company.AddressOneUnit" style="width: 300px" id="CompanyAddressOneUnitEdit" placeholder="Plot No. / Shop No." value="@Model.Company.AddressOneUnit">
+                                                @* <label for="CompanyAddressOneUnitEdit" style="color: red; opacity: 0.5">Enter Plot No. / Unit No. / Shop No. etc.</label> *@
+                                            </dd>
+
+                                            <dt style="margin-top: 5px">Postal Code</dt>
+                                            <dd style="margin-top: 5px">
+                                                <input type="text" name="Company.PostalCode" style="width: 300px" id="CompanyPostalCodeEdit" placeholder="Postal Code" value="@Model.Company.PostalCode">
+                                                @* <label for="CompanyPostalCodeEdit" style="color: red; opacity: 0.5">Enter area / company postal code</label> *@
+                                            </dd>
+
+                                            <dt style="margin-top: 5px">City / District</dt>
+                                            <dd style="margin-top: 5px">
+                                                <input type="text" name="Company.AddressThreeLocality" style="width: 300px" id="CompanyAddressThreeLocalityEdit" placeholder="City / Locality" value="@Model.Company.AddressThreeLocality">
+                                                @* <label for="CompanyAddressThreeLocalityEdit" style="color: red; opacity: 0.5">Enter city / area / locality</label> *@
+                                            </dd>
+
+                                            <dt style="margin-top: 5px">Short Description</dt>
+                                            <dd style="margin-top: 5px">
+                                                <textarea type="text" name="Company.ShortDescription" id="CompanyShortDescriptionEdit" placeholder="Short Description">@Model.Company.ShortDescription</textarea>
+                                                <label for="CompanyShortDescriptionEdit" style="color: red; opacity: 0.7">For eg. What are company's main services / facilities in short description advertise your company !Imp press "shift + enter" for line break. Just enter for next paragraph. Press Tx to remove format.</label>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <div class="box box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title"></h3>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="box-group" id="accordion">
+                                            <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                            <div class="panel box box-primary">
+                                                <div class="box-header with-border">
+                                                    <h4 class="box-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="True">
+                                                            Detailed Description
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                                                    <div class="box-body">
+                                                        <textarea type="text" name="Company.LongDescription" id="CompanyLongDescriptionEdit" placeholder="Short Description">@Model.Company.LongDescription</textarea>
+                                                        <label for="CompanyLongDescriptionEdit" style="color: red; opacity: 0.7">For eg. Company's detailed profile projects they have done, vision, business activities, services e.t.c !Imp press "shift + enter" for line break. Just enter for next paragraph. Press Tx to remove format.</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel box box-danger">
+                                                <div class="box-header with-border">
+                                                    <h4 class="box-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="True">
+                                                            Our Location
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseTwo" class="panel-collapse in" aria-expanded="true">
+                                                    <div class="box-body">
+
+                                                        <input type="text" style="width: 300px" placeholder="Company Location Map Link" name="Company.MapLocation" value="@Model.Company.MapLocation" />
+                                                        <label style="color: red; opacity: 0.7">Enter your google maps location link here. For eg. iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3401.8663554539085!2d74.2725851!3d31.5003571!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903a6fc5e4fe1%3A0x4494aa375d8f4c01!2sGourmet+Bakers+%26+Sweets!5e0!3m2!1sen!2s!4v1566248785201!5m2!1sen!2s"  width="600" height="450" frameborder="0" style="border:0" allowfullscreen> iframe> ! Copy complete iframe  </label>
+                                                        <div id="mapIframe1">
+                                                            @if (!string.IsNullOrEmpty(Model.Company.MapLocation))
+                                                            {
+                                                                @Html.Raw(@Model.Company.MapLocation)
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <iframe width="800" height="500" id="gmap_canvas1" src=" https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                                                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                                                                </iframe>
+                                                            }
+                                                        </div>
+
+
+                                                        @* <style>.mapouter {position: relative;text-align: right;height: 500px;width: 600px;}.gmap_canvas {overflow: hidden;background: none !important;height: 500px;width: 600px;}</style> *@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+    </div>
+<!-- /.row -->
+
+</section>
+
+<script src="/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $(document).ready(function() {
+
+
+        // Get CkEditor
+        $(function() {
+            @*         // Replace the <textarea id="editor1"> with a CKEditor  *@
+            @*         // instance, using default configuration.  *@
+            CKEDITOR.replace('CompanyShortDescriptionEdit');
+            CKEDITOR.replace('CompanyLongDescriptionEdit');
+            @*                      //bootstrap WYSIHTML5 - text editor  *@
+            @*         $('.textarea').wysihtml5(); *@
+        });
+
+
+        //Start Image / File Upload Preview Code
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#CompanyLogoPic').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#CompanyLogoPic").click(function() {
+            $("input[id='my_file']").click();
+            $("#my_file").change(function() {
+                readURL(this);
+            });
+        });
+
+        //End Image / File Upload Preview Code
+
+
+//        // Check-box checked click Enabling controls
+//        $('input').on('ifChecked',
+//            function(event) {
+//                $(this).closest("input").attr('checked', true);
+//                $("#inputName").prop("disabled", false);
+//                $("#inputEmail").prop("disabled", false);
+//                $("#my_file").prop("disabled", false);
+//                console.log(false);
+//
+//            });
+//
+//        // Check-box unchecked click Disabling controls
+//        $('input').on('ifUnchecked',
+//            function(event) {
+//                $(this).closest("input").attr('checked', false);
+//                $("#inputName").prop("disabled", true);
+//                $("#inputEmail").prop("disabled", true);
+//                $("#my_file").prop("disabled", true);
+//                console.log(true);
+//            });
+
+
+        //Start Get Star Rating From Number
+        $(function () {
+
+            $("#rateYo").rateYo({
+                rating: @Model.Company.Ratings
+            });
+            $("#rateYo").rateYo()
+                .on("rateyo.set", function (e, data) {
+                    
+                    $("#CompanyRating").val(data.rating);
+//                    alert("The rating is set to " + data.rating + "!");
+                });
+            $("#rateYo").rateYo("option", "starWidth", "20px");
+            
+        });
+
+
+       
+
+        //End Star Rating From Number
+
+        // Block Company For Later
+        $('#BlockCompany').click(function() {
+//            alert('I am in timeline');
+
+        });
+        //End Block Company
+
+
+        //Start Company Map Resize
+        var mapDiv = document.getElementById("mapIframe");
+        var mapDiv1 = document.getElementById("mapIframe1");
+
+        var iFrame = mapDiv.getElementsByTagName("iframe")[0];
+        var iFrame1 = mapDiv1.getElementsByTagName("iframe")[0];
+        iFrame.width = "800px";
+        iFrame1.width = "800px";
+        iFrame.height = "500px";
+        iFrame1.height = "500px";
+
+
+        //End Company Map Resize
+
+        // Color Change on Account Transaction Tab Click
+        $('#timelineTab').click(function() {
+//            alert('I am in timeline');
+            $('.fa-money').each(function() {
+                $(this).css('background-color', randomColor());
+                $(this).css('color', 'white');
+            });
+            $('#timeLabel').each(function() {
+                $(this).css('background-color', randomColor());
+                $(this).css('color', 'white');
+            });
+            $('#timeLabel2').each(function() {
+                $(this).css('background-color', randomColor());
+                $(this).css('color', 'white');
+            });
+        });
+        //End Color Change on Account Transaction Tab Click
+
+    });
+
+
+    // Color Change on Account Transaction Tab Click
+    var colors = ['#3c8dbc', '#f39c12', '#D81B60', '#605ca8', '#f56954', '#00a65a'];
+    var rand = function() {
+        return Math.floor(Math.random() * 6);
+    };
+
+    var randomColor = function() {
+        var color = colors[rand()];
+        return color;
+    };
+    //End Color Change on Account Transaction Tab Click
+
+
+</script>
+
+@* // Start Hide Label when Text Input Box is filled *@
+<script>
+            // Hide Label when Text Input Box is filled
+
+//    $("#CompanyNameEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyNameEdit"]').hide();
+//        });
+//    $("#CompanyMainDescriptionEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyMainDescriptionEdit"]').hide();
+//        });
+//    $("#CompanyPhoneNumberEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyPhoneNumberEdit"]').hide();
+//        });
+//    $("#CompanyEmailEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyEmailEdit"]').hide();
+//        });
+//    $("#CompanyAddressTwoStreetEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyAddressTwoStreetEdit"]').hide();
+//        });
+//    $("#CompanyNameEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyNameEdit"]').hide();
+//        });
+//    $("#CompanyNameEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyNameEdit"]').hide();
+//        });
+//    $("#CompanyNameEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyNameEdit"]').hide();
+//        });
+//    $("#CompanyShortDescriptionEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyShortDescriptionEdit"]').hide();
+//        });
+//    $("#CompanyLongDescriptionEdit").bind("keyup",
+//        function (e) {
+//            $('label[for="CompanyLongDescriptionEdit"]').hide();
+//        });
+
+</script>
+@* // End Hide Label when Text Input Box is filled *@
+
+
+@*SUCCESS ALERT and Check Box DIV JQUERY*@
+<script>
+
+    // Start Check box show behavior code
+    $(function() {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+        });
+
+    });
+    //End Check box show behaviour code
+
+    //Alert Script Code
+    setTimeout(function() {
+            $("#alert").fadeTo(1000, 200).slideUp(200,
+                function() {
+                    $("#alert").remove();
+                });
+        },
+        1000); //5000=5 seconds
+</script>
+@*SUCCESS ALERT and Check Box DIV JQUERY*@

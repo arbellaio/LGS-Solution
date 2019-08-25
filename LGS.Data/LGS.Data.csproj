@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDataProperties\LgsDataEnums.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Migrations\201907271745478_Reset.cs" />
     <Compile Include="Migrations\201907271745478_Reset.Designer.cs">
@@ -67,9 +69,50 @@
     <Compile Include="Migrations\201908112030470_Update_Client_SubAdmin.Designer.cs">
       <DependentUpon>201908112030470_Update_Client_SubAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908151238368_VirtualList_Multiple_Tables.cs" />
+    <Compile Include="Migrations\201908151238368_VirtualList_Multiple_Tables.Designer.cs">
+      <DependentUpon>201908151238368_VirtualList_Multiple_Tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908171941141_Company_Addresses_PostalCode_PhoneNumber_Email_Update.cs" />
+    <Compile Include="Migrations\201908171941141_Company_Addresses_PostalCode_PhoneNumber_Email_Update.Designer.cs">
+      <DependentUpon>201908171941141_Company_Addresses_PostalCode_PhoneNumber_Email_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908172020087_Client_IsBlocked_Property_Added.cs" />
+    <Compile Include="Migrations\201908172020087_Client_IsBlocked_Property_Added.Designer.cs">
+      <DependentUpon>201908172020087_Client_IsBlocked_Property_Added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908172033277_Company_IsBlocked_Property_Added.cs" />
+    <Compile Include="Migrations\201908172033277_Company_IsBlocked_Property_Added.Designer.cs">
+      <DependentUpon>201908172033277_Company_IsBlocked_Property_Added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908182056311_MapLocation_Company.cs" />
+    <Compile Include="Migrations\201908182056311_MapLocation_Company.Designer.cs">
+      <DependentUpon>201908182056311_MapLocation_Company.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908232050483_Changed_Company_Rating_To_Float.cs" />
+    <Compile Include="Migrations\201908232050483_Changed_Company_Rating_To_Float.Designer.cs">
+      <DependentUpon>201908232050483_Changed_Company_Rating_To_Float.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908232229299_AppUser_ProfilePic.cs" />
+    <Compile Include="Migrations\201908232229299_AppUser_ProfilePic.Designer.cs">
+      <DependentUpon>201908232229299_AppUser_ProfilePic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908250916141_IsBlocked_And_IsDeleted_Properties_Added.cs" />
+    <Compile Include="Migrations\201908250916141_IsBlocked_And_IsDeleted_Properties_Added.Designer.cs">
+      <DependentUpon>201908250916141_IsBlocked_And_IsDeleted_Properties_Added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908251114196_User_Status_Added.cs" />
+    <Compile Include="Migrations\201908251114196_User_Status_Added.Designer.cs">
+      <DependentUpon>201908251114196_User_Status_Added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908251139580_User_Status_Removed.cs" />
+    <Compile Include="Migrations\201908251139580_User_Status_Removed.Designer.cs">
+      <DependentUpon>201908251139580_User_Status_Removed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\UserServices\AdminService.cs" />
+    <Compile Include="ViewModels\AdminViewModels\CompanyViewModel.cs" />
     <Compile Include="ViewModels\AdminViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\AdminViewModels\UserViewModel.cs" />
   </ItemGroup>
@@ -92,6 +135,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908112030470_Update_Client_SubAdmin.resx">
       <DependentUpon>201908112030470_Update_Client_SubAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908151238368_VirtualList_Multiple_Tables.resx">
+      <DependentUpon>201908151238368_VirtualList_Multiple_Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908171941141_Company_Addresses_PostalCode_PhoneNumber_Email_Update.resx">
+      <DependentUpon>201908171941141_Company_Addresses_PostalCode_PhoneNumber_Email_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908172020087_Client_IsBlocked_Property_Added.resx">
+      <DependentUpon>201908172020087_Client_IsBlocked_Property_Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908172033277_Company_IsBlocked_Property_Added.resx">
+      <DependentUpon>201908172033277_Company_IsBlocked_Property_Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908182056311_MapLocation_Company.resx">
+      <DependentUpon>201908182056311_MapLocation_Company.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908232050483_Changed_Company_Rating_To_Float.resx">
+      <DependentUpon>201908232050483_Changed_Company_Rating_To_Float.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908232229299_AppUser_ProfilePic.resx">
+      <DependentUpon>201908232229299_AppUser_ProfilePic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908250916141_IsBlocked_And_IsDeleted_Properties_Added.resx">
+      <DependentUpon>201908250916141_IsBlocked_And_IsDeleted_Properties_Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908251114196_User_Status_Added.resx">
+      <DependentUpon>201908251114196_User_Status_Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908251139580_User_Status_Removed.resx">
+      <DependentUpon>201908251139580_User_Status_Removed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

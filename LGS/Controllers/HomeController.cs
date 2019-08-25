@@ -26,16 +26,16 @@ namespace LGS.Controllers
             var remoteIpAddress = Request.UserHostAddress;
             if (User.IsInRole(RoleName.Admin))
             {
-                return RedirectToAction("Index","Admin");
+                return RedirectToAction("index","admin");
             }
             if (User.IsInRole(RoleName.SubAdmin))
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("index", "admin");
 
             }
             if (User.IsInRole(RoleName.Client))
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("index", "admin");
 
             }
            

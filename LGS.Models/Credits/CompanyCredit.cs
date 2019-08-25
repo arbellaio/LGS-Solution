@@ -9,6 +9,7 @@ using LGS.Models.Companies;
 
 namespace LGS.Models.Credits
 {
+    // Will contains Transaction information against Company entity only.
     public class CompanyCredit
     {
         public int Id { get; set; }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LGS.Data.ViewModels.AdminViewModels;
-
 namespace LGS.Models.AdminViewModels.DashboardViewModels
 {
     public class DashboardViewModel
@@ -26,10 +25,13 @@ namespace LGS.Models.AdminViewModels.DashboardViewModels
 
         #endregion
 
+        public UserViewModel UserVm { get; set; }
 
         #region Miscellaneous
         public bool IsEnable { get; set; }
         public int SubAdminUserId { get; set; }
+        public int ClientUserId { get; set; }
+        public HttpPostedFileBase ProfilePic { get; set; }
 
 
 

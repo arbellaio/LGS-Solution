@@ -119,3 +119,13 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Unity.Contain
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\RazorGenerator.Mvc.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\WebActivatorEx.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\KruisIT.Web.Analytics.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.AspNetCore.Hosting.Abstractions.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Extensions.FileProviders.Abstractions.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Extensions.Logging.Abstractions.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.AspNetCore.Hosting.Abstractions.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.AspNetCore.Hosting.Server.Abstractions.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Extensions.Configuration.Abstractions.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Extensions.FileProviders.Abstractions.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Extensions.Logging.Abstractions.xml

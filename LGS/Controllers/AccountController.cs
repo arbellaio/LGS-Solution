@@ -83,9 +83,28 @@ namespace LGS.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,
                 shouldLockout: false);
+            int userStatusInt = 0;
+            if (result.Equals(SignInStatus.Success))
+            {
+                userStatusInt = (int) await Service.CheckUserStatus(model.Email);
+            }
+
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (LgsUserStatus.UserBlocked.Equals((LgsUserStatus)userStatusInt))
+                    {
+                        ModelState.AddModelError("", "User has been blocked.");
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        return View(model);
+                    }
+
+                    if (LgsUserStatus.UserDeleted.Equals((LgsUserStatus)userStatusInt))
+                    {
+                        ModelState.AddModelError("", "User has been deleted.");
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        return View(model);
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

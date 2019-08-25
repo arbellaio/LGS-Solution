@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LGS.Models;
+using LGS.Models.Companies;
+using LGS.Models.Credits;
 using LGS.Models.Users;
 
 namespace LGS.Data.ViewModels.AdminViewModels

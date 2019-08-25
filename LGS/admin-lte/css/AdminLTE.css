@@ -1533,7 +1533,7 @@ a:focus {
  */
 .box {
   position: relative;
-  border-radius: 12px;
+  border-radius: 8px;
   background: #ffffff;
   border-top: 3px solid #d2d6de;
   margin-bottom: 20px;
@@ -2977,6 +2977,15 @@ table.text-center th {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
   border: 0;
 }
+
+.modal-content-invoice {
+    border-radius: 8px;
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);
+    border: 0;
+    width: 1000px;
+}
+
 @media (min-width: 768px) {
   .modal-content {
     -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.125);

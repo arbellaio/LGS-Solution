@@ -14,6 +14,7 @@ namespace LGS.Models.Users
         public string ProfilePhoto { get; set; }
         public bool IsBlocked { get; set; }
 
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }

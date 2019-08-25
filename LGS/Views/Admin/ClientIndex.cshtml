@@ -2,7 +2,7 @@
 @model LGS.Models.AdminViewModels.DashboardViewModels.DashboardViewModel
 
 @{
-    ViewBag.Title = "Clients";
+    ViewBag.Title = "Clients-Board";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -36,7 +36,6 @@
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">
                             <i class="fa fa-user"> Add Client </i>
                         </button>
-                     
 
                         @* <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> *@
                         @*     <i class="fa fa-user"></i> *@
@@ -60,7 +59,7 @@
             <!-- /.box-header -->
 
             @* SUCCESS ALERT DIV *@
-            @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulRegistration))
+            @if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulRegistration))
             {
                 <div id="alert" class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -68,7 +67,23 @@
                     <strong>Great! </strong> Client is Registered.
                 </div>
             }
-            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.UserExist))
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulUpdate))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Success! </strong> Client is Updated.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulDelete))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Success! </strong> Client is Deleted.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.UserExist))
             {
                 <div id="alert" class="alert alert-error alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -76,7 +91,7 @@
                     <strong>Sorry! </strong> User already exist with this email.
                 </div>
             }
-            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.InvalidModel))
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
             {
                 <div id="alert" class="alert alert-error alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -98,38 +113,65 @@
                 {
                     foreach (var client in Model.UserViewModels)
                     {
-                        <div class="col-md-3">
-                            <div class="box box-primary">
-                                <div class="box-body box-profile">
-                                    @if (string.IsNullOrEmpty(client.Client.ProfilePhoto))
-                                    {
-                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
-                                    }
-                                    else
-                                    {
-                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/@client.Client.ProfilePhoto" alt="User profile picture">
-                                    }
-                                    <a href="/Admin">
+                        <a href="/admin/clientdetails/@client.Client.Id">
+                            <div id="@client.Client.Id" class="col-md-3" style="cursor: pointer">
+                                <div class="box box-primary">
+                                    <div class="box-body box-profile">
+
+                                        @if (string.IsNullOrEmpty(client.Client.ProfilePhoto))
+                                        {
+                                            <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                        }
+                                        else
+                                        {
+                                            var absolutePath = HttpContext.Current.Server.MapPath("~/" + @client.Client.ProfilePhoto);
+                                            if (!@System.IO.File.Exists(absolutePath))
+                                            {
+                                                <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                            }
+                                            else
+                                            {
+                                                <img class="profile-user-img img-responsive img-circle" src="@client.Client.ProfilePhoto" alt="User profile picture">
+                                            }
+                                        }
+
+                                        @Html.Hidden("UserId", @client.Client.Id, new {@id = "userId"})
+
                                         <h3 class="profile-username text-center">@client.User.FullName</h3>
-                                    </a>
-                                    <p class="text-muted text-center">@client.RoleName</p>
+                                        <p class="text-muted text-center">@client.RoleName</p>
 
-                                    <ul class="list-group list-group-unbordered">
-                                        <li class="list-group-item">
-                                            <b>Email Address :</b> <a class="pull-right">@client.User.Email</a>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <b>Created Date :</b> <a class="pull-right">@client.Client.CreatedDate.ToShortDateString()</a>
-                                        </li>
-                                    </ul>
+                                        <ul class="list-group list-group-unbordered">
+                                            <li class="list-group-item">
+                                                <b style="color: black">Email Address :</b> <p  class="text-muted pull-right">@client.User.Email</p>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <b style="color: black">Created Date :</b> <p class="text-muted pull-right">@client.Client.CreatedDate.ToShortDateString()</p>
+                                            </li>
+                                            
+                                            <li class="list-group-item">
+                                                <b style="color: black">User Status :</b>
+                                              
 
-                                    @* <a href="#" class="btn btn-primary btn-block"> *@
-                                    @*     <b>Follow</b> *@
-                                    @* </a> *@
+                                                    @if (client.Client.IsBlocked)
+                                                    {
+                                                        <p class="text-muted pull-right">Blocked</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="text-muted pull-right">Active</p>
+                                                    }
+
+                                            </li>
+                                        </ul>
+
+                                        @* <a href="#" class="btn btn-primary btn-block"> *@
+                                        @*     <b>Follow</b> *@
+                                        @* </a> *@
+                                    </div>
+                                    <!-- /.box-body -->
                                 </div>
-                                <!-- /.box-body -->
                             </div>
-                        </div>
+                        </a>
                     }
                 }
 
@@ -200,7 +242,7 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="box-body">
-                         
+
                             <div class="form-group">
                                 <label for="exampleInputEmail1" style="color: black">Email Address</label>
                                 @Html.TextBoxFor(m => m.RegisterVm.Email, new {@class = "form-control", @placeholder = "Email"})

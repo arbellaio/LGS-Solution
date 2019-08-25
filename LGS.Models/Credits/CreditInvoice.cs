@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace LGS.Models.Credits
 {
+    // This class will be used to create invoice for sale/purchase
+    // done with LGS its LGS / User record irrelevant of company or
+    // account its like receipt in shopping mall. 
     public class CreditInvoice
     {
         public int Id { get; set; }

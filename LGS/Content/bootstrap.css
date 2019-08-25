@@ -6832,4 +6832,13 @@ button.close {
     display: none !important;
   }
 }
+
+
+/* /* Custom dl dt step for horizontal view of data tabular style !1! */
+/* dl dt, dl dd {line-height: 2em;} */
+/* .col-1 {width: 48%;} */
+/* .col-2 {margin-left: 80%;} */
+/* .reset {margin-top: -4em;} */
+/* /* Custom dl dt step for horizontal view of data tabular style !1! */
+
 /*# sourceMappingURL=bootstrap.css.map */

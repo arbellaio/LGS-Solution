@@ -50,15 +50,61 @@
     <Reference Include="KruisIT.Web.Analytics, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\KruisIT.Web.Analytics.2.6.0\lib\net45\KruisIT.Web.Analytics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNetCore.Hosting.Abstractions.1.0.2\lib\net451\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.1.0.2\lib\net451\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Configuration.Abstractions.1.0.2\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=1.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.FileProviders.Abstractions.1.0.1\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.1.0.2\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="RazorGenerator.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>packages\RazorGenerator.Mvc.2.4.2\lib\net40\RazorGenerator.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.IO.4.1.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Linq.4.1.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Reflection.4.1.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.4.1.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.Extensions.4.1.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.InteropServices.4.1.0\lib\net462\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -200,10 +246,12 @@
     <Compile Include="Controllers\Analytics\AnalyticsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SweetController.cs" />
     <Compile Include="Extensions\NotificationExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileUploader\FileUploadHelper.cs" />
     <Compile Include="Helpers\UsersHelper\UserHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels\DashboardViewModels\DashboardViewModel.cs" />
@@ -3504,6 +3552,10 @@
     <Content Include="Content\bg2.jpg" />
     <Content Include="Content\iFrameLayout.css" />
     <Content Include="Content\Loader.css" />
+    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
+    <Content Include="Content\sweetalert\docs.css" />
+    <Content Include="Content\sweetalert\sweet-alert.css" />
+    <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
     <Content Include="Content\tether\tether-theme-arrows.css" />
@@ -3518,7 +3570,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="LgsImageRepo\apple1.jpg" />
+    <Content Include="LgsImageRepo\CompanyImages\companydefault.png" />
     <Content Include="LgsImageRepo\ProfileImages\profiledefault.png" />
+    <Content Include="LgsImageRepo\ProfileImages\subadmin2\img8-14-20193-52-35.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -3567,6 +3621,11 @@
     <Content Include="admin-lte\ckeditorO\skins\kama\readme.md" />
     <Content Include="admin-lte\ckeditorO\skins\moono-lisa\readme.md" />
     <Content Include="admin-lte\ckeditorO\skins\moono\readme.md" />
+    <Content Include="Content\sweetalert\sweet-alert.less" />
+    <Content Include="Content\sweetalert\sweet-alert-combine.less" />
+    <Content Include="Content\sweetalert\sweet-alert-animations.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\datetimeFormat.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -3588,6 +3647,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\tether.js" />
     <Content Include="Scripts\tether.min.js" />
     <Content Include="Web.config" />
@@ -3633,10 +3693,13 @@
     <Content Include="Views\Admin\LiveChatIndex.cshtml" />
     <Content Include="Views\Shared\_Notifications.cshtml" />
     <Content Include="Views\Admin\SubAdminIndex - Copy.cshtml" />
+    <Content Include="Views\Sweet\Alert.cshtml" />
+    <Content Include="Views\Admin\ClientDetails.cshtml" />
+    <Content Include="Views\Admin\CompanyDetail.cshtml" />
+    <Content Include="Views\Admin\ProfilePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="LgsImageRepo\CompanyImages\" />
     <Folder Include="LgsImageRepo\ContentImages\" />
     <Folder Include="Views\Analytics\" />
   </ItemGroup>

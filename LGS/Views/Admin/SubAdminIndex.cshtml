@@ -1,7 +1,7 @@
 ﻿@using LGS.AppProperties
 @model LGS.Models.AdminViewModels.DashboardViewModels.DashboardViewModel
 @{
-    ViewBag.Title = "SubAdmins";
+    ViewBag.Title = "Sub-Admins-Board";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,7 +18,7 @@
         <li class="active">Admin Dashboard</li>
     </ol>
 </section>
-<hr />
+<hr/>
 
 
 <div class="row">
@@ -42,36 +42,60 @@
             </div>
             <!-- /.box-header -->
             @* SUCCESS ALERT DIV *@
-            @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulRegistration))
-            {
-        <div id="alert" class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Alert!</h4>
-            <strong>Great! </strong> Sub-Admin is Registered.
-        </div>
-            }
-            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUpdate))
+            @if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulRegistration))
             {
                 <div id="alert" class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                    <strong>Great! </strong> Sub-Admin is Updated.
+                    <strong>Success! </strong> Sub-Admin is Registered.
                 </div>
             }
-            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.UserExist))
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulUpdate))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Success! </strong> Sub-Admin is Updated.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulDelete))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Success! </strong> Sub-Admin is Deleted.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.UserExist))
             {
                 <div id="alert" class="alert alert-error alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                    <strong>Sorry! </strong> User already exist with this email.
+                    <strong>Failure! </strong> User already exist with this email.
                 </div>
             }
-            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.InvalidModel))
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulBlock))
+            {
+                <div id="alert" class="alert alert-error alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Success! </strong> User has been blocked.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUnBlock))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Success! </strong> User has been Unblocked.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
             {
                 <div id="alert" class="alert alert-error alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                    <strong>Sorry! </strong> Something is wrong with information you entered.
+                    <strong>Failure! </strong> Something is wrong with information you entered.
                 </div>
             }
 
@@ -88,9 +112,10 @@
                 {
                     foreach (var subAdmin in Model.UserViewModels)
                     {
-                        @*                         <div id="@("sub-admin-link"+subAdmin.SubAdmin.Id)" class="col-md-3" data-toggle="modal" data-target="#modal-warning"> *@
-                        <div id="@subAdmin.SubAdmin.Id" class="col-md-3">
+                        <div id="@subAdmin.SubAdmin.Id" class="col-md-3" style="cursor: pointer">
+
                             <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
+
                                 <div class="box-body box-profile">
                                     @if (string.IsNullOrEmpty(subAdmin.SubAdmin.ProfilePhoto))
                                     {
@@ -98,9 +123,17 @@
                                     }
                                     else
                                     {
-                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/@subAdmin.SubAdmin.ProfilePhoto" alt="User profile picture">
+                                        var absolutePath = HttpContext.Current.Server.MapPath("~/" + @subAdmin.SubAdmin.ProfilePhoto);
+                                        if (!@System.IO.File.Exists(absolutePath))
+                                        {
+                                            <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                        }
+                                        else
+                                        {
+                                            <img class="profile-user-img img-responsive img-circle" src="@subAdmin.SubAdmin.ProfilePhoto" alt="User profile picture">
+                                        }
                                     }
-                                    @Html.Hidden("UserId", @subAdmin.SubAdmin.Id, new { @id = "userId" })
+                                    @Html.Hidden("UserId", @subAdmin.SubAdmin.Id, new {@id = "userId"})
                                     <a>
                                         <h3 class="profile-username text-center">@subAdmin.User.FullName</h3>
                                     </a>
@@ -111,8 +144,24 @@
                                             <b>Email Address :</b> <a class="pull-right">@subAdmin.User.Email</a>
                                         </li>
                                         <li class="list-group-item">
-                                            <b>Created Date</b> <a class="pull-right">@subAdmin.SubAdmin.CreatedDate.ToShortDateString()</a>
+                                            <b>Created Date :</b> <a class="pull-right">@subAdmin.SubAdmin.CreatedDate.ToShortDateString()</a>
                                         </li>
+                                        <li class="list-group-item">
+                                            <b>User Status :</b>
+                                            <a class="pull-right">
+
+                                                @if (subAdmin.SubAdmin.IsBlocked)
+                                                {
+                                                    <a class="pull-right">Blocked</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="pull-right">Active</a>
+                                                }
+                                            </a>
+
+                                        </li>
+
                                     </ul>
 
 
@@ -180,13 +229,13 @@
                 </button>
                 <h4 class="modal-title">Sub-Admin Registration Form</h4>
             </div>
-            @using (Ajax.BeginForm("SubAdminRegister", "Admin", new AjaxOptions { HttpMethod = "POST" }))
+            @using (Ajax.BeginForm("SubAdminRegister", "Admin", new AjaxOptions {HttpMethod = "POST"}))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="modal-body">
 
-                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.ValidationSummary("", new {@class = "text-danger"})
 
                     <div class="box box-primary">
                         <div class="box-header with-border">
@@ -198,26 +247,26 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1" style="color: black">Email Address</label>
-                                @Html.TextBoxFor(m => m.RegisterVm.Email, new { @class = "form-control", @placeholder = "Email" })
+                                @Html.TextBoxFor(m => m.RegisterVm.Email, new {@class = "form-control", @placeholder = "Email"})
 
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputFullName1" style="color: black">Full Name</label>
-                                @Html.TextBoxFor(m => m.RegisterVm.FullName, new { @class = "form-control", @placeholder = "Full Name" })
+                                @Html.TextBoxFor(m => m.RegisterVm.FullName, new {@class = "form-control", @placeholder = "Full Name"})
 
                             </div>
 
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1" style="color: black">Password</label>
-                                @Html.PasswordFor(m => m.RegisterVm.Password, new { @class = "form-control", @placeholder = "Password" })
+                                @Html.PasswordFor(m => m.RegisterVm.Password, new {@class = "form-control", @placeholder = "Password"})
 
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputConfirmPassword1" style="color: black">Confirm Password</label>
-                                @Html.PasswordFor(m => m.RegisterVm.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                                @Html.PasswordFor(m => m.RegisterVm.ConfirmPassword, new {@class = "form-control", @placeholder = "Confirm Password"})
 
                             </div>
 
@@ -252,29 +301,37 @@
                 <h4 class="modal-title">Sub-Admin Detail / Edit Form</h4>
             </div>
 
-            @using (Ajax.BeginForm("SubAdminDetails", "Admin", new AjaxOptions { HttpMethod = "POST" }))
+            @using (Ajax.BeginForm("SubAdminDetailsUpdate", "Admin", new AjaxOptions {HttpMethod = "POST"}, new {enctype = "multipart/form-data"}))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="modal-body">
 
-                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.ValidationSummary("", new {@class = "text-danger"})
 
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title"></h3>
                         </div>
+                        <button type="button" id="DeleteUser" onclick="deleteSubAdmin(deleteUserId)" disabled class="btn btn-box-tool pull-right">
+                            <i class="fa fa-trash-o fa-2x" style="color: red">
+                            </i>
+                        </button>
 
+                        <button type="button" id="BlockUser" onclick="blockSubAdmin(blockUserId)" disabled class="btn btn-box-tool pull-right">
+                            <i class="fa fa-lock fa-2x" style="color: red">
+                            </i>
+                        </button>
 
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="box-body">
 
-                            <input class="form-control"  id="SubAdminId" name="SubAdminUserId" type="hidden">
+                            <input class="form-control" id="SubAdminId" name="SubAdminUserId" type="hidden">
 
-
-                            <img class="profile-user-img img-responsive img-circle" id="DetailProfilePic" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
-
+                            <img type="file" class="profile-user-img img-responsive img-circle" style="cursor: pointer" id="DetailProfilePic" alt="User profile picture">
+                            @* <input type="image" name="ProfilePic" class="profile-user-img img-responsive img-circle" id="DetailProfilePic" alt="User profile picture"> *@
+                            <input type="file" id="my_file" name="ProfilePic" disabled style="display: none;"/>
                             <div class="form-group">
                                 <label for="exampleInputEmail1edit" style="color: black">Email Address</label>
                                 <input class="form-control" data-val="true" disabled data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="DetailEmail" name="RegisterVm.Email" placeholder="Email" type="text" value="">
@@ -301,7 +358,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="checkbox icheck">
-                        @Html.CheckBoxFor(m => m.IsEnable, new { @id = "checkBox", @style = "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px;" })
+                        @Html.CheckBoxFor(m => m.IsEnable, new {@id = "checkBox", @style = "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px;"})
                         Enable Edit
                     </div>
                     <button type="button" class="btn btn-outline pull-left" id="modaleditclose1" data-dismiss="modal">Close</button>
@@ -317,73 +374,168 @@
 <script src="/Scripts/jquery-3.3.1.js"></script>
 
 
-
-@*Getting Data From Action Result and showing it*@
+@*Getting Data From Action Result and showing it and Deleting It*@
 <script>
     var userVm = null;
+    var deleteUserId = null;
+    var blockUserId = null;
 
-    //    checkbox jquery show code
-    $(function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' /* optional */
+    // Delete User Function
+    function deleteSubAdmin(deleteUserId) {
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure you want to delete this user?",
+            icon: "warning",
+            buttons: ["Cancel", "Delete"],
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: '/Admin/DeleteSubAdminUser/',
+//                    dataType: 'json',
+//                    contentType: "application/json; charset=UTF-8",
+                    type: 'GET',
+                    data:
+                    {
+                        "subAdminId": deleteUserId
+                    }
+                });
+                swal("Sub-Admin has been deleted!",
+                    {
+                        icon: "success",
+                    });
+                location.reload(true);
+            } else {
+                // swal("Your imaginary file is safe!");
+            }
         });
+    }
+    // End Delete User Function
 
-    });
+    // Delete User Function
+    function blockSubAdmin(blockUserId) {
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure you want to change status of this user?",
+            icon: "warning",
+            buttons: ["Cancel", "UnBlock / Block"],
+            dangerMode: true,
+        }).then((willBlock) => {
+            if (willBlock) {
+                $.ajax({
+                    url: '/Admin/BlockSubAdminUser/',
+//                    dataType: 'json',
+//                    contentType: "application/json; charset=UTF-8",
+                    type: 'GET',
+                    data:
+                    {
+                        "id": blockUserId
+                    }
+                });
+                swal("Sub-Admin status changed!",
+                    {
+                        icon: "success",
+                    });
+                setTimeout(function(){
+                    location.reload();
+                }, 2000);
+            } 
+        });
+    }
+    // End Delete User Function
 
-    $(document).ready(function () {
 
-        //        check-box checked click
+    $(document).ready(function() {
+
+
+        // Check-box checked click Enabling controls
         $('input').on('ifChecked',
-            function (event) {
+            function(event) {
                 $(this).closest("input").attr('checked', true);
                 $("#DetailFullName").prop("disabled", false);
                 $("#DetailEmail").prop("disabled", false);
+                $("#DeleteUser").prop("disabled", false);
+                $("#BlockUser").prop("disabled", false);
+                $("#my_file").prop("disabled", false);
                 console.log(false);
 
             });
 
-        //        check-box unchecked click
+        // Check-box unchecked click Disabling controls
         $('input').on('ifUnchecked',
-            function (event) {
+            function(event) {
                 $(this).closest("input").attr('checked', false);
                 $("#DetailFullName").prop("disabled", true);
                 $("#DetailEmail").prop("disabled", true);
+                $("#DeleteUser").prop("disabled", true);
+                $("#BlockUser").prop("disabled", true);
+                $("#my_file").prop("disabled", true);
                 console.log(true);
             });
 
 
-        //Close model for sub-admin details
-        $("#modaleditclose").click(function () {
+        //Close model for sub-admin details control 1
+        $("#modaleditclose").click(function() {
             if (document.getElementById("modal-edit").style.display === "block")
                 document.getElementById("modal-edit").style.display = "none";
 
             $("#modal-edit").toggleClass("fade");
         });
+        //End Close model for sub-admin details control 1
 
-        //Close model for sub-admin details
-        $("#modaleditclose1").click(function () {
+
+        //Close model for sub-admin details control 2
+        $("#modaleditclose1").click(function() {
             if (document.getElementById("modal-edit").style.display === "block")
                 document.getElementById("modal-edit").style.display = "none";
 
             $("#modal-edit").toggleClass("fade");
         });
+        //End Close model for sub-admin details control 2
 
 
         //Open model for sub-admin details
-        $('.col-md-3').click(function () {
+        $('.col-md-3').click(function() {
 
             if (document.getElementById("modal-edit").style.display === "none") {
                 document.getElementById("modal-edit").style.display = "block";
             }
 
+            //Start Image / File Upload Preview Code
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#DetailProfilePic').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#DetailProfilePic").click(function() {
+                $("input[id='my_file']").click();
+                $("#my_file").change(function() {
+                    readURL(this);
+                });
+            });
+            //End Image / File Upload Preview Code
+
+            //Start Default controls edit fields disabled code
             $("#modal-edit").toggleClass("in");
             $("#DetailFullName").prop("disabled", true);
             $("#DetailEmail").prop("disabled", true);
+            $("#DeleteUser").prop("disabled", true);
+            $("#my_file").prop("disabled", true);
+            //End Default controls edit fields disabled code
 
+
+            // Get UserId from attribute (id) for col-md-3 div 
             var userId = $(this).attr("id");
+
             console.log(userId);
+
+            // Ajax call to HttpGet Method
             $.ajax({
                 //base address/controller/Action
                 url: '/Admin/SubAdminDetails',
@@ -394,22 +546,38 @@
                     //Passing Input parameter
                     id: userId
                 },
-                success: function (result) {
+                success: function(result) {
                     userVm = result;
                     console.log(userVm.User.FullName);
 
+                    // Profile picture Load from Get Method setting default if no picture exist
                     if (userVm.SubAdmin.ProfilePhoto === null || userVm.SubAdmin.ProfilePhoto.length === 0) {
                         userVm.SubAdmin.ProfilePhoto = "../../LgsImageRepo/ProfileImages/profiledefault.png";
                     }
-                    $("#DetailProfilePic").val(userVm.User.ProfilePhoto);
+
+                    $("#DetailProfilePic").load(userVm.SubAdmin.ProfilePhoto,
+                        function(response, status, xhr) {
+                            if (status === "error")
+                                $(this).attr('src', '../../LgsImageRepo/ProfileImages/profiledefault.png');
+                            else
+                                $(this).attr('src', userVm.SubAdmin.ProfilePhoto);
+                        });
+                    // End Profile picture Load from Get Method setting default if no picture exist
+
+                    deleteUserId = userVm.SubAdmin.Id;
+                    blockUserId = userVm.SubAdmin.Id;
+
                     $("#SubAdminId").val(userVm.SubAdmin.Id);
                     $("#DetailFullName").val(userVm.User.FullName);
                     $("#DetailEmail").val(userVm.User.Email);
+
+                    // Date Format from json
                     var createdDateTime = moment(userVm.SubAdmin.CreatedDate).format("MM-DD-YYYY");;
                     $("#DetailCreatedDate").val(createdDateTime);
+                    //End Date Format from json
 
                 },
-                error: function () {
+                error: function() {
                     alert("error");
                 }
             });
@@ -422,18 +590,31 @@
 @*Getting Data From Action Result and showing it*@
 
 
-@*SUCCESS ALERT DIV JQUERY*@
+
+@*SUCCESS ALERT and Check Box DIV JQUERY*@
 <script>
+
+    // Start Check box show behavior code 
+    $(function() {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+        });
+
+    });
+    //End Check box show behaviour code 
+
     //Alert Script Code
-    setTimeout(function () {
-        $("#alert").fadeTo(1000, 200).slideUp(200,
-            function () {
-                $("#alert").remove();
-            });
-    },
+    setTimeout(function() {
+            $("#alert").fadeTo(1000, 200).slideUp(200,
+                function() {
+                    $("#alert").remove();
+                });
+        },
         1000); //5000=5 seconds
 </script>
-@*SUCCESS ALERT DIV JQUERY*@
+@*SUCCESS ALERT and Check Box DIV JQUERY*@
 
 
 <script>

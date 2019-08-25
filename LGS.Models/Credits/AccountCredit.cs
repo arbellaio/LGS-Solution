@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LGS.Models.Credits
 {
+    // Will contains Transaction information against Specific Account
+    // which will include company transaction info but it will be brief
+    // since one client can have multiple companies but it will show whole
+    // transaction irrelevant of companies.
     public class AccountCredit
     {
         public int Id { get; set; }

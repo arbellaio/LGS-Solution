@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LGS.Models.Companies;
+using LGS.Models.Credits;
 
 namespace LGS.Models.Users
 {
@@ -18,7 +19,8 @@ namespace LGS.Models.Users
         public string AppUserId { get; set; }
         public string FacebookPageLink { get; set; }
         public string ProfilePhoto { get; set; }
-
+        public bool IsBlocked { get; set; }
+        public bool IsDeleted { get; set; }
         public string FacebookId { get; set; }
         public string GoogleId { get; set; }
 
@@ -31,6 +33,9 @@ namespace LGS.Models.Users
         public DateTime UpdatedDate { get; set; }
 
         public virtual List<Company> Companies { get; set; }
+        public virtual List<AccountCredit> AccountCredits { get; set; }
+        public virtual List<CreditInvoice> CreditInvoices { get; set; }
+        public virtual List<CompanyCredit> CompanyCredits { get; set; }
 
     }
 }

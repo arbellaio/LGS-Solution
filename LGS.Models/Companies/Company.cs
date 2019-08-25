@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using LGS.Models.Credits;
 using LGS.Models.Users;
 
 namespace LGS.Models.Companies
@@ -15,9 +17,22 @@ namespace LGS.Models.Companies
         public string LogoPath { get; set; }
         public string CompanyName { get; set; }
         public string MainDescription { get; set; }
-        public string LongDescription { get; set; }
-        public int Ratings { get; set; }
 
+        [AllowHtml]
+        public string ShortDescription { get; set; }
+
+        [AllowHtml]
+        public string LongDescription { get; set; }
+
+        public float Ratings { get; set; }
+        public string PhoneNumber { get; set; }
+        public string AddressOneUnit{ get; set; }
+        public string AddressTwoStreet { get; set; }
+        public string AddressThreeLocality{ get; set; }
+        public string PostalCode { get; set; }
+        public string CompanyEmail { get; set; }
+        public bool IsBlocked { get; set; }
+        public bool IsDeleted { get; set; }
         public string FacebookId { get; set; }
         public string FacebookPageLink { get; set; }
         public string GoogleId { get; set; }
@@ -34,5 +49,9 @@ namespace LGS.Models.Companies
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime UpdatedDate { get; set; }
+
+        [AllowHtml]
+        public string MapLocation { get; set; }
+        public virtual List<CompanyCredit> CompanyCredits { get; set; }
     }
 }
