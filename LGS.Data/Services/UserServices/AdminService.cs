@@ -84,6 +84,8 @@ namespace LGS.Data.Services.UserServices
             return null;
         }
 
+      
+
         public async Task<bool> CheckUserExistAgainstEmail(string email)
         {
             if (!string.IsNullOrEmpty(email))
@@ -136,6 +138,53 @@ namespace LGS.Data.Services.UserServices
 
 
         #endregion
+
+        #region LoggedIn User Info Get And Post
+        public async Task<UserViewModel> GetLoggedInUserInfo(string id, string userRole)
+        {
+            Client clientInDb = null;
+            SubAdmin subAdminInDb = null;
+            if (!string.IsNullOrEmpty(id))
+            {
+                using (var context = new ApplicationDbContext())
+                {
+                    var appUser = await context.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                    if (!string.IsNullOrEmpty(userRole) && userRole.Equals(RoleName.Client))
+                    {
+                        clientInDb = await context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
+                    }
+                    if (!string.IsNullOrEmpty(userRole) && userRole.Equals(RoleName.SubAdmin))
+                    {
+                        subAdminInDb = await context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
+                    }
+
+                    var userVm = new UserViewModel
+                    {
+                        Client = clientInDb,
+                        SubAdmin = subAdminInDb,
+                        User = appUser,
+                        RoleName = userRole
+                    };
+                    return userVm;
+                }
+            }
+            return null;
+        }
+        public async Task<bool> UpdateAppUser(UserViewModel userViewModel)
+        {
+            if (userViewModel?.User != null)
+            {
+                _context.Users.AddOrUpdate(userViewModel.User);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+
+        }
+
+
+        #endregion
+
 
         #region Company Client SubAdmin Block Methods
         public async Task<bool> BlockSubAdminUser(int id)
@@ -284,33 +333,6 @@ namespace LGS.Data.Services.UserServices
             return null;
         }
 
-        public async Task<UserViewModel> GetLoggedInUserInfo(string id)
-        {
-            if (!string.IsNullOrEmpty(id))
-            {
-                using (var context = new ApplicationDbContext())
-                {
-                    //                        var clientDataResults = (from client in context.Clients 
-                    //                        join companies in context.Companies on client.Id equals companies.ClientId 
-                    //                        join accountCredits in context.AccountCredits on client.User.Id equals accountCredits.UserId
-                    //                        join creditInvoices in context.CreditInvoices on client.User.Id equals creditInvoices.UserId
-                    //                        select new { client, companies, accountCredits, creditInvoices }).ToList();
-
-                    var appUser = await context.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                    var clientInDb = await context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
-                    var subAdminInDb = await context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
-
-                    var userVm = new UserViewModel
-                    {
-                        Client = clientInDb,
-                        SubAdmin = subAdminInDb,
-                        User = appUser
-                    };
-                    return userVm;
-                }
-            }
-            return null;
-        }
 
         public async Task<bool> UpdateClientAppUser(UserViewModel userViewModel)
         {
@@ -551,6 +573,7 @@ namespace LGS.Data.Services.UserServices
         Task<DashboardViewModel> GetAdminDashboardViewData();
         Task<List<UserViewModel>> GetSubAdminsUserVm(List<UserViewModel> users);
         Task<List<UserViewModel>> GetClientsUserVm(List<UserViewModel> users);
+        Task<bool> UpdateAppUser(UserViewModel userViewModel);
 
         Task<bool> CheckUserExistAgainstEmail(string email);
         Task<bool> BlockSubAdminUser(int id);
@@ -562,7 +585,7 @@ namespace LGS.Data.Services.UserServices
 
         Task<UserViewModel> GetSubAdminUserById(int id);
         Task<UserViewModel> GetClientUserById(int id);
-        Task<UserViewModel> GetLoggedInUserInfo(string id);
+        Task<UserViewModel> GetLoggedInUserInfo(string id, string userRole);
         Task<Company> GetClientCompanyByCompanyId(int companyId);
         Task<bool> AddUpdateClientCompanyByCompanyId(CompanyViewModel companyViewModel);
         Task<bool> DeleteSubAdminAppUser(int subAdminId);

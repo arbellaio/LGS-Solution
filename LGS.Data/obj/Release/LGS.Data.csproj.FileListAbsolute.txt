@@ -21,3 +21,15 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.csproj.CopyComplete
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.pdb
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Release\System.Web.Mvc.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Release\System.Web.Mvc.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.VirtualList_Multiple_Tables.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Company_Addresses_PostalCode_PhoneNumber_Email_Update.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Client_IsBlocked_Property_Added.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Company_IsBlocked_Property_Added.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.MapLocation_Company.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Changed_Company_Rating_To_Float.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.AppUser_ProfilePic.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.IsBlocked_And_IsDeleted_Properties_Added.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.User_Status_Added.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.User_Status_Removed.resources

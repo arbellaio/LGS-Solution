@@ -129,3 +129,13 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.c
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.csproj.CopyComplete
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.pdb
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.IdentityModel.Logging.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.IdentityModel.Tokens.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\SendGrid.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.IdentityModel.Tokens.Jwt.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Twilio.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.IdentityModel.Tokens.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\SendGrid.pdb
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\SendGrid.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.IdentityModel.Tokens.Jwt.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Twilio.xml

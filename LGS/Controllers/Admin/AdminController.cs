@@ -603,26 +603,81 @@ namespace LGS.Controllers.Admin
 
         #endregion
 
+        #region Profile Page Region 
+
         [HttpGet]
         public async Task<ActionResult> ProfilePage()
         {
             if (TempData[AppConstants.AlertDialog] == null)
                 TempData[AppConstants.AlertDialog] = 0;
-            ViewBag.AlertDialog = (int) TempData[AppConstants.AlertDialog];
+            ViewBag.AlertDialog = (int)TempData[AppConstants.AlertDialog];
 
             var loggedInUserId = User.Identity.GetUserId();
-            var userVm = await Service.GetLoggedInUserInfo(loggedInUserId);
+            var userRole = await UserManager.GetRolesAsync(loggedInUserId);
+            var userVm = await Service.GetLoggedInUserInfo(loggedInUserId, userRole.First());
             if (userVm != null)
             {
                 var userDashboardVm = new DashboardViewModel
                 {
-                    UserVm = userVm
+                    UserVm = userVm,
                 };
                 return View(userDashboardVm);
             }
 
             return View();
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> ProfilePage(DashboardViewModel dashboardViewModel)
+        {
+            var loggedInUserId = User.Identity.GetUserId();
+            if (dashboardViewModel?.UserVm != null && dashboardViewModel.IsEnable)
+            {
+                if (dashboardViewModel.UserVm.SubAdmin != null && dashboardViewModel.UserVm.RoleName.Equals(RoleName.SubAdmin))
+                {
+                    if (dashboardViewModel.ProfilePic != null)
+                    {
+                        var fileUploadHelper = new FileUploadHelper();
+
+                        var uploads = Path.Combine(Server.MapPath("~/LgsImageRepo/ProfileImages"));
+                        var profileImagePath = fileUploadHelper.SaveFile(dashboardViewModel.ProfilePic, uploads,
+                            dashboardViewModel.UserVm.User.Email);
+                        var profileImagePathOnServer =
+                            profileImagePath.Replace(Server.MapPath("~/"), "/")
+                                .Replace("\\",
+                                    "/"); //Relative Path can be stored in database or do logically what is needed.
+                        dashboardViewModel.UserVm.SubAdmin.ProfilePhoto = profileImagePathOnServer;
+                        dashboardViewModel.UserVm.User.UserProfilePic = profileImagePathOnServer;
+                    }
+                    var isUpdated =  await Service.UpdateSubAdminAppUser(dashboardViewModel.UserVm);
+                    if (isUpdated)
+                    {
+                        TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulUpdate;
+                        return RedirectToAction("profilepage", "admin");
+                    }
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+                    return RedirectToAction("profilepage","admin");
+                }
+
+                if (dashboardViewModel.UserVm.RoleName.Equals(RoleName.Admin))
+                {
+                    var isUpdated = await Service.UpdateAppUser(dashboardViewModel.UserVm);
+                    if (isUpdated)
+                    {
+                        TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulUpdate;
+                        return RedirectToAction("profilepage", "admin");
+                    }
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+                    return RedirectToAction("profilepage", "admin");
+                }
+               
+            }
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+            return RedirectToAction("profilepage");
+        }
+
+        #endregion
 
 
         #region Get Users With Roles User_View_Model Helper method
