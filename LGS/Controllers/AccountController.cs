@@ -184,7 +184,7 @@ namespace LGS.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    var client = new Client
+                    var client = new Models.Users.Client
                     {
                         AppUserId = user.Id,
                         CreatedDate = DateTime.UtcNow,

@@ -139,3 +139,9 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\SendGrid.pdb
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\SendGrid.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.IdentityModel.Tokens.Jwt.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Twilio.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Net.Http.Formatting.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Http.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Http.WebHost.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Net.Http.Formatting.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Http.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Http.WebHost.xml

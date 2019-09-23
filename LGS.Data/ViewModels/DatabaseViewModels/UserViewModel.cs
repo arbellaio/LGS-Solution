@@ -8,7 +8,7 @@ using LGS.Models.Companies;
 using LGS.Models.Credits;
 using LGS.Models.Users;
 
-namespace LGS.Data.ViewModels.AdminViewModels
+namespace LGS.Data.ViewModels.DatabaseViewModels
 {
     public class UserViewModel
     {

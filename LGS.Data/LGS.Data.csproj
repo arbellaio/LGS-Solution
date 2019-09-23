@@ -111,10 +111,11 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ClientServices\ClientService.cs" />
     <Compile Include="Services\UserServices\AdminService.cs" />
-    <Compile Include="ViewModels\AdminViewModels\CompanyViewModel.cs" />
-    <Compile Include="ViewModels\AdminViewModels\DashboardViewModel.cs" />
-    <Compile Include="ViewModels\AdminViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\DatabaseViewModels\CompanyViewModel.cs" />
+    <Compile Include="ViewModels\DatabaseViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\DatabaseViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

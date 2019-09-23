@@ -35,7 +35,7 @@ namespace LGS.Controllers
             }
             if (User.IsInRole(RoleName.Client))
             {
-                return RedirectToAction("index", "admin");
+                return RedirectToAction("index", "client");
 
             }
            

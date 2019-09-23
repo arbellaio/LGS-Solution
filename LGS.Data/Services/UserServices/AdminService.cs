@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LGS.Data.AppDataProperties;
 using LGS.Data.ViewModels;
-using LGS.Data.ViewModels.AdminViewModels;
+using LGS.Data.ViewModels.DatabaseViewModels;
 using LGS.Models;
 using LGS.Models.Analytics;
 using LGS.Models.Companies;

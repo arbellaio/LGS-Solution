@@ -9,17 +9,18 @@ using System.Web.Mvc;
 using LGS.AppProperties;
 using LGS.Data;
 using LGS.Data.Services.UserServices;
-using LGS.Data.ViewModels.AdminViewModels;
+using LGS.Data.ViewModels.DatabaseViewModels;
 using LGS.Extensions;
+using LGS.Filters;
 using LGS.Helpers.FileUploader;
 using LGS.Helpers.UsersHelper;
 using LGS.Models;
-using LGS.Models.AdminViewModels.DashboardViewModels;
+using LGS.Models.ViewModels.DashboardViewModels;
 using LGS.Models.RoleNames;
 using LGS.Models.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using DashboardViewModel = LGS.Models.AdminViewModels.DashboardViewModels.DashboardViewModel;
+using DashboardViewModel = LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel;
 
 namespace LGS.Controllers.Admin
 {
@@ -111,10 +112,10 @@ namespace LGS.Controllers.Admin
             var userViewModelList = await GetUsersWithRoles(dashboardViewModel.Users);
             var clientsUserVm = UserHelper.GetUsersWithSpecificRole(userViewModelList, RoleName.Client);
             clientsUserVm = await Service.GetClientsUserVm(clientsUserVm);
-            clientsUserVm = clientsUserVm.FindAll(x => x.Client.IsDeleted.Equals(false));
 
             if (clientsUserVm != null)
             {
+                clientsUserVm = clientsUserVm.FindAll(x => x.Client.IsDeleted.Equals(false));
                 var dashboardVm = new DashboardViewModel
                 {
                     UserViewModels = clientsUserVm
@@ -144,7 +145,7 @@ namespace LGS.Controllers.Admin
                     if (result.Succeeded)
                     {
                         //                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        var client = new Client
+                        var client = new Models.Users.Client
                         {
                             AppUserId = user.Id,
                             CreatedDate = DateTime.UtcNow,
@@ -647,7 +648,7 @@ namespace LGS.Controllers.Admin
                             profileImagePath.Replace(Server.MapPath("~/"), "/")
                                 .Replace("\\",
                                     "/"); //Relative Path can be stored in database or do logically what is needed.
-                        dashboardViewModel.UserVm.SubAdmin.ProfilePhoto = profileImagePathOnServer;
+                        dashboardViewModel.UserVm.SubAdmin.ProfilePhoto = profileImagePathOnServer; // Only for SubAdmin because Admin is not Secondary User
                         dashboardViewModel.UserVm.User.UserProfilePic = profileImagePathOnServer;
                     }
                     var isUpdated =  await Service.UpdateSubAdminAppUser(dashboardViewModel.UserVm);
@@ -674,6 +675,29 @@ namespace LGS.Controllers.Admin
                
             }
             TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+            return RedirectToAction("profilepage");
+        }
+
+
+
+        // Reset Password
+        [HttpPost]
+        [ValidateInput(true)]
+        public async Task<ActionResult> ResetPassword(DashboardViewModel dashboardViewModel)
+        {
+            var user = await UserManager.FindByNameAsync(dashboardViewModel.UserVm.User.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return RedirectToAction("profilepage", "client");
+            }
+            string resetToken = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            var result = await UserManager.ResetPasswordAsync(user.Id, resetToken, dashboardViewModel.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("profilepage", "client");
+            }
+
             return RedirectToAction("profilepage");
         }
 

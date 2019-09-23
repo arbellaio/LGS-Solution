@@ -5,7 +5,7 @@ using System.Web;
 using LGS.Models;
 using LGS.Models.Analytics;
 
-namespace LGS.Data.ViewModels.AdminViewModels
+namespace LGS.Data.ViewModels.DatabaseViewModels
 {
     public class DashboardViewModel
     {

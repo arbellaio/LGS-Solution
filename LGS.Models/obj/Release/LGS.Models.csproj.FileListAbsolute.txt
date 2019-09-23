@@ -15,3 +15,6 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Releas
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Release\LGS.Models.pdb
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Release\System.Web.Mvc.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Release\System.Web.Mvc.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Release\LGS.Models.csprojAssemblyReference.cache
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Release\Newtonsoft.Json.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Release\Newtonsoft.Json.xml

@@ -33,3 +33,5 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.IsBlocked_And_IsDeleted_Properties_Added.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.User_Status_Added.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.User_Status_Removed.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Release\Newtonsoft.Json.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Release\Newtonsoft.Json.xml

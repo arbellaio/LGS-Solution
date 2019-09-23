@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using LGS.Models.Companies;
 
-namespace LGS.Data.ViewModels.AdminViewModels
+namespace LGS.Data.ViewModels.DatabaseViewModels
 {
     public class CompanyViewModel
     {

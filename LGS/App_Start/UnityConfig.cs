@@ -1,7 +1,9 @@
 using System.Web.Mvc;
 using LGS.Controllers;
 using LGS.Controllers.Admin;
+using LGS.Controllers.Client;
 using LGS.Data;
+using LGS.Data.Services.ClientServices;
 using LGS.Data.Services.UserServices;
 using LGS.Models;
 using Microsoft.AspNet.Identity;
@@ -28,7 +30,9 @@ namespace LGS
 //            container.RegisterType<ApplicationDbContext>();
               container.RegisterType<AccountController>(new InjectionConstructor());
               container.RegisterType<AdminController>(new InjectionConstructor());
+              container.RegisterType<ClientController>(new InjectionConstructor());
               container.RegisterType<IAdminService,AdminService>();
+              container.RegisterType<IClientService,ClientService>();
 
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
