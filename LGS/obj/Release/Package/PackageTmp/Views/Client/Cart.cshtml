@@ -1,0 +1,59 @@
+﻿@model LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Services To Buy</h3>
+
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table no-margin">
+                <thead>
+                    <tr>
+                        <th>Item No</th>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price Per Each</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Item)
+                    {
+                        <tr>
+                            <td><span class="label label-info">@item.sku</span></td>
+                            <td>@item.name</td>
+                            <td>@item.description</td>
+                            <td>@item.quantity</td>
+                            <td>
+                                $@item.priceperitem
+                            </td>
+                            <td>$@item.price</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+        <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
+        @* <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a> *@
+    </div>
+    <!-- /.box-footer -->
+</div>

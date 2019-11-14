@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LGS.Models.Users;
 
 namespace LGS.Models.Credits
 {
@@ -17,10 +18,18 @@ namespace LGS.Models.Credits
 
         public string InvoiceNo { get; set; }
         public string TransactionId { get; set; }
-        public string AccountId { get; set; }
         public string TransactionService { get; set; }
         public decimal TransactionAmount { get; set; }
-        public int CompanyId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string SkuCode { get; set; }
+        public string Quantity { get; set; }
+        public string Price { get; set; }
+        public string TotalPrice { get; set; }
+        public string Tax { get; set; }
+        public string Url { get; set; }
+        public string Currency { get; set; }
+
 
 
         [ForeignKey("UserId")]
@@ -34,6 +43,11 @@ namespace LGS.Models.Credits
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime UpdatedDate { get; set; }
+
+
+        [ForeignKey("ClientId")]
+        public virtual Client Client { get; set; }
+        public int ClientId { get; set; }
 
     }
 }

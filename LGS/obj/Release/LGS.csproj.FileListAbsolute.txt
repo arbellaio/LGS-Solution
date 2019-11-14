@@ -125,7 +125,6 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Owi
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.Owin.Security.OAuth.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.csprojAssemblyReference.cache
-E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.csproj.CoreCompileInputs.cache
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.csproj.CopyComplete
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\obj\Release\LGS.pdb
@@ -145,3 +144,5 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Ht
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Net.Http.Formatting.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Http.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Http.WebHost.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\PayPal.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\PayPal.xml

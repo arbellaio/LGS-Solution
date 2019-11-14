@@ -109,9 +109,42 @@
     <Compile Include="Migrations\201908251139580_User_Status_Removed.Designer.cs">
       <DependentUpon>201908251139580_User_Status_Removed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909291038544_Add_CompanyRatings.cs" />
+    <Compile Include="Migrations\201909291038544_Add_CompanyRatings.Designer.cs">
+      <DependentUpon>201909291038544_Add_CompanyRatings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910201346101_Added_Item_Model.cs" />
+    <Compile Include="Migrations\201910201346101_Added_Item_Model.Designer.cs">
+      <DependentUpon>201910201346101_Added_Item_Model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911022203386_Add_Changes.cs" />
+    <Compile Include="Migrations\201911022203386_Add_Changes.Designer.cs">
+      <DependentUpon>201911022203386_Add_Changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911101535041_Changes_In_Credit_Account_Models.cs" />
+    <Compile Include="Migrations\201911101535041_Changes_In_Credit_Account_Models.Designer.cs">
+      <DependentUpon>201911101535041_Changes_In_Credit_Account_Models.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911101542562_Changes_In_ItemModel.cs" />
+    <Compile Include="Migrations\201911101542562_Changes_In_ItemModel.Designer.cs">
+      <DependentUpon>201911101542562_Changes_In_ItemModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911101639104_Changes_In_CreditInvoice_Model_Removed_Item_Model.cs" />
+    <Compile Include="Migrations\201911101639104_Changes_In_CreditInvoice_Model_Removed_Item_Model.Designer.cs">
+      <DependentUpon>201911101639104_Changes_In_CreditInvoice_Model_Removed_Item_Model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911101643332_Changes_In_CreditInvoice_Currency.cs" />
+    <Compile Include="Migrations\201911101643332_Changes_In_CreditInvoice_Currency.Designer.cs">
+      <DependentUpon>201911101643332_Changes_In_CreditInvoice_Currency.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911101817127_Added_Client_Id_ForeignKey.cs" />
+    <Compile Include="Migrations\201911101817127_Added_Client_Id_ForeignKey.Designer.cs">
+      <DependentUpon>201911101817127_Added_Client_Id_ForeignKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientServices\ClientService.cs" />
+    <Compile Include="Services\HomeServices\HomeService.cs" />
     <Compile Include="Services\UserServices\AdminService.cs" />
     <Compile Include="ViewModels\DatabaseViewModels\CompanyViewModel.cs" />
     <Compile Include="ViewModels\DatabaseViewModels\DashboardViewModel.cs" />
@@ -166,6 +199,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908251139580_User_Status_Removed.resx">
       <DependentUpon>201908251139580_User_Status_Removed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909291038544_Add_CompanyRatings.resx">
+      <DependentUpon>201909291038544_Add_CompanyRatings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910201346101_Added_Item_Model.resx">
+      <DependentUpon>201910201346101_Added_Item_Model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911022203386_Add_Changes.resx">
+      <DependentUpon>201911022203386_Add_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911101535041_Changes_In_Credit_Account_Models.resx">
+      <DependentUpon>201911101535041_Changes_In_Credit_Account_Models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911101542562_Changes_In_ItemModel.resx">
+      <DependentUpon>201911101542562_Changes_In_ItemModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911101639104_Changes_In_CreditInvoice_Model_Removed_Item_Model.resx">
+      <DependentUpon>201911101639104_Changes_In_CreditInvoice_Model_Removed_Item_Model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911101643332_Changes_In_CreditInvoice_Currency.resx">
+      <DependentUpon>201911101643332_Changes_In_CreditInvoice_Currency.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911101817127_Added_Client_Id_ForeignKey.resx">
+      <DependentUpon>201911101817127_Added_Client_Id_ForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

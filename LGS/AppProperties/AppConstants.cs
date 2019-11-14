@@ -9,10 +9,21 @@ namespace LGS.AppProperties
     {
         public const string ConnectionName = "DefaultConnection";
         public const string AlertDialog = "AlertDialog";
-        public const string SendGuardApiKey = "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";
-        public const string TwilioAccountSid = "ACf65fb08cb541eb7c7c416c18fae1bceb";
-        public const string TwilioAuthToken = "a48429ae3defcf5bb1b117858177b839";
-        public const string TwilioFromPhoneNumber = "+12567870472";
+        public const string ItemsToBuy = "ItemsToBuy";
+        public const string Currency = "USD";
+        public const string Guid = "guid";
+        public const string Guid_equal = "guid=";
+        public const string PayerId = "PayerID";
+        public const string ApprovedUrl = "approval_url";
+        public const string ControllerPaymentWithPal = "/client/paymentwithpaypal?";
+        public const string ColonDoubleForwardSlash = "://";
+        public const string AndCancel = "&Cancel=true";
+        public const string PaymentIntent = "Sale";
+        public const string PayerPaymentMethod = "PayPal";
+        public const string Approved = "approved";
+        public const string DescriptionPurchase = "LGS Purchase";
+
+
 
     }
 }

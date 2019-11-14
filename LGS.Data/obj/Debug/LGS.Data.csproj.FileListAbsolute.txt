@@ -17,7 +17,6 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LG
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.profilepicture_property_added.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Update_Client_SubAdmin.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.csproj.GenerateResource.cache
-E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.csproj.CoreCompileInputs.cache
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.csproj.CopyComplete
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.pdb
@@ -35,3 +34,11 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LG
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.User_Status_Removed.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Debug\Newtonsoft.Json.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Debug\Newtonsoft.Json.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Add_CompanyRatings.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Item_Model.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Add_Changes.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Changes_In_Credit_Account_Models.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Changes_In_ItemModel.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Changes_In_CreditInvoice_Model_Removed_Item_Model.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Changes_In_CreditInvoice_Currency.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Client_Id_ForeignKey.resources

@@ -31,19 +31,16 @@ namespace LGS.Data.Services.UserServices
 
         public async Task<DashboardViewModel> GetAdminDashboardViewData()
         {
-            using (var context = new ApplicationDbContext())
-            {
-                var users = await context.Users.Include(x => x.Roles).ToListAsync();
-                var analyticsUnique = await context.Database
-                    .SqlQuery<Analytics_Visits>("select distinct IpAddress FROM Analytics_Visits").ToListAsync();
+            var users = await _context.Users.Include(x => x.Roles).ToListAsync();
+            var analyticsUnique = await _context.Database
+                .SqlQuery<Analytics_Visits>("select distinct IpAddress FROM Analytics_Visits").ToListAsync();
 
-                var dashboardViewModel = new DashboardViewModel
-                {
-                    Users = users,
-                    UniqueUsers = analyticsUnique
-                };
-                return dashboardViewModel;
-            }
+            var dashboardViewModel = new DashboardViewModel
+            {
+                Users = users,
+                UniqueUsers = analyticsUnique
+            };
+            return dashboardViewModel;
         }
 
         public async Task<List<UserViewModel>> GetSubAdminsUserVm(List<UserViewModel> users)
@@ -84,7 +81,6 @@ namespace LGS.Data.Services.UserServices
             return null;
         }
 
-      
 
         public async Task<bool> CheckUserExistAgainstEmail(string email)
         {
@@ -104,72 +100,69 @@ namespace LGS.Data.Services.UserServices
 
         public async Task<LgsUserStatus> CheckUserStatus(string email)
         {
-            using (var context = new ApplicationDbContext())
+            if (!string.IsNullOrEmpty(email))
             {
-                if (!string.IsNullOrEmpty(email))
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
+                if (user == null)
                 {
-                    var user = await context.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
-                    if (user == null)
-                    {
-                        return LgsUserStatus.UserDoesnotExist;
-                    }
+                    return LgsUserStatus.UserDoesnotExist;
+                }
 
-                    var client = await context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.Id));
-                    var subAdmin = await context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.Id));
-                    if (client != null)
-                    {
-                        if (client.IsBlocked.Equals(true))
-                            return LgsUserStatus.UserBlocked;
+                var client = await _context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.Id));
+                var subAdmin = await _context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(user.Id));
+                if (client != null)
+                {
+                    if (client.IsBlocked.Equals(true))
+                        return LgsUserStatus.UserBlocked;
 
-                        if (client.IsDeleted.Equals(true))
-                            return LgsUserStatus.UserDeleted;
-                    }
+                    if (client.IsDeleted.Equals(true))
+                        return LgsUserStatus.UserDeleted;
+                }
 
-                    if (subAdmin != null)
-                    {
-                        if (subAdmin.IsBlocked.Equals(true))
-                            return LgsUserStatus.UserBlocked;
-                    }
+                if (subAdmin != null)
+                {
+                    if (subAdmin.IsBlocked.Equals(true))
+                        return LgsUserStatus.UserBlocked;
                 }
             }
+
             return LgsUserStatus.InvalidRequest;
         }
-
-
 
         #endregion
 
         #region LoggedIn User Info Get And Post
+
         public async Task<UserViewModel> GetLoggedInUserInfo(string id, string userRole)
         {
             Client clientInDb = null;
             SubAdmin subAdminInDb = null;
             if (!string.IsNullOrEmpty(id))
             {
-                using (var context = new ApplicationDbContext())
+                var appUser = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (!string.IsNullOrEmpty(userRole) && userRole.Equals(RoleName.Client))
                 {
-                    var appUser = await context.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                    if (!string.IsNullOrEmpty(userRole) && userRole.Equals(RoleName.Client))
-                    {
-                        clientInDb = await context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
-                    }
-                    if (!string.IsNullOrEmpty(userRole) && userRole.Equals(RoleName.SubAdmin))
-                    {
-                        subAdminInDb = await context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
-                    }
-
-                    var userVm = new UserViewModel
-                    {
-                        Client = clientInDb,
-                        SubAdmin = subAdminInDb,
-                        User = appUser,
-                        RoleName = userRole
-                    };
-                    return userVm;
+                    clientInDb = await _context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
                 }
+
+                if (!string.IsNullOrEmpty(userRole) && userRole.Equals(RoleName.SubAdmin))
+                {
+                    subAdminInDb = await _context.SubAdmins.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
+                }
+
+                var userVm = new UserViewModel
+                {
+                    Client = clientInDb,
+                    SubAdmin = subAdminInDb,
+                    User = appUser,
+                    RoleName = userRole
+                };
+                return userVm;
             }
+
             return null;
         }
+
         public async Task<bool> UpdateAppUser(UserViewModel userViewModel)
         {
             if (userViewModel?.User != null)
@@ -178,39 +171,39 @@ namespace LGS.Data.Services.UserServices
                 await _context.SaveChangesAsync();
                 return true;
             }
+
             return false;
-
         }
-
 
         #endregion
 
 
         #region Company Client SubAdmin Block Methods
+
         public async Task<bool> BlockSubAdminUser(int id)
         {
             if (id > 0)
             {
-                using (var context = new ApplicationDbContext())
+                var subAdmin = await _context.SubAdmins.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (subAdmin != null)
                 {
-                    var subAdmin = await context.SubAdmins.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                    if (subAdmin != null)
+                    if (subAdmin.IsBlocked)
                     {
-                        if (subAdmin.IsBlocked)
-                        {
-                            subAdmin.IsBlocked = false;
-                        }
-                        else
-                        {
-                            subAdmin.IsBlocked = true;
-                        }
-                        context.SubAdmins.AddOrUpdate(subAdmin);
-                        await context.SaveChangesAsync();
-                        return subAdmin.IsBlocked;
+                        subAdmin.IsBlocked = false;
                     }
-                    return false;
+                    else
+                    {
+                        subAdmin.IsBlocked = true;
+                    }
+
+                    _context.SubAdmins.AddOrUpdate(subAdmin);
+                    await _context.SaveChangesAsync();
+                    return subAdmin.IsBlocked;
                 }
+
+                return false;
             }
+
             return false;
         }
 
@@ -218,26 +211,26 @@ namespace LGS.Data.Services.UserServices
         {
             if (id > 0)
             {
-                using (var context = new ApplicationDbContext())
+                var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (client != null)
                 {
-                    var client = await context.Clients.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                    if (client != null)
+                    if (client.IsBlocked)
                     {
-                        if (client.IsBlocked)
-                        {
-                            client.IsBlocked = false;
-                        }
-                        else
-                        {
-                            client.IsBlocked = true;
-                        }
-                        context.Clients.AddOrUpdate(client);
-                        await context.SaveChangesAsync();
-                        return client.IsBlocked;
+                        client.IsBlocked = false;
                     }
-                    return false;
+                    else
+                    {
+                        client.IsBlocked = true;
+                    }
+
+                    _context.Clients.AddOrUpdate(client);
+                    await _context.SaveChangesAsync();
+                    return client.IsBlocked;
                 }
+
+                return false;
             }
+
             return false;
         }
 
@@ -245,29 +238,28 @@ namespace LGS.Data.Services.UserServices
         {
             if (id > 0)
             {
-                using (var context = new ApplicationDbContext())
+                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (company != null)
                 {
-                    var company = await context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                    if (company != null)
+                    if (company.IsBlocked)
                     {
-                        if (company.IsBlocked)
-                        {
-                            company.IsBlocked = false;
-                        }
-                        else
-                        {
-                            company.IsBlocked = true;
-                        }
-                        context.Companies.AddOrUpdate(company);
-                        await context.SaveChangesAsync();
-                        return company.IsBlocked;
+                        company.IsBlocked = false;
                     }
-                    return false;
+                    else
+                    {
+                        company.IsBlocked = true;
+                    }
+
+                    _context.Companies.AddOrUpdate(company);
+                    await _context.SaveChangesAsync();
+                    return company.IsBlocked;
                 }
+
+                return false;
             }
+
             return false;
         }
-
 
         #endregion
 
@@ -307,29 +299,29 @@ namespace LGS.Data.Services.UserServices
         {
             if (id != 0)
             {
-                using (var context = new ApplicationDbContext())
-                {
 //                        var clientDataResults = (from client in context.Clients 
 //                        join companies in context.Companies on client.Id equals companies.ClientId 
 //                        join accountCredits in context.AccountCredits on client.User.Id equals accountCredits.UserId
 //                        join creditInvoices in context.CreditInvoices on client.User.Id equals creditInvoices.UserId
 //                        select new { client, companies, accountCredits, creditInvoices }).ToList();
 
-                    var clientInDbWithCompaniesCredits = await context.Clients.Include(x => x.User).Include(x => x.Companies).Include(x => x.AccountCredits).Include(x => x.CreditInvoices).FirstOrDefaultAsync(x => x.Id.Equals(id));
+                var clientInDbWithCompaniesCredits = await _context.Clients.Include(x => x.User)
+                    .Include(x => x.Companies).Include(x => x.AccountCredits).Include(x => x.CreditInvoices)
+                    .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
 //                    var clientInDb = await context.Clients.Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
 //                    var companiesInDb = await context.Companies.Where(c => c.ClientId.Equals(id)).ToListAsync();
 //                    var accountCreditInDb = await context.AccountCredits.Where(x => x.UserId.Equals(clientInDb.User.Id)).ToListAsync();
 //                    var creditInvoicesInDb = await context.CreditInvoices.Where(x => x.UserId.Equals(clientInDb.User.Id)).ToListAsync();
 
-                    var userVm = new UserViewModel
-                    {
-                        Client = clientInDbWithCompaniesCredits,
-                        User = clientInDbWithCompaniesCredits?.User
-                    };
-                    return userVm;
-                }
+                var userVm = new UserViewModel
+                {
+                    Client = clientInDbWithCompaniesCredits,
+                    User = clientInDbWithCompaniesCredits?.User
+                };
+                return userVm;
             }
+
             return null;
         }
 
@@ -361,20 +353,17 @@ namespace LGS.Data.Services.UserServices
         {
             if (companyId > 0)
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    var companyInDb = await context.Companies.Include(x => x.Client).Include(x => x.CompanyCredits)
-                        .FirstOrDefaultAsync(x => x.Id.Equals(companyId));
-                    
-                    // for getting app-user may or may not need in future depending on page view 
-                    if (companyInDb != null)
-                    {
-                        var userVm = await GetClientUserById(companyInDb.Client.Id);
-                        companyInDb.Client.User = userVm.User;
-                    }
+                var companyInDb = await _context.Companies.Include(x => x.Client).Include(x => x.CompanyCredits)
+                    .FirstOrDefaultAsync(x => x.Id.Equals(companyId));
 
-                    return companyInDb;
+                // for getting app-user may or may not need in future depending on page view 
+                if (companyInDb != null)
+                {
+                    var userVm = await GetClientUserById(companyInDb.Client.Id);
+                    companyInDb.Client.User = userVm.User;
                 }
+
+                return companyInDb;
             }
 
             return null;
@@ -384,31 +373,28 @@ namespace LGS.Data.Services.UserServices
         {
             if (companyViewModel?.Company != null)
             {
-                using (var context = new ApplicationDbContext())
+                var companyInDb =
+                    await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(companyViewModel.Company.Id));
+                if (companyInDb == null)
                 {
-                    var companyInDb = await context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(companyViewModel.Company.Id));
-                    if (companyInDb == null)
-                    {
-                        var company = companyViewModel.Company;
-                        company.CreatedDate = DateTime.UtcNow;
-                        company.UpdatedDate = DateTime.UtcNow;
-                        context.Companies.AddOrUpdate(company);
-                       
-
-                    }
-                    else
-                    {
-                        companyInDb = companyViewModel.Company;
-
-                        companyInDb.UpdatedDate = DateTime.UtcNow;
-                        companyInDb.CreatedDate = DateTime.UtcNow;
-                        context.Companies.AddOrUpdate(companyInDb);
-                    }
-
-                    await context.SaveChangesAsync();
-                    return true;
+                    var company = companyViewModel.Company;
+                    company.CreatedDate = DateTime.UtcNow;
+                    company.UpdatedDate = DateTime.UtcNow;
+                    _context.Companies.AddOrUpdate(company);
                 }
+                else
+                {
+                    companyInDb = companyViewModel.Company;
+
+                    companyInDb.UpdatedDate = DateTime.UtcNow;
+                    companyInDb.CreatedDate = DateTime.UtcNow;
+                    _context.Companies.AddOrUpdate(companyInDb);
+                }
+
+                await _context.SaveChangesAsync();
+                return true;
             }
+
             return false;
         }
 
@@ -417,26 +403,26 @@ namespace LGS.Data.Services.UserServices
         {
             if (id > 0)
             {
-                using (var context = new ApplicationDbContext())
+                var companyInDb = await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (companyInDb != null)
                 {
-                    var companyInDb = await context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                    if (companyInDb != null)
+                    if (companyInDb.IsDeleted)
                     {
-                        if (companyInDb.IsDeleted)
-                        {
-                            companyInDb.IsDeleted = false;
-                        }
-                        else
-                        {
-                            companyInDb.IsDeleted = true;
-                        }
-                        context.Companies.AddOrUpdate(companyInDb);
-                        await context.SaveChangesAsync();
-                        return true;
+                        companyInDb.IsDeleted = false;
                     }
-                    return false;
+                    else
+                    {
+                        companyInDb.IsDeleted = true;
+                    }
+
+                    _context.Companies.AddOrUpdate(companyInDb);
+                    await _context.SaveChangesAsync();
+                    return true;
                 }
+
+                return false;
             }
+
             return false;
         }
 
@@ -445,29 +431,28 @@ namespace LGS.Data.Services.UserServices
         {
             if (id > 0)
             {
-                using (var context = new ApplicationDbContext())
+                var clientInDb = await _context.Clients.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (clientInDb != null)
                 {
-                    var clientInDb = await context.Clients.FirstOrDefaultAsync(x => x.Id.Equals(id));
-                    if (clientInDb != null)
+                    if (clientInDb.IsDeleted)
                     {
-                        if (clientInDb.IsDeleted)
-                        {
-                            clientInDb.IsDeleted = false;
-                        }
-                        else
-                        {
-                            clientInDb.IsDeleted = true;
-                        }
-                        context.Clients.AddOrUpdate(clientInDb);
-                        await context.SaveChangesAsync();
-                        return true;
+                        clientInDb.IsDeleted = false;
                     }
-                    return false;
+                    else
+                    {
+                        clientInDb.IsDeleted = true;
+                    }
+
+                    _context.Clients.AddOrUpdate(clientInDb);
+                    await _context.SaveChangesAsync();
+                    return true;
                 }
+
+                return false;
             }
+
             return false;
         }
-
 
         #endregion
 

@@ -20,10 +20,12 @@ using LGS.Models.RoleNames;
 using LGS.Models.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using CompanyViewModel = LGS.Data.ViewModels.DatabaseViewModels.CompanyViewModel;
 using DashboardViewModel = LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel;
 
 namespace LGS.Controllers.Admin
 {
+    [HandleError]
     [Authorize(Roles = RoleName.Admin + "," + RoleName.SubAdmin)]
     public class AdminController : Controller
     {

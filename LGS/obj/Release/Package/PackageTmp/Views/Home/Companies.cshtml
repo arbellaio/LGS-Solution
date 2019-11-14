@@ -1,0 +1,82 @@
+﻿@model  LGS.Models.ViewModels.DashboardViewModels.CompanyViewModel
+@{
+    ViewBag.Title = "Companies";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+
+<div class="box-body" style="margin: 30px">
+    <h3 style="margin: 30px">Companies Register with Us.</h3>
+    
+    @if (Model.Companies == null || !Model.Companies.Any())
+    {
+        <p style="text-align: center">
+            <b>No companies registered against this user.</b>
+        </p>
+    }
+    else
+    {
+        foreach (var company in Model.Companies)
+        {
+            @*             <a href="@Url.Action("CompanyDetail","Admin",new { id = company.Id,clientId =company.Client.Id })"> *@
+            <div id="@company.Id" class="col-md-3" style="cursor: pointer">
+                <a href="/home/companydetail/@company.Id">
+
+                    <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
+
+                        <div class="box-body box-profile">
+                            @if (string.IsNullOrEmpty(company.LogoPath))
+                            {
+                                <img class="profile-user-img img-responsive img-circle" style="width: 132px" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                            }
+                            else
+                            {
+                                var absolutePath = HttpContext.Current.Server.MapPath("~/" + company.LogoPath);
+                                if (!@System.IO.File.Exists(absolutePath))
+                                {
+                                    <img class="profile-user-img img-responsive img-circle" style="width: 132px" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                                }
+                                else
+                                {
+                                    <img class="profile-user-img img-responsive img-circle" style="width: 132px" src="@company.LogoPath" alt="User profile picture">
+                                }
+                            }
+                            <h3 class="profile-username text-center">@company.CompanyName</h3>
+                            <p class="text-muted text-center">@company.MainDescription</p>
+
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b class="text-muted">Email Address :</b>
+                                    <p class="text-muted pull-right">@company.CompanyEmail</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <b class="text-muted">Address :</b>
+                                    <p class="text-muted pull-right">@company.AddressThreeLocality</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <b class="text-muted">Company Status :</b>
+                                    @if (company.IsBlocked)
+                                    {
+                                        <p class="text-muted pull-right">Blocked / Inactive</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted pull-right">Active</p>
+                                    }
+                                </li>
+                            </ul>
+
+
+                            @* <a href="#" class="btn btn-primary btn-block"> *@
+                            @*     <b>Follow</b> *@
+                            @* </a> *@
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </a>
+
+            </div>
+        }
+
+    }
+</div>

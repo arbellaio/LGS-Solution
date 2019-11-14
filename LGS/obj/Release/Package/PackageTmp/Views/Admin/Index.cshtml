@@ -1,0 +1,64 @@
+﻿@using LGS.Models.RoleNames
+@model LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Admin Dashboard
+        <small>LGS Control Panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-dashboard"></i> Level</a>
+        </li>
+        <li class="active">Admin Dashboard</li>
+    </ol>
+</section>
+<hr/>
+<hr/>
+
+<div class="col-lg-3 col-xs-6">
+    <!-- small box -->
+    <div class="small-box bg-blue">
+        <div class="inner">
+            <h3>@Model.RegisteredClients</h3>
+            <p>Clients</p>
+        </div>
+        <div class="icon">
+            <i class="ion ion-person-add"></i>
+        </div>
+        <a href="/admin/clientindex" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+</div>
+
+@if (@User.IsInRole(RoleName.Admin))
+{
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>@Model.RegisteredSubAdmins</h3>
+                <p>Sub-Admins</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="/admin/subadminindex" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+}
+
+<div class="col-lg-3 col-xs-6">
+    <div class="small-box bg-yellow">
+        <div class="inner">
+            <h3> @Model.UniqueUsers</h3>
+            <p>Unique Visitors</p>
+        </div>
+        <div class="icon">
+            <i class="ion ion-person-add"></i>
+        </div>
+        <a href="/analytics" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+</div>

@@ -10,7 +10,6 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Debug\
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Debug\LGS.Models.csprojAssemblyReference.cache
-E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Debug\LGS.Models.csproj.CoreCompileInputs.cache
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Debug\LGS.Models.csproj.CopyComplete
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Debug\LGS.Models.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Debug\LGS.Models.pdb

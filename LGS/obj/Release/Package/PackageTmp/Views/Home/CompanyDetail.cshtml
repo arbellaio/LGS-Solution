@@ -1,0 +1,279 @@
+﻿@model  LGS.Models.ViewModels.DashboardViewModels.CompanyViewModel
+
+@{
+    ViewBag.Title = "CompanyDetail";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<section class="content">
+
+<div class="row">
+
+<div class="col-md-3">
+
+    <!-- Profile Image -->
+    <div class="box box-primary">
+        <div class="box-body box-profile">
+            @if (string.IsNullOrEmpty(Model.Company.LogoPath))
+            {
+                <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+            }
+            else
+            {
+                var absolutePath = HttpContext.Current.Server.MapPath("~/" + Model.Company.LogoPath);
+                if (!@File.Exists(absolutePath))
+                {
+                    <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                }
+                else
+                {
+                    <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="@Model.Company.LogoPath" alt="User profile picture">
+                }
+            }
+            <h3 class="profile-username text-center">@Model.Company.CompanyName</h3>
+
+            <p class="text-muted text-center">Company</p>
+
+            <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                    <b>About Co. </b> <a class="pull-right">@Model.Company.MainDescription</a>
+                </li>
+                <li class="list-group-item">
+                    <b>Est. Date</b> <a class="pull-right">@Model.Company.CreatedDate.ToShortDateString()</a>
+                </li>
+                <li class="list-group-item">
+                    @* <b>Ratings</b> <a class="pull-right">@Model.Company.Ratings</a> *@
+                    <b>Ratings</b>
+                    <a class="pull-right">
+                        <span id="rateYo"></span>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <b>Status</b>
+
+                    @if (Model.Company.IsBlocked)
+                    {
+                        <a class="pull-right">
+                            In Active
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="pull-right">Active</a>
+                    }
+                </li>
+            </ul>
+
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+    <!-- About Me Box -->
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">About Me</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+
+            <p class="text-muted">
+                B.S. in Computer Science from the University of Tennessee at Knoxville
+            </p>
+
+            <hr>
+
+            <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+
+            <p class="text-muted">Malibu, California</p>
+
+            <hr>
+
+            <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+
+            <p>
+                <span class="label label-danger">UI Design</span>
+                <span class="label label-success">Coding</span>
+                <span class="label label-info">Javascript</span>
+                <span class="label label-warning">PHP</span>
+                <span class="label label-primary">Node.js</span>
+            </p>
+
+            <hr>
+
+            <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>
+<!-- /.col -->
+<div class="col-md-9">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#activity" data-toggle="tab" aria-expanded="true">Company Profile</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="activity">
+                <!-- Post -->
+                <div class="box-body">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <i class="fa fa-building-o"></i>
+
+                            <h3 class="box-title">@Model.Company.CompanyName</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <dl class="dl-horizontal">
+                                <dt>Complete Co. Name</dt>
+                                <dd>@Model.Company.MainDescription.</dd>
+
+                                <dt style="margin-top: 5px">Phone Number</dt>
+                                <dd style="margin-top: 5px">@Model.Company.PhoneNumber.</dd>
+
+                                <dt style="margin-top: 5px">Company Email</dt>
+                                <dd style="margin-top: 5px">@Model.Company.CompanyEmail.</dd>
+
+                                <dt style="margin-top: 5px">Street No.</dt>
+                                <dd style="margin-top: 5px">@Model.Company.AddressTwoStreet.</dd>
+
+                                <dt style="margin-top: 5px">Plot No. / Shop No.</dt>
+                                <dd style="margin-top: 5px">@Model.Company.AddressOneUnit.</dd>
+
+                                <dt style="margin-top: 5px">Postal Code</dt>
+                                <dd style="margin-top: 5px">@Model.Company.PostalCode.</dd>
+
+                                <dt style="margin-top: 5px">City / District</dt>
+                                <dd style="margin-top: 5px">@Model.Company.AddressThreeLocality.</dd>
+
+
+                                <dt style="margin-top: 35px">Short Description</dt>
+                                <dd style="margin-top: 35px"> @Html.Raw(@Model.Company.ShortDescription)</dd>
+                            </dl>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"></h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="box-group" id="accordion">
+                                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                                <div class="panel box box-primary">
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="True">
+                                                Detailed Description
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                                        <div class="box-body">
+                                            @Html.Raw(@Model.Company.LongDescription)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel box box-danger">
+                                    <div class="box-header with-border">
+                                        <h4 class="box-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="True">
+                                                Our Location
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse in" aria-expanded="true">
+                                        <div class="box-body">
+                                            <div id="mapIframe">
+                                                @if (!string.IsNullOrEmpty(Model.Company.MapLocation))
+                                                {
+                                                    @Html.Raw(@Model.Company.MapLocation)
+                                                }
+                                                else
+                                                {
+                                                    <iframe width="800" height="500" id="gmap_canvas1" src=" https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                                            frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                                                    </iframe>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+    </div>
+</div>
+<!-- /.col -->
+<!-- /.row -->
+</div>
+
+</section>
+
+<script src="/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $(document).ready(function() {
+        //Start Get Star Rating From Number
+        var ratingVal = 0;
+        $(function() {
+
+            $("#rateYo").rateYo({
+                rating: @Model.Company.Ratings
+            });
+            $("#rateYo").rateYo()
+                .on("rateyo.set",
+                    function(e, data) {
+                        $("#CompanyRating").val(data.rating);
+                        ratingVal = data.rating;
+                        setRating(ratingVal);
+//                    alert("The rating is set to " + data.rating + "!");
+                    });
+            $("#rateYo").rateYo("option", "starWidth", "20px");
+            var mapDiv = document.getElementById("mapIframe");
+            var iFrame = mapDiv.getElementsByTagName("iframe")[0];
+            iFrame.width = "800px";
+            iFrame.height = "500px";
+
+        });
+
+        function setRating(ratingVal) {
+           // Ajax call to HttpGet Method
+            $.ajax({
+                //base address/controller/Action
+                url: '/home/setrating',
+                type: 'GET',
+                dataType: 'json',
+                contentType: "application/json; charset=UTF-8",
+                data: {
+                    //Passing Input parameter
+                    rating: ratingVal,
+                    companyId: @Model.Company.Id
+                },
+                success: function() {
+                    
+                },
+                error: function() {
+                }
+            });
+
+        }
+        //End Star Rating From Number
+    });
+</script>

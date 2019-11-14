@@ -53,5 +53,6 @@ namespace LGS.Models.Companies
         [AllowHtml]
         public string MapLocation { get; set; }
         public virtual List<CompanyCredit> CompanyCredits { get; set; }
+        public virtual List<CompanyRating> CompanyRatings { get; set; }
     }
 }

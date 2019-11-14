@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using LGS.Data.ViewModels.DatabaseViewModels;
+using LGS.Models.Companies;
+using LGS.Models.PaypalItem;
+
 namespace LGS.Models.ViewModels.DashboardViewModels
 {
     public class DashboardViewModel
@@ -29,12 +32,11 @@ namespace LGS.Models.ViewModels.DashboardViewModels
         public UserViewModel UserVm { get; set; }
 
         #region Miscellaneous
+
         public bool IsEnable { get; set; }
         public int SubAdminUserId { get; set; }
         public int ClientUserId { get; set; }
         public HttpPostedFileBase ProfilePic { get; set; }
-
-
 
         #endregion
 
@@ -57,5 +59,21 @@ namespace LGS.Models.ViewModels.DashboardViewModels
         public string ConfirmPassword { get; set; }
 
         #endregion
+
+
+        #region Paypal Item Display ViewModel
+
+        public List<Item> Items { get; set; }
+        public decimal TotalPrice { get; set; }
+        public int LeadCount { get; set; }
+        #endregion
     }
+
+    public class CompanyViewModel
+    {
+        public IEnumerable<Company> Companies { get; set; }
+        public Company Company { get; set; }
+    }
+
+    
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LGS.Models.Users;
 
 namespace LGS.Models.Credits
 {
@@ -12,13 +13,18 @@ namespace LGS.Models.Credits
     {
         public int Id { get; set; }
         public decimal TotalCredits { get; set; }
-        public decimal LastCreditTransaction { get; set; }
-        public int LastCompanyCredited { get; set; }
+        public decimal AvailableCredits { get; set; }
+        public string TransactionId { get; set; }
+        public string InvoiceNo { get; set; }
 
 
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
         public string UserId { get; set; }
+
+        [ForeignKey("ClientId")]
+        public virtual Client Client{ get; set; }
+        public int ClientId { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]

@@ -9,6 +9,7 @@ using LGS.Models.BusinessTypes;
 using LGS.Models.Companies;
 using LGS.Models.Companies.CompanyTypes;
 using LGS.Models.Credits;
+using LGS.Models.PaypalItem;
 using LGS.Models.Users;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -25,7 +26,7 @@ namespace LGS.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<SubAdmin> SubAdmins { get; set; }
-
+        public DbSet<CompanyRating> CompanyRatings { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

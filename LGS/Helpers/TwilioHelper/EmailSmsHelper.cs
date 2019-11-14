@@ -16,7 +16,7 @@ namespace LGS.Helpers.TwilioHelper
     {
         public static async Task<Response> SendEmail(string fromEmail, string fromName, string toEmail,string toName, string subject, string htmlContent, string plainTextContent)
         {
-            var client = new SendGridClient(AppConstants.SendGuardApiKey);
+            var client = new SendGridClient(AppKeys.SendGuardApiKey);
             var from = new EmailAddress(fromEmail, fromName);
             var to = new EmailAddress(toEmail, toName);
 
@@ -31,9 +31,9 @@ namespace LGS.Helpers.TwilioHelper
         {
             try
             {
-                const string accountSid = AppConstants.TwilioAccountSid;
-                const string authToken = AppConstants.TwilioAuthToken;
-                const string phoneNumberFrom = AppConstants.TwilioFromPhoneNumber;
+                const string accountSid = AppKeys.TwilioAccountSid;
+                const string authToken = AppKeys.TwilioAuthToken;
+                const string phoneNumberFrom = AppKeys.TwilioFromPhoneNumber;
 
                 TwilioClient.Init(accountSid, authToken);
 

@@ -72,6 +72,9 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.IdentityModel.Tokens.5.1.2\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
     <Reference Include="RazorGenerator.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>packages\RazorGenerator.Mvc.2.4.2\lib\net40\RazorGenerator.Mvc.dll</HintPath>
     </Reference>
@@ -280,6 +283,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppProperties\AppConstants.cs" />
+    <Compile Include="AppProperties\AppKeys.cs" />
     <Compile Include="AppProperties\AppStrings.cs" />
     <Compile Include="AppProperties\LgsEnums.cs" />
     <Compile Include="App_Start\BundleConfig - Copy.cs" />
@@ -296,6 +300,7 @@
     <Compile Include="Controllers\Analytics\AnalyticsController.cs" />
     <Compile Include="Controllers\ApiControllers\FbWebhookController.cs" />
     <Compile Include="Controllers\Client\ClientController.cs" />
+    <Compile Include="Controllers\Error\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Sweet\SweetController.cs" />
@@ -306,6 +311,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileUploader\FileUploadHelper.cs" />
+    <Compile Include="Helpers\Invoices\InvoiceHelper.cs" />
+    <Compile Include="Helpers\PaypalConfig\PaypalConfiguration.cs" />
+    <Compile Include="Helpers\Ratings\RatingsHelper.cs" />
     <Compile Include="Helpers\TwilioHelper\EmailSmsHelper.cs" />
     <Compile Include="Helpers\UsersHelper\UserHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -904,6 +912,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cardview - Copy.css" />
     <Content Include="Content\cardview.css" />
+    <Content Include="Content\cart\delete-icn.svg" />
+    <Content Include="Content\cart\funnel-512.png" />
+    <Content Include="Content\cart\leadfunnel.png" />
+    <Content Include="Content\cart\minus.svg" />
+    <Content Include="Content\cart\plus.svg" />
+    <Content Include="Content\cart\leadcartstyle.css" />
+    <Content Include="Content\cart\twitter-heart.png" />
     <Content Include="Content\copper-loader.gif" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -928,9 +943,16 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="LgsImageRepo\apple1.jpg" />
+    <Content Include="LgsImageRepo\CompanyImages\ab.co.pk\bar-chart.png" />
+    <Content Include="LgsImageRepo\CompanyImages\ab.co.pk\cement.jpg" />
     <Content Include="LgsImageRepo\CompanyImages\companydefault.png" />
+    <Content Include="LgsImageRepo\CompanyImages\stile.co.ltd.pk\bar-chart.png" />
+    <Content Include="LgsImageRepo\CompanyImages\stile.co.ltd.pk\cement.jpg" />
+    <Content Include="LgsImageRepo\CompanyImages\stile.co.ltd.pk\MLID82461.jpg" />
+    <Content Include="LgsImageRepo\CompanyImages\tmt-steel-bars-500x500.jpg" />
+    <Content Include="LgsImageRepo\ProfileImages\client1\profilepic.jpg" />
     <Content Include="LgsImageRepo\ProfileImages\profiledefault.png" />
-    <Content Include="LgsImageRepo\ProfileImages\subadmin2\img8-14-20193-52-35.jpg" />
+    <Content Include="LgsImageRepo\ProfileImages\subadmin2\img8-14-20196-05-08.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -959,6 +981,8 @@
     <Content Include="Content\sweetalert\sweet-alert-animations.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\mixins.less" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\datetimeFormat.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1035,6 +1059,13 @@
     <Content Include="Views\Client\CompanyDetail.cshtml" />
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
     <Content Include="Views\Client\AddCompany.cshtml" />
+    <Content Include="Views\Client\FailureView.cshtml" />
+    <Content Include="Views\Client\SuccessView.cshtml" />
+    <Content Include="Views\Home\Companies.cshtml" />
+    <Content Include="Views\Error\Error404.cshtml" />
+    <Content Include="Views\Error\Error500.cshtml" />
+    <Content Include="Views\Home\CompanyDetail.cshtml" />
+    <Content Include="Views\Client\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,7 +17,6 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.profilepicture_property_added.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Update_Client_SubAdmin.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.csproj.GenerateResource.cache
-E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.csproj.CoreCompileInputs.cache
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.csproj.CopyComplete
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.pdb
@@ -35,3 +34,6 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.User_Status_Removed.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Release\Newtonsoft.Json.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\bin\Release\Newtonsoft.Json.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Add_CompanyRatings.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Added_Item_Model.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Release\LGS.Data.Migrations.Add_Changes.resources

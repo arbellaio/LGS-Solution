@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using LGS.Data.ViewModels.DatabaseViewModels;
 using LGS.Models.Companies;
+using LGS.Models.Credits;
+using LGS.Models.PaypalItem;
 using LGS.Models.RoleNames;
 using LGS.Models.Users;
 
@@ -27,16 +29,13 @@ namespace LGS.Data.Services.ClientServices
         {
             if (!string.IsNullOrEmpty(id))
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    var clientInDbWithCompaniesCredits = await context.Clients.Include(x => x.User).Include(x => x.Companies).Include(x => x.AccountCredits).Include(x => x.CreditInvoices).FirstOrDefaultAsync(x => x.AppUserId.Equals(id));
+                    var clientInDbWithCompaniesCredits = await _context.Clients.Include(x => x.User).Include(x => x.Companies).Include(x => x.AccountCredits).Include(x => x.CreditInvoices).FirstOrDefaultAsync(x => x.AppUserId.Equals(id));
                     var userVm = new UserViewModel
                     {
                         Client = clientInDbWithCompaniesCredits,
                         User = clientInDbWithCompaniesCredits?.User
                     };
                     return userVm;
-                }
             }
             return null;
         }
@@ -73,9 +72,7 @@ namespace LGS.Data.Services.ClientServices
         {
             if (companyId > 0)
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    var companyInDb = await context.Companies.Include(x => x.Client).Include(x => x.CompanyCredits)
+                    var companyInDb = await _context.Companies.Include(x => x.Client).Include(x => x.CompanyCredits)
                         .FirstOrDefaultAsync(x => x.Id.Equals(companyId));
 
                     // for getting app-user may or may not need in future depending on page view 
@@ -86,25 +83,24 @@ namespace LGS.Data.Services.ClientServices
                     }
 
                     return companyInDb;
-                }
             }
 
             return null;
         }
 
+       
+
         public async Task<bool> AddUpdateClientCompanyByCompanyId(CompanyViewModel companyViewModel)
         {
             if (companyViewModel?.Company != null)
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    var companyInDb = await context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(companyViewModel.Company.Id));
+                    var companyInDb = await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(companyViewModel.Company.Id));
                     if (companyInDb == null)
                     {
                         var company = companyViewModel.Company;
                         company.CreatedDate = DateTime.UtcNow;
                         company.UpdatedDate = DateTime.UtcNow;
-                        context.Companies.AddOrUpdate(company);
+                        _context.Companies.AddOrUpdate(company);
 
 
                     }
@@ -114,12 +110,11 @@ namespace LGS.Data.Services.ClientServices
 
                         companyInDb.UpdatedDate = DateTime.UtcNow;
                         companyInDb.CreatedDate = DateTime.UtcNow;
-                        context.Companies.AddOrUpdate(companyInDb);
+                        _context.Companies.AddOrUpdate(companyInDb);
                     }
 
-                    await context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                     return true;
-                }
             }
             return false;
         }
@@ -129,9 +124,7 @@ namespace LGS.Data.Services.ClientServices
         {
             if (id > 0)
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    var companyInDb = await context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                    var companyInDb = await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
                     if (companyInDb != null)
                     {
                         if (companyInDb.IsDeleted)
@@ -142,12 +135,11 @@ namespace LGS.Data.Services.ClientServices
                         {
                             companyInDb.IsDeleted = true;
                         }
-                        context.Companies.AddOrUpdate(companyInDb);
-                        await context.SaveChangesAsync();
+                        _context.Companies.AddOrUpdate(companyInDb);
+                        await _context.SaveChangesAsync();
                         return true;
                     }
                     return false;
-                }
             }
             return false;
         }
@@ -157,9 +149,7 @@ namespace LGS.Data.Services.ClientServices
         {
             if (id > 0)
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    var clientInDb = await context.Clients.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                    var clientInDb = await _context.Clients.FirstOrDefaultAsync(x => x.Id.Equals(id));
                     if (clientInDb != null)
                     {
                         if (clientInDb.IsDeleted)
@@ -170,12 +160,11 @@ namespace LGS.Data.Services.ClientServices
                         {
                             clientInDb.IsDeleted = true;
                         }
-                        context.Clients.AddOrUpdate(clientInDb);
-                        await context.SaveChangesAsync();
+                        _context.Clients.AddOrUpdate(clientInDb);
+                        await _context.SaveChangesAsync();
                         return true;
                     }
                     return false;
-                }
             }
             return false;
         }
@@ -189,12 +178,10 @@ namespace LGS.Data.Services.ClientServices
             Client clientInDb = null;
             if (!string.IsNullOrEmpty(id))
             {
-                using (var context = new ApplicationDbContext())
-                {
-                    var appUser = await context.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                    var appUser = await _context.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
                     if (!string.IsNullOrEmpty(userRole) && userRole.Equals(RoleName.Client))
                     {
-                        clientInDb = await context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
+                        clientInDb = await _context.Clients.FirstOrDefaultAsync(x => x.AppUserId.Equals(appUser.Id));
                     }
                   
                     var userVm = new UserViewModel
@@ -204,7 +191,6 @@ namespace LGS.Data.Services.ClientServices
                         RoleName = userRole
                     };
                     return userVm;
-                }
             }
             return null;
         }
@@ -222,6 +208,36 @@ namespace LGS.Data.Services.ClientServices
 
 
         #endregion
+
+
+        #region Purchases Invoices
+        public async Task<bool> AddInvoice(CreditInvoice creditInvoice, AccountCredit accountCredit)
+        {
+            if (creditInvoice != null && accountCredit != null)
+            {
+                 _context.AccountCredits.AddOrUpdate(accountCredit);
+                 _context.CreditInvoices.AddOrUpdate(creditInvoice);
+                 await _context.SaveChangesAsync();
+                 return true;
+            }
+
+            return false;
+        }
+
+
+        #endregion
+
+        #region Get Invoice Details
+
+        public async Task<CreditInvoice> GetInvoiceDetails(int id)
+        {
+            _context.Configuration.ProxyCreationEnabled = false;
+            var creditInvoice =  await _context.CreditInvoices.Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
+            return creditInvoice;
+        }
+
+
+        #endregion
     }
 
     public interface IClientService
@@ -234,6 +250,8 @@ namespace LGS.Data.Services.ClientServices
         Task<bool> DeleteCompany(int id);
         Task<bool> AddUpdateClientCompanyByCompanyId(CompanyViewModel companyViewModel);
         Task<Company> GetClientCompanyByCompanyId(int companyId);
+        Task<bool> AddInvoice(CreditInvoice creditInvoice, AccountCredit accountCredit);
+        Task<CreditInvoice> GetInvoiceDetails(int id);
 
     }
 }

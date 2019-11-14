@@ -1,0 +1,79 @@
+﻿@model LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Services To Buy</h3>
+
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    @using (Ajax.BeginForm("paymentwithpaypal", "client", "", new AjaxOptions {HttpMethod = "POST"}, new {enctype = "multipart/form-data", @class = "form-horizontal"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead>
+                    <tr>
+                        <th>Item No</th>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price Per Each</th>
+                        <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for (var itemIndex = 0; itemIndex < Model.Items.Count(); itemIndex++)
+                    {
+                        <tr>
+                            @Html.HiddenFor(x => Model.Items[itemIndex].sku) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].Email) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].name) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].UserId) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].currency) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].description) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].id) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].price) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].priceperitem) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].quantity) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].tax) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].url) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].CreatedDateTime) 
+                            @Html.HiddenFor(x => Model.Items[itemIndex].UpdatedDateTime) 
+                            <td>
+                                <span class="label label-info">@Model.Items[itemIndex].sku</span>
+                            </td>
+                            <td>@Model.Items[itemIndex].name</td>
+                            <td>@Model.Items[itemIndex].description</td>
+                            <td>@Model.Items[itemIndex].quantity</td>
+                            <td>
+                                $@Model.Items[itemIndex].priceperitem
+                            </td>
+                            <td>$@Model.Items[itemIndex].price</td>
+
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="submit" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</button>
+        </div>
+    }
+    <!-- /.box-footer -->
+</div>

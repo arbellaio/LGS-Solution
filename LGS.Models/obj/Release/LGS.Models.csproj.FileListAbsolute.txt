@@ -9,7 +9,6 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Releas
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Release\EntityFramework.SqlServer.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Release\Microsoft.AspNet.Identity.Core.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\bin\Release\Microsoft.AspNet.Identity.EntityFramework.xml
-E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Release\LGS.Models.csproj.CoreCompileInputs.cache
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Release\LGS.Models.csproj.CopyComplete
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Release\LGS.Models.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Models\obj\Release\LGS.Models.pdb
