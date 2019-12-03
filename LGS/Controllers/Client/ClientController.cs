@@ -11,8 +11,10 @@ using LGS.Data.Services.ClientServices;
 using LGS.Data.ViewModels.DatabaseViewModels;
 using LGS.Filters;
 using LGS.Helpers.FileUploader;
+using LGS.Helpers.IFrameGen;
 using LGS.Helpers.Invoices;
 using LGS.Helpers.PaypalConfig;
+using LGS.Models.Companies;
 using LGS.Models.Credits;
 using LGS.Models.RoleNames;
 using Microsoft.AspNet.Identity;
@@ -482,6 +484,7 @@ namespace LGS.Controllers.Client
         #endregion
 
         #region Account Invoice Details
+
         [HttpGet]
         public async Task<ActionResult> GetInvoiceDetails(int id)
         {
@@ -489,6 +492,134 @@ namespace LGS.Controllers.Client
             var creditInvoice = await Service.GetInvoiceDetails(id);
             return Json(creditInvoice, JsonRequestBehavior.AllowGet);
         }
+
         #endregion
+
+        public async Task<ActionResult> BuyServices(Models.PaypalItem.Item item)
+        {
+            var accountCredit = await Service.GetAccountCredit(item.ClientId);
+            var companyInventoryDb = await Service.GetCompanyInventory(item.CompanyId);
+            if (accountCredit != null)
+            {
+                accountCredit.AvailableCredits -= Convert.ToDecimal(item.price);
+//                var invoice = new CreditInvoice
+//                {
+//                    ClientId = item.ClientId,
+//                    CreatedDate = DateTime.UtcNow,
+//                    UpdatedDate = DateTime.UtcNow,
+//                    TransactionAmount = Convert.ToDecimal(item.price),
+//                    Description = item.description,
+//                    InvoiceNo = InvoiceHelper.GetInvoiceNumber(InvoiceHelper.GetUserNameFromEmail(item.Email)),
+//                    Currency = "Cr",
+//                    Name = item.name,
+//                    Quantity = item.quantity,
+//                    SkuCode = item.sku,
+//                    Price = item.priceperitem,
+//                    TotalPrice = item.price,
+//                    TransactionService = AppConstants.DescriptionPurchaseInternal,
+//                    TransactionId = Guid.NewGuid().ToString(),
+//                    UserId = item.UserId,
+//                };
+
+                var companyInvoice = new CompanyInvoice
+                {
+                    ClientId = item.ClientId,
+                    CompanyId = item.CompanyId,
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedDate = DateTime.UtcNow,
+                    Credits = Convert.ToDecimal(item.price),
+                    InvoiceNo = InvoiceHelper.GetInvoiceNumber(InvoiceHelper.GetUserNameFromEmail(item.Email)),
+                    ItemName = item.name,
+                    ItemQuantity = Convert.ToInt32(item.quantity),
+                    UserId = item.UserId,
+                    ItemSkuCode = item.sku,
+                };
+
+
+                if (companyInventoryDb == null)
+                {
+                    companyInventoryDb = new CompanyInventory()
+                    {
+                        CompanyId = item.CompanyId,
+                        CreatedDate = DateTime.UtcNow,
+                        UpdatedDate = DateTime.UtcNow,
+                        ItemName = item.name,
+                        TotalItemBought = Convert.ToInt32(item.quantity),
+                        RemainingItems = Convert.ToInt32(item.quantity),
+                        UserId = item.UserId,
+                        ItemSkuCode = item.sku,
+                    };
+                }
+                else
+                {
+                    companyInventoryDb.CompanyId = item.CompanyId;
+                    companyInventoryDb.CreatedDate = DateTime.UtcNow;
+                    companyInventoryDb.UpdatedDate = DateTime.UtcNow;
+                    companyInventoryDb.ItemName = item.name;
+                    companyInventoryDb.TotalItemBought = Convert.ToInt32(item.quantity);
+                    companyInventoryDb.RemainingItems = Convert.ToInt32(item.quantity);
+                    companyInventoryDb.UserId = item.UserId;
+                    companyInventoryDb.ItemSkuCode = item.sku;
+                }
+
+
+                await Service.AddCompanyPurchase(accountCredit, companyInvoice, companyInventoryDb);
+                return RedirectToAction("companydetail", "client",
+                    new {id = item.CompanyId, clientId = item.ClientId});
+            }
+
+            return null;
+        }
+
+        public async Task SetSettings(CompanyViewModel companyViewModel)
+        {
+            if (companyViewModel != null && companyViewModel.CompanyId > 0)
+            {
+                var company = new Company
+                {
+                    DeliveryInterval = companyViewModel.RadioInterval,
+                    LeadLimit = companyViewModel.LeadQuantity,
+                    NotificationMode = companyViewModel.RadioNotification,
+                    Id = companyViewModel.CompanyId,
+                };
+                var isSaved = await Service.SaveCompanySettings(company);
+                if (isSaved)
+                {
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.SavedSettings;
+                    return;
+//                    return RedirectToAction("companydetail", "client",new {id = companyViewModel.CompanyId, clientId = companyViewModel.ClientId});
+                }
+
+                TempData[AppConstants.AlertDialog] = LgsAlertEnums.SaveSettingsFailed;
+//                return RedirectToAction("companydetail", "client",
+//                    new {id = companyViewModel.CompanyId, clientId = companyViewModel.ClientId});
+            }
+
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.SaveSettingsFailed;
+//            return RedirectToAction("companydetail", "client",
+//                new {id = companyViewModel.CompanyId, clientId = companyViewModel.ClientId});
+        }
+
+        public async Task<JsonResult> GetCustomerReviews(string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                var reviews = await Service.GetCustomerReviews(email);
+                return Json(reviews, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
+
+        public async Task<JsonResult> GetCustomerMessages(int id)
+        {
+            if (id > 0)
+            {
+                var message = await Service.GetCustomerMessage(id);
+                var mapLocation = FrameGenerator.GenerateIFrame(message.AddressOneUnit + " " + message.AddressTwoStreet + " "+ message.AddressThreeLocality);
+                message.MapLocation = mapLocation;
+                return Json(message, JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
     }
 }

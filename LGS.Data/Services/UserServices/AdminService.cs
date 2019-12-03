@@ -306,7 +306,7 @@ namespace LGS.Data.Services.UserServices
 //                        select new { client, companies, accountCredits, creditInvoices }).ToList();
 
                 var clientInDbWithCompaniesCredits = await _context.Clients.Include(x => x.User)
-                    .Include(x => x.Companies).Include(x => x.AccountCredits).Include(x => x.CreditInvoices)
+                    .Include(x => x.Companies).Include(x => x.AccountCredit).Include(x => x.CreditInvoices)
                     .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
 //                    var clientInDb = await context.Clients.Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
@@ -353,7 +353,7 @@ namespace LGS.Data.Services.UserServices
         {
             if (companyId > 0)
             {
-                var companyInDb = await _context.Companies.Include(x => x.Client).Include(x => x.CompanyCredits)
+                var companyInDb = await _context.Companies.Include(x => x.Client).Include(x => x.CompanyInvoices)
                     .FirstOrDefaultAsync(x => x.Id.Equals(companyId));
 
                 // for getting app-user may or may not need in future depending on page view 

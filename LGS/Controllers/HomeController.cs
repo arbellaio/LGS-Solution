@@ -11,7 +11,9 @@ using LGS.Data.Services.HomeServices;
 using LGS.Data.Services.UserServices;
 using LGS.Data.ViewModels.DatabaseViewModels;
 using LGS.Helpers.Ratings;
+using LGS.Models.Communication;
 using LGS.Models.RoleNames;
+using LGS.Models.Users;
 using CompanyViewModel = LGS.Models.ViewModels.DashboardViewModels.CompanyViewModel;
 
 namespace LGS.Controllers
@@ -72,6 +74,10 @@ namespace LGS.Controllers
 
         public async Task<ActionResult> Companies()
         {
+            if (TempData[AppConstants.AlertDialog] == null)
+                TempData[AppConstants.AlertDialog] = 0;
+            ViewBag.AlertDialog = (int)TempData[AppConstants.AlertDialog];
+
             var companies = await Service.GetAllCompanies();
             var companyViewModel = new CompanyViewModel
             {
@@ -82,6 +88,10 @@ namespace LGS.Controllers
 
         public async Task<ActionResult> CompanyDetail(int id)
         {
+            if (TempData[AppConstants.AlertDialog] == null)
+                TempData[AppConstants.AlertDialog] = 0;
+            ViewBag.AlertDialog = (int)TempData[AppConstants.AlertDialog];
+
             if (id > 0)
             {
                 var companyInDb = await Service.GetCompanyDetailByCompanyId(id);
@@ -94,7 +104,7 @@ namespace LGS.Controllers
                         Company = companyInDb,
                         
                     };
-
+                    ViewData["Reviews"] = companyInDb.CustomerReviews.ToArray();
                     return View(companyDetailViewModel);
                 }
 
@@ -107,6 +117,84 @@ namespace LGS.Controllers
         public async Task SetRating(float rating, int companyId)
         {
             await Service.SetCompanyRating(rating, companyId);
-        } 
+        }
+
+
+        public async Task<ActionResult> SendMessage(CompanyViewModel companyViewModel)
+        {
+            if (companyViewModel != null && companyViewModel.Customer != null && companyViewModel.CompanyId != 0 && companyViewModel.CustomerMessage != null)
+            {
+                var customer = new Customer
+                {
+                    AddressOneUnit = companyViewModel.Customer.AddressOneUnit,
+                    AddressThreeLocality = companyViewModel.Customer.AddressThreeLocality,
+                    AddressTwoStreet = companyViewModel.Customer.AddressTwoStreet,
+                    Email = companyViewModel.Customer.Email,
+                    FullName = companyViewModel.Customer.FullName,
+                    PhoneNumber = companyViewModel.Customer.PhoneNumber,
+                    PostalCode = companyViewModel.Customer.PostalCode,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                    CompanyId = companyViewModel.CompanyId,
+
+                };
+                var customerMessage = new CustomerMessage
+                {
+                    CustomerEmail  = companyViewModel.Customer.Email,
+                    CustomerFullName  = companyViewModel.Customer.FullName,
+                    CompanyId = companyViewModel.CompanyId,
+                    CustomerPhoneNumber = companyViewModel.Customer.PhoneNumber,
+                    Message = companyViewModel.CustomerMessage.Message,
+                    AddressOneUnit = companyViewModel.Customer.AddressOneUnit,
+                    AddressThreeLocality = companyViewModel.Customer.AddressThreeLocality,
+                    AddressTwoStreet = companyViewModel.Customer.AddressTwoStreet,
+                    PostalCode = companyViewModel.Customer.PostalCode,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                    
+                };
+                var isSendMessage = await Service.SendMessage(customer,customerMessage);
+                if (isSendMessage)
+                {
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.MessageSent;
+                    return RedirectToAction("companies");
+                }
+                TempData[AppConstants.AlertDialog] = LgsAlertEnums.MessageSentFailed;
+                return RedirectToAction("companies");
+            }
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.MessageSentFailed;
+            return RedirectToAction("companies");
+        }
+
+        public async Task<ActionResult> PostReview(CompanyViewModel companyViewModel)
+        {
+            if (companyViewModel != null && companyViewModel.CustomerReview != null)
+            {
+                var newCustomer = new Customer
+                {
+                    FullName = companyViewModel.CustomerReview.CustomerName,
+                    AddressOneUnit = companyViewModel.CustomerReview.CustomerAddress,
+                    AddressTwoStreet = companyViewModel.CustomerReview.CustomerAddress,
+                    AddressThreeLocality = companyViewModel.CustomerReview.CustomerAddress,
+                    CompanyId = companyViewModel.CustomerReview.CompanyId,
+                    PhoneNumber = companyViewModel.CustomerReview.CustomerPhoneNumber,
+                    Email = companyViewModel.CustomerReview.CustomerEmail,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now,
+                };
+                companyViewModel.CustomerReview.CreatedDate = DateTime.Now;
+                companyViewModel.CustomerReview.UpdatedDate = DateTime.Now;
+                var IsSaved = await Service.SendReview(newCustomer, companyViewModel.CustomerReview);
+                if (IsSaved)
+                {
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.ReviewSaved;
+                    return RedirectToAction("companydetail", "home", new { id = companyViewModel.CustomerReview.CompanyId });
+                }
+                TempData[AppConstants.AlertDialog] = LgsAlertEnums.ReviewSaveFailed;
+                return RedirectToAction("companydetail", "home", new { id = companyViewModel.CustomerReview.CompanyId });
+            }
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.ReviewSaveFailed;
+            return RedirectToAction("companies");
+        }
     }
 }

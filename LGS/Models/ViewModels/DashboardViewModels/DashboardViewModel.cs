@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using LGS.Data.ViewModels.DatabaseViewModels;
+using LGS.Models.Communication;
 using LGS.Models.Companies;
 using LGS.Models.PaypalItem;
+using LGS.Models.Users;
 
 namespace LGS.Models.ViewModels.DashboardViewModels
 {
@@ -73,6 +75,10 @@ namespace LGS.Models.ViewModels.DashboardViewModels
     {
         public IEnumerable<Company> Companies { get; set; }
         public Company Company { get; set; }
+        public Customer Customer { get; set; }
+        public CustomerMessage CustomerMessage { get; set; }
+        public CustomerReview CustomerReview { get; set; }
+        public int CompanyId { get; set; }
     }
 
     

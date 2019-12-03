@@ -146,3 +146,5 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Ht
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\System.Web.Http.WebHost.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\PayPal.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\PayPal.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Nancy.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Nancy.xml

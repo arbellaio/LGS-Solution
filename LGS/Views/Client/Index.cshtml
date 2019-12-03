@@ -81,7 +81,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Account Transactions</a>
     </li>
     <li class="">
-        <a href="#buy-products" data-toggle="tab" aria-expanded="false">Buy Services</a>
+        <a href="#buy-products" data-toggle="tab" aria-expanded="false">Buy Credits</a>
     </li>
     @* <li class=""> *@
     @*     <a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a> *@
@@ -108,68 +108,72 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                 <b>No companies registered against this user.</b>
             </p>
         }
-        @foreach (var company in Model.UserVm.Client.Companies)
+        else
         {
-                                @*             <a href="@Url.Action("CompanyDetail","Admin",new { id = company.Id,clientId =company.Client.Id })"> *@
-            <div id="@company.Id" class="col-md-5" style="cursor: pointer">
-                <a href="/client/companydetail/@company.Id?clientId=@company.Client.Id">
+            foreach (var company in Model.UserVm.Client.Companies)
+            {
+                @*             <a href="@Url.Action("CompanyDetail","Admin",new { id = company.Id,clientId =company.Client.Id })"> *@
+                <div id="@company.Id" class="col-md-5" style="cursor: pointer">
+                    <a href="/client/companydetail/@company.Id?clientId=@company.Client.Id">
 
-                    <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
+                        <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
 
-                        <div class="box-body box-profile">
-                            @if (string.IsNullOrEmpty(company.LogoPath))
-                            {
-                                <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
-                            }
-                            else
-                            {
-                                var absolutePath = HttpContext.Current.Server.MapPath("~/" + company.LogoPath);
-                                if (!@System.IO.File.Exists(absolutePath))
+                            <div class="box-body box-profile">
+                                @if (string.IsNullOrEmpty(company.LogoPath))
                                 {
                                     <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
                                 }
                                 else
                                 {
-                                    <img class="profile-user-img img-responsive img-circle" src="@company.LogoPath" alt="User profile picture">
-                                }
-                            }
-                            @Html.Hidden("UserId", "", new {@id = "userId"})
-                            <h3 class="profile-username text-center">@company.CompanyName</h3>
-                            <p class="text-muted text-center">@company.MainDescription</p>
-
-                            <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
-                                    <b style="color: black">Email Address :</b>
-                                    <p class="text-muted pull-right">@company.CompanyEmail</p>
-                                </li>
-                                <li class="list-group-item">
-                                    <b style="color: black">Created Date :</b>
-                                    <p class="text-muted pull-right">@company.CreatedDate.ToShortDateString()</p>
-                                </li>
-                                <li class="list-group-item">
-                                    <b style="color: black">Company Status :</b>
-                                    @if (company.IsBlocked)
+                                    var absolutePath = HttpContext.Current.Server.MapPath("~/" + company.LogoPath);
+                                    if (!@System.IO.File.Exists(absolutePath))
                                     {
-                                        <p class="text-muted pull-right">Blocked / Inactive</p>
+                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
                                     }
                                     else
                                     {
-                                        <p class="text-muted pull-right">Active</p>
+                                        <img class="profile-user-img img-responsive img-circle" src="@company.LogoPath" alt="User profile picture">
                                     }
-                                </li>
-                            </ul>
+                                }
+                                @Html.Hidden("UserId", "", new { @id = "userId" })
+                                <h3 class="profile-username text-center">@company.CompanyName</h3>
+                                <p class="text-muted text-center">@company.MainDescription</p>
+
+                                <ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <b style="color: black">Email Address :</b>
+                                        <p class="text-muted pull-right">@company.CompanyEmail</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b style="color: black">Created Date :</b>
+                                        <p class="text-muted pull-right">@company.CreatedDate.ToShortDateString()</p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b style="color: black">Company Status :</b>
+                                        @if (company.IsBlocked)
+                                        {
+                                            <p class="text-muted pull-right">Blocked / Inactive</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted pull-right">Active</p>
+                                        }
+                                    </li>
+                                </ul>
 
 
-                            @* <a href="#" class="btn btn-primary btn-block"> *@
-                            @*     <b>Follow</b> *@
-                            @* </a> *@
+                                @* <a href="#" class="btn btn-primary btn-block"> *@
+                                @*     <b>Follow</b> *@
+                                @* </a> *@
+                            </div>
+                            <!-- /.box-body -->
                         </div>
-                        <!-- /.box-body -->
-                    </div>
-                </a>
+                    </a>
 
-            </div>
+                </div>
+            }
         }
+
     </div>
     <!-- /.post -->
 </div>
@@ -177,39 +181,41 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 <div class="tab-pane" id="timeline">
     <!-- The timeline -->
     <ul class="timeline timeline-inverse">
-        @{
-            Model.UserVm.Client.CreditInvoices.Reverse();
-        }
 
-        @foreach (var creditInvoice in @Model.UserVm.Client.CreditInvoices)
+        @if (@Model.UserVm.Client.CreditInvoices != null && @Model.UserVm.Client.CreditInvoices.Any())
         {
-            <!-- timeline time label -->
-            <li class="time-label">
-                <span class="timeLabel" id="timeLabel">
-                    @creditInvoice.CreatedDate.ToShortDateString()
-                </span>
-            </li>
-            <!-- /.timeline-label -->
-            <!-- timeline item -->
-            <li>
-                <i class="fa fa-money" id="moneySymbol"></i>
+            Model.UserVm.Client.CreditInvoices.Reverse();
+            foreach (var creditInvoice in @Model.UserVm.Client.CreditInvoices)
+            {
+                <!-- timeline time label -->
+                <li class="time-label">
+                    <span class="timeLabel" id="timeLabel">
+                        @creditInvoice.CreatedDate.ToShortDateString()
+                    </span>
+                </li>
+                <!-- /.timeline-label -->
+                <!-- timeline item -->
+                <li>
+                    <i class="fa fa-money" id="moneySymbol"></i>
 
-                <div class="timeline-item">
-                    <span class="time">
-                        <i class="fa fa-clock-o"></i> @creditInvoice.CreatedDate.ToShortTimeString()</span>
+                    <div class="timeline-item">
+                        <span class="time">
+                            <i class="fa fa-clock-o"></i> @creditInvoice.CreatedDate.ToShortTimeString()</span>
 
-                    <h3 class="timeline-header"><a href="#">@Model.UserVm.User.FullName</a> transaction record</h3>
+                        <h3 class="timeline-header"><a href="#">@Model.UserVm.User.FullName</a> transaction record</h3>
 
-                    <div class="timeline-body">
-                        @creditInvoice.Description
+                        <div class="timeline-body">
+                            @creditInvoice.Description
+                        </div>
+                        <div class="timeline-footer">
+                            <a class="btn btn-primary btn-xs" id="@creditInvoice.Id" data-toggle="modal" data-target="#modal-info">View Details</a>
+                            @* <a class="btn btn-danger btn-xs">Hide</a> *@
+                        </div>
                     </div>
-                    <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs" id="@creditInvoice.Id" data-toggle="modal" data-target="#modal-info">View Details</a>
-                        @* <a class="btn btn-danger btn-xs">Hide</a> *@
-                    </div>
-                </div>
-            </li>
+                </li>
+            }
         }
+
 
 
         <li>
@@ -241,26 +247,26 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 
                     <div class="box box-solid">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Buy Credits</h3>
+                            <h3 class="box-title">Buy Leads</h3>
                         </div>
 
                         <!-- /.box-header -->
                         <div class="box-body">
                             <!-- Product #1 -->
-                            <div class="item">
+                            <div class="cartitem">
                                 <div class="buttons">
                                     <!-- <span class="delete-btn"></span>
                                     <span class="like-btn"></span> -->
                                 </div>
 
                                 <div class="image">
-                                    <img src="/Content/cart/leadfunnel.png" alt=""/>
+                                    <img src="/Content/cart/coin.png" alt=""/>
                                 </div>
 
                                 <div class="description">
                                     <input hidden readonly="readonly" style="border: none" type="text" name="Item.name" value="Credits">
-                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.description" value="In-house currency (Credits) to Buy Services">
-                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.sku" value="ITM - LGS - Crdits-001">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.description" value="In-House-Currency (Credits) to Buy Services">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.sku" value="ITM-LGS-Crdits-001">
                                     <input hidden readonly="readonly" style="border: none" type="text" name="Item.UserId" value="@Model.UserVm.User.Id">
                                     <input hidden readonly="readonly" style="border: none" type="text" name="Item.Email" value="@Model.UserVm.User.Email">
                                     <input hidden readonly="readonly" style="border: none" type="text" name="Item.ClientId" value="@Model.UserVm.Client.Id">

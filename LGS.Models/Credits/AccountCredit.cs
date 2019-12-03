@@ -22,8 +22,7 @@ namespace LGS.Models.Credits
         public virtual ApplicationUser User { get; set; }
         public string UserId { get; set; }
 
-        [ForeignKey("ClientId")]
-        public virtual Client Client{ get; set; }
+        
         public int ClientId { get; set; }
 
         [DataType(DataType.Date)]

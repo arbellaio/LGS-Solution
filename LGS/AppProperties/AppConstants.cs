@@ -22,6 +22,7 @@ namespace LGS.AppProperties
         public const string PayerPaymentMethod = "PayPal";
         public const string Approved = "approved";
         public const string DescriptionPurchase = "LGS Purchase";
+        public const string DescriptionPurchaseInternal = "LGS Purchase Internal";
 
 
 

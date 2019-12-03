@@ -19,7 +19,7 @@ namespace LGS.Helpers.Invoices
             var dayofYear = DateTime.UtcNow.DayOfYear.ToString("000");
             var time = DateTime.UtcNow.ToString("HHmmss");
 
-            return userName + year + dayofYear + time;
+            return userName+"-"+year+dayofYear+time;
         }
 
         public static string GetStringItemsSum(List<Item> items)

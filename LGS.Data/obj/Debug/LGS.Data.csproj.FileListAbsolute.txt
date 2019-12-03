@@ -42,3 +42,14 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LG
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Changes_In_CreditInvoice_Model_Removed_Item_Model.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Changes_In_CreditInvoice_Currency.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Client_Id_ForeignKey.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.AccountCredit_Single.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.AccountCredit_Changes.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Company_Invoice_Items_CompanyCredit.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Company_Inventory.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_New_Columns_Delivery_Notification_LeadLimit.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_New_Columns_Delivery_Notification_LeadLimitUpdate.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Customer_Message_Review_Properties_Update_Customer.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_CreatedDate_UpdatedDate_In_CustomerMessage_CustomerReview.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_ForeignKey_Customer_Message_Review.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Properties_Reviews_Table.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Properties_Customer_Messages.resources

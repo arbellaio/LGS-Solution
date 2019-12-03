@@ -141,6 +141,50 @@
     <Compile Include="Migrations\201911101817127_Added_Client_Id_ForeignKey.Designer.cs">
       <DependentUpon>201911101817127_Added_Client_Id_ForeignKey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911192123128_AccountCredit_Single.cs" />
+    <Compile Include="Migrations\201911192123128_AccountCredit_Single.Designer.cs">
+      <DependentUpon>201911192123128_AccountCredit_Single.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911192124375_AccountCredit_Changes.cs" />
+    <Compile Include="Migrations\201911192124375_AccountCredit_Changes.Designer.cs">
+      <DependentUpon>201911192124375_AccountCredit_Changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911231000484_Company_Invoice_Items_CompanyCredit.cs" />
+    <Compile Include="Migrations\201911231000484_Company_Invoice_Items_CompanyCredit.Designer.cs">
+      <DependentUpon>201911231000484_Company_Invoice_Items_CompanyCredit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911231047020_Added_Company_Inventory.cs" />
+    <Compile Include="Migrations\201911231047020_Added_Company_Inventory.Designer.cs">
+      <DependentUpon>201911231047020_Added_Company_Inventory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911232026105_Added_New_Columns_Delivery_Notification_LeadLimit.cs" />
+    <Compile Include="Migrations\201911232026105_Added_New_Columns_Delivery_Notification_LeadLimit.Designer.cs">
+      <DependentUpon>201911232026105_Added_New_Columns_Delivery_Notification_LeadLimit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911232052147_Added_New_Columns_Delivery_Notification_LeadLimitUpdate.cs" />
+    <Compile Include="Migrations\201911232052147_Added_New_Columns_Delivery_Notification_LeadLimitUpdate.Designer.cs">
+      <DependentUpon>201911232052147_Added_New_Columns_Delivery_Notification_LeadLimitUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911302018206_Added_Customer_Message_Review_Properties_Update_Customer.cs" />
+    <Compile Include="Migrations\201911302018206_Added_Customer_Message_Review_Properties_Update_Customer.Designer.cs">
+      <DependentUpon>201911302018206_Added_Customer_Message_Review_Properties_Update_Customer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911302230287_Added_CreatedDate_UpdatedDate_In_CustomerMessage_CustomerReview.cs" />
+    <Compile Include="Migrations\201911302230287_Added_CreatedDate_UpdatedDate_In_CustomerMessage_CustomerReview.Designer.cs">
+      <DependentUpon>201911302230287_Added_CreatedDate_UpdatedDate_In_CustomerMessage_CustomerReview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912010357193_Added_ForeignKey_Customer_Message_Review.cs" />
+    <Compile Include="Migrations\201912010357193_Added_ForeignKey_Customer_Message_Review.Designer.cs">
+      <DependentUpon>201912010357193_Added_ForeignKey_Customer_Message_Review.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912010902435_Added_Properties_Reviews_Table.cs" />
+    <Compile Include="Migrations\201912010902435_Added_Properties_Reviews_Table.Designer.cs">
+      <DependentUpon>201912010902435_Added_Properties_Reviews_Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912011833362_Added_Properties_Customer_Messages.cs" />
+    <Compile Include="Migrations\201912011833362_Added_Properties_Customer_Messages.Designer.cs">
+      <DependentUpon>201912011833362_Added_Properties_Customer_Messages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientServices\ClientService.cs" />
@@ -223,6 +267,39 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911101817127_Added_Client_Id_ForeignKey.resx">
       <DependentUpon>201911101817127_Added_Client_Id_ForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911192123128_AccountCredit_Single.resx">
+      <DependentUpon>201911192123128_AccountCredit_Single.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911192124375_AccountCredit_Changes.resx">
+      <DependentUpon>201911192124375_AccountCredit_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911231000484_Company_Invoice_Items_CompanyCredit.resx">
+      <DependentUpon>201911231000484_Company_Invoice_Items_CompanyCredit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911231047020_Added_Company_Inventory.resx">
+      <DependentUpon>201911231047020_Added_Company_Inventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911232026105_Added_New_Columns_Delivery_Notification_LeadLimit.resx">
+      <DependentUpon>201911232026105_Added_New_Columns_Delivery_Notification_LeadLimit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911232052147_Added_New_Columns_Delivery_Notification_LeadLimitUpdate.resx">
+      <DependentUpon>201911232052147_Added_New_Columns_Delivery_Notification_LeadLimitUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911302018206_Added_Customer_Message_Review_Properties_Update_Customer.resx">
+      <DependentUpon>201911302018206_Added_Customer_Message_Review_Properties_Update_Customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911302230287_Added_CreatedDate_UpdatedDate_In_CustomerMessage_CustomerReview.resx">
+      <DependentUpon>201911302230287_Added_CreatedDate_UpdatedDate_In_CustomerMessage_CustomerReview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912010357193_Added_ForeignKey_Customer_Message_Review.resx">
+      <DependentUpon>201912010357193_Added_ForeignKey_Customer_Message_Review.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912010902435_Added_Properties_Reviews_Table.resx">
+      <DependentUpon>201912010902435_Added_Properties_Reviews_Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912011833362_Added_Properties_Customer_Messages.resx">
+      <DependentUpon>201912011833362_Added_Properties_Customer_Messages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

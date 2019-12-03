@@ -1969,9 +1969,10 @@ a:focus {
 .chat .item > .offline {
   border: 2px solid #dd4b39;
 }
+    /* Orignally -40px margin top */
 .chat .item > .message {
   margin-left: 55px;
-  margin-top: -40px;
+  margin-top: -35px;
 }
 .chat .item > .message > .name {
   display: block;

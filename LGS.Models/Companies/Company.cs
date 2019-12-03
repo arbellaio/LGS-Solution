@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using LGS.Models.Communication;
 using LGS.Models.Credits;
 using LGS.Models.Users;
 
@@ -52,7 +53,22 @@ namespace LGS.Models.Companies
 
         [AllowHtml]
         public string MapLocation { get; set; }
-        public virtual List<CompanyCredit> CompanyCredits { get; set; }
+
+       
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime CreditUseDateTime { get; set; }
+
+        public int DeliveryInterval { get; set; }
+        public int NotificationMode { get; set; }
+        public int LeadLimit { get; set; }
+
+        public virtual List<CompanyInvoice> CompanyInvoices { get; set; }
         public virtual List<CompanyRating> CompanyRatings { get; set; }
+        public virtual List<CompanyInventory> CompanyInventories { get; set; }
+
+        public virtual List<CustomerReview> CustomerReviews { get; set; }
+        public virtual List<CustomerMessage> CustomerMessages { get; set; }
     }
 }

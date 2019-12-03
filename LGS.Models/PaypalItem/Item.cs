@@ -23,5 +23,6 @@ namespace LGS.Models.PaypalItem
         public DateTime CreatedDateTime { get; set; }
         public DateTime UpdatedDateTime { get; set; }
         public string Email { get; set; }
+        public int CompanyId{ get; set; }
     }
 }

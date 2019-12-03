@@ -1,4 +1,6 @@
-﻿@using LGS.AppProperties
+﻿@using System.Diagnostics.Eventing.Reader
+@using LGS.AppProperties
+@using LGS.Models.Communication
 @model LGS.Data.ViewModels.DatabaseViewModels.CompanyViewModel
 @{
     ViewBag.Title = "CompanyDetail";
@@ -8,6 +10,8 @@
 @Styles.Render("~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css")
 @Styles.Render("~/admin-lte/ckeditor/skins/moono-lisa/dialog.css")
 @Styles.Render("~/admin-lte/ckeditor/skins/moono-lisa/editor.css")
+@Styles.Render("~/Content/cart/leadcartstyle.css")
+
 
 <section class="content">
 
@@ -67,6 +71,24 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4><i class="icon fa fa-ban"></i> Alert!</h4>
         <strong>Failure! </strong> Something is wrong with information you entered.
+    </div>
+}
+
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SavedSettings))
+{
+    <div id="alert" class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> Settings Saved.
+    </div>
+}
+
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
+{
+    <div id="alert" class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+        <strong>Warning! </strong> Settings Save Failed.
     </div>
 }
 
@@ -130,70 +152,41 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         <!-- /.box-body -->
     </div>
     <!-- /.box -->
-    <!-- About Me Box -->
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">About Me</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
 
-            <p class="text-muted">
-                B.S. in Computer Science from the University of Tennessee at Knoxville
-            </p>
-
-            <hr>
-
-            <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-
-            <p class="text-muted">Malibu, California</p>
-
-            <hr>
-
-            <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-            <p>
-                <span class="label label-danger">UI Design</span>
-                <span class="label label-success">Coding</span>
-                <span class="label label-info">Javascript</span>
-                <span class="label label-warning">PHP</span>
-                <span class="label label-primary">Node.js</span>
-            </p>
-
-            <hr>
-
-            <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-        </div>
-        <!-- /.box-body -->
-    </div>
-    <!-- /.box -->
 </div>
 <!-- /.col -->
 <div class="col-md-9">
 <div class="nav-tabs-custom">
 <ul class="nav nav-tabs">
     <li class="active">
-        <a href="#activity" data-toggle="tab" aria-expanded="true">Company Profile</a>
+        <a href="#activity" data-toggle="tab" aria-expanded="true">Co. Profile</a>
     </li>
-
-
-    @* Company Edit Page *@
-    <li class="">
-        <a href="#settings" data-toggle="tab" aria-expanded="false">Company Edit Page</a>
-    </li>
-
-    @* Company Edit Page *@
-
 
     <li class="">
-        <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Company Settings</a>
+        <a href="#settings" data-toggle="tab" aria-expanded="false">Edit Co. Profile</a>
     </li>
 
+    <li class="">
+        <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Settings</a>
+    </li>
+    
+    <li class="">
+        <a href="#messages" id="messagesTab" data-toggle="tab" aria-expanded="false">Messages</a>
+    </li>
 
+    <li class="">
+        <a href="#transactions" id="transactionsTab" data-toggle="tab" aria-expanded="false">Transactions</a>
+    </li>
+
+    <li class="">
+        <a href="#services" id="servicesTab" data-toggle="tab" aria-expanded="false">Buy Services</a>
+    </li>
+
+    <li class="">
+        <a href="#reviews" id="reviewsTab" data-toggle="tab" aria-expanded="false">Reviews</a>
+    </li>
 </ul>
+
 <div class="tab-content">
 <div class="tab-pane active" id="activity">
     <!-- Post -->
@@ -292,91 +285,8 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
     <!-- /.post -->
 </div>
 <!-- /.tab-pane -->
-<div class="tab-pane" id="timeline">
-    <div class="box-body">
-        <div class="row">
-            <div class="row margin">
-                <div class="box box-solid">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Settings</h3>
-                    </div>
 
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <div>
-                            <h4>Select mode settings for notification</h4>
-                            <label class="radiocontainer">
-                                <h4>
-                                    None
-                                    <input type="radio" checked="checked" name="radio">
-                                </h4>
-                            </label>
-                            <label class="radiocontainer">
-                                <h4>
-                                    SMS
-                                    <input type="radio" name="radio">
-                                </h4>
-                            </label>
-                            <label class="radiocontainer">
-                                <h4>
-                                    Email
-                                    <input type="radio" name="radio">
-                                </h4>
-                            </label>
-                            <label class="radiocontainer">
-                                <h4>
-                                    SMS & Email
-                                    <input type="radio" name="radio">
-                                </h4>
-                            </label>
-                        </div>
-                        <br/>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h4>No. of leads available : 3</h4>
-                            </div>
-                            <div class="col-md-3 pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-warning">Lead Deliver Cycle</button>
-                                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>
-                                            <a href="#">Weekly</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Monthly</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h4>Set Lead Limit :</h4>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="plus-btn buttoncart" type="button" name="button">
-                                    <img src="/Content/cart/plus.svg" alt="" />
-                                </button>
-                                <input type="text" readonly="readonly" name="Item.quantity" value="1">
-                                <button class="minus-btn buttoncart" type="button" name="button">
-                                    <img src="/Content/cart/minus.svg" alt="" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.tab-pane -->
-@* Edit Company Page Tab *@
+
 <div class="tab-pane" id="settings">
     <div class="box-body">
         @using (Ajax.BeginForm("CompanyDetailUpdate", "Admin", new AjaxOptions {HttpMethod = "POST"}, new {enctype = "multipart/form-data"}))
@@ -520,6 +430,400 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
     </div>
 </div>
 <!-- /.tab-pane -->
+
+<div class="tab-pane" id="timeline">
+    <div class="box-body">
+        <div class="row">
+            <div class="row margin">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Settings</h3>
+                    </div>
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h4>No. of Credits available : <span id="creditLimit">@Model.UserViewModel.Client.AccountCredit.AvailableCredits</span></h4>
+                            </div>
+                            <div class="col-md-5 pull-right">
+                                @if (@Model.Company.CompanyInventories != null)
+                                {
+                                    <h4>No. of Leads available : <span id="leadLimit">@Model.Company.CompanyInventories.FirstOrDefault(x => x.ItemSkuCode.Equals("ITM-LGS-Leads-002")).RemainingItems</span></h4>
+                                }
+                                else
+                                {
+                                    <h4>No. of Leads available : <span id="leadLimit">0</span></h4>
+                                }
+                            </div>
+                        </div>
+                        <br/>
+                        <hr/>
+                        <div>
+                            <h4>Select mode settings for notification</h4>
+                            <label class="radiocontainer">
+                                <h4>
+                                    None
+                                    <input id="none" type="radio" checked="checked" name="RadioNotification" value="0">
+                                </h4>
+                            </label>
+                            <label class="radiocontainer">
+                                <h4>
+                                    SMS
+                                    <input id="sms" type="radio" name="RadioNotification" value="1">
+                                </h4>
+                            </label>
+                            <label class="radiocontainer">
+                                <h4>
+                                    Email
+                                    <input id="email" type="radio" name="RadioNotification" value="2">
+                                </h4>
+                            </label>
+                            <label class="radiocontainer">
+                                <h4>
+                                    SMS & Email
+                                    <input id="smsEmail" type="radio" name="RadioNotification" value="3">
+                                </h4>
+                            </label>
+                        </div>
+                        <br/>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h4>Set Lead delivery interval</h4>
+                                <div class="">
+                                    <label class="radiocontainer">
+                                        <h4>
+                                            Weekly
+                                            <input id="weekly" checked="checked" type="radio" name="RadioInterval" value="0">
+                                        </h4>
+                                    </label>
+                                    <label class="radiocontainer">
+                                        <h4>
+                                            Monthly
+                                            <input id="monthly" type="radio" name="RadioInterval" value="1">
+                                        </h4>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4>Set Lead Limit :</h4>
+                            </div>
+                            <div class="col-md-5">
+                                <button class="plus-btn buttoncart" type="button" name="button">
+                                    <img src="/Content/cart/plus.svg" alt=""/>
+                                </button>
+                                <input type="text" readonly="readonly" name="LeadQuantity" id="LeadQuantity" value="@Model.Company.LeadLimit">
+                                <button class="minus-btn buttoncart" type="button" name="button">
+                                    <img src="/Content/cart/minus.svg" alt=""/>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 pull-right">
+                                <button class="btn btn-warning" id="btnPost" type="submit">Save Settings</button>
+                            </div>
+                        </div>
+                        <br/>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /.tab-pane -->
+
+
+<div class="tab-pane" id="transactions">
+    <ul class="timeline timeline-inverse">
+        @if (@Model.Company.CompanyInvoices != null && @Model.Company.CompanyInvoices.Any())
+        {
+            Model.Company.CompanyInvoices.Reverse();
+            foreach (var creditInvoice in @Model.Company.CompanyInvoices)
+            {
+                <li class="time-label">
+                    <span class="timeLabel" id="timeLabel">
+                        @creditInvoice.CreatedDate.ToShortDateString()
+                    </span>
+                </li>
+                <li>
+                    <i class="fa fa-money" id="moneySymbol"></i>
+
+                    <div class="timeline-item">
+                        <span class="time">
+                            <i class="fa fa-clock-o"></i> @creditInvoice.CreatedDate.ToShortTimeString()
+                        </span>
+
+                        <h3 class="timeline-header"><a href="#">@Model.UserViewModel.User.FullName</a> transaction record</h3>
+
+                        <div class="timeline-body">
+                            Company Name : @creditInvoice.Company.CompanyName <span class="pull-right">Invoice No : @creditInvoice.InvoiceNo</span>
+                            <br/>
+                            <br/>
+                            Item Purchased : @creditInvoice.ItemName <span class="pull-right">Item Quantity : @creditInvoice.ItemQuantity</span>
+                            <br/>
+                            <br/>
+                            Credits Used : @creditInvoice.Credits
+                        </div>
+
+                        <div class="timeline-footer">
+                            @* <a class="btn btn-primary btn-xs" id="@creditInvoice.Id" data-toggle="modal" data-target="#modal-info">View Details</a> *@
+                            @* <a class="btn btn-danger btn-xs">Hide</a> *@
+                        </div>
+                    </div>
+                </li>
+            }
+        }
+        else
+        {
+            <h3 style="text-align: center">No Purchases Found</h3>
+        }
+
+        <li>
+            <i class="fa fa-clock-o bg-gray"></i>
+        </li>
+    </ul>
+</div>
+
+<div class="tab-pane" id="services">
+    @using (Ajax.BeginForm("buyservices", "client", "", new AjaxOptions {HttpMethod = "POST"}, new {enctype = "multipart/form-data", @class = "form-horizontal"}))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-2 pull-right">
+
+
+                <a href="/client/buyservices" class="pull-right">
+                    <button type="submit" class="btn btn-info"><i class="icon fa fa-cart-plus"></i> &nbsp; Buy Service</button>
+                </a>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="row margin">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Buy Leads</h3>
+                        </div>
+
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            @{
+                                Model.LeadPerCredit = 2;
+                            }
+                            <h5>
+                                No. of Available Credits (Cr) : @Model.UserViewModel.Client.AccountCredit.AvailableCredits
+                                <p class="pull-right">No. of Leads per Credit (Cr) : @Model.LeadPerCredit</p>
+                            </h5>
+                            <!-- Product #1 -->
+                            <div class="cartitem">
+                                <div class="buttons">
+                                </div>
+
+                                <div class="image">
+                                    <img src="/Content/cart/leadfunnel.png" alt=""/>
+                                </div>
+
+                                <div class="description">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.name" value="Leads">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.CompanyId" value="@Model.Company.Id">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.description" value="Leads to get client tel">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.sku" value="ITM-LGS-Leads-002">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.UserId" value="@Model.UserViewModel.User.Id">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.Email" value="@Model.UserViewModel.User.Email">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.ClientId" value="@Model.UserViewModel.Client.Id">
+                                    <input hidden readonly="readonly" style="border: none" type="text" name="Item.priceperitem" value="1">
+
+                                    <span>Leads</span>
+                                    <span>ITM-LGS-Leads-002</span>
+                                    <span>Leads to get client tel</span>
+                                    <br/>
+                                    <br/>
+                                </div>
+
+                                <div class="quantity">
+                                    <button class="plusbtnCredit buttoncart" type="button" name="button">
+                                        <img src="/Content/cart/plus.svg" alt=""/>
+                                    </button>
+                                    <input type="text" readonly="readonly" name="Item.quantity" id="ItemQuantity" value="0">
+                                    <button class="minusbtnCredit buttoncart" type="button" name="button">
+                                        <img src="/Content/cart/minus.svg" alt=""/>
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3">
+                                    Cr : <input class="total-price" readonly="readonly" style="border: none" type="text" name="Item.price" id="totalCredits" value="0">
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.tab-pane -->
+        </div>
+    }
+    <!-- /.tab-content -->
+</div>
+<!-- /.tab-pane -->
+<div class="tab-pane" id="reviews">
+    <div class="box-body">
+        <div class="box box-success">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+                <i class="fa fa-comments-o"></i>
+
+                <h3 class="box-title">Reviews</h3>
+
+                <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
+                    @* <div class="btn-group" data-toggle="btn-toggle"> *@
+                    @*     <button type="button" class="btn btn-default btn-sm active"> *@
+                    @*         <i class="fa fa-square text-green"></i> *@
+                    @*     </button> *@
+                    @*     <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button> *@
+                    @* </div> *@
+                </div>
+            </div>
+            <div class="pull-right" style="height: 350px; width: 40%;">
+                <div class="box-body chat" id="chat-box" style="overflow-y: scroll; height: 350px;">
+
+
+                    @* <div class="item"> *@
+                    @*     <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline"> *@
+                    @* *@
+                    @*     <p class="message"> *@
+                    @*         <a href="#" class="name"> *@
+                    @*             <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small> *@
+                    @*             Susan Doe *@
+                    @*         </a> *@
+                    @*         I would like to meet you to discuss the latest news about *@
+                    @*         the arrival of the new theme. They say it is going to be one the *@
+                    @*         best themes on the market *@
+                    @*     </p> *@
+                    @* </div> *@
+
+
+                    <!-- /.item --> 
+                </div>
+                <div class="box-footer">
+                    <div class="form-inline">
+                        <form action="/client/replyreview" method="post">
+                            <input class="form-control" name="review" placeholder="Type message......">
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box-body chat" id="chat-box" style="overflow-y: scroll; height: 400px; width: 60%;">
+                @if (Model.Company.CustomerReviews != null && Model.Company.CustomerReviews.Count() > 0)
+                {
+                    foreach (var review in Model.Company.CustomerReviews.Distinct(new EmailComparer()))
+                    {
+                        <!-- chat item -->
+                        <div class="item" id="GetReviews">
+                            <input type="hidden" value="@review.CustomerEmail" id="CusEmail"/>
+                            <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline">
+
+                            <p class="message">
+                                <a href="#" class="name">
+                                    <small class="text-muted pull-right">
+                                        <i class="fa fa-clock-o"></i> @review.CreatedDate.ToShortDateString()</small>
+                                    @review.CustomerName -- @review.CustomerEmail
+                                </a>
+                                @review.Review
+                            </p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="text-align: center">No Reviews Submitted Yet</p>
+                }
+
+                <!-- /.item -->
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="tab-pane" id="messages">
+    <div class="box-body">
+        <div class="box box-success">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+                <i class="fa fa-comments-o"></i>
+
+                <h3 class="box-title">Messages</h3>
+
+                <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
+                   
+                </div>
+            </div>
+            <div class="pull-right" style="height: 500px; width: 60%;">
+                <div class="box-body chat" id="chat-box-messages" style="overflow-y: scroll; height: 500px;">
+
+
+                   
+
+                </div>
+            </div>
+
+
+            <div class="box-body chat" id="chat-box-messagess" style="overflow-y: scroll; height: 500px; width: 40%;">
+                @if (Model.Company.CustomerMessages != null && Model.Company.CustomerMessages.Count() > 0)
+                {
+                    foreach (var message in Model.Company.CustomerMessages)
+                    {
+                        <!-- chat item -->
+                        <div class="item" id="GetMessages">
+                            <input type="hidden" value="@message.Id"  name="messageId" />
+                            <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline">
+
+                            <p class="message">
+                                <a href="#" class="name">
+                                    <small class="text-muted pull-right">
+                                        <i class="fa fa-clock-o"></i> @message.CreatedDate.ToShortDateString()
+                                    </small>
+                                     @message.CustomerFullName
+                                </a>
+                                @message.Message
+                            </p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="text-align: center">No Messages Found</p>
+                }
+
+                <!-- /.item -->
+            </div>
+
+
+        </div>
+    </div>
+</div>
 </div>
 <!-- /.tab-content -->
 </div>
@@ -535,11 +839,16 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 <script src="~/admin-lte/ckeditor/ckeditor.js"></script>
 <script src="~/admin-lte/ckeditor/styles.js"></script>
 <script src="~/admin-lte/ckeditor/config.js"></script>
+<script src="~/admin-lte/jquery-slimscroll/jquery.slimscroll.js"></script>
+
 <script src="~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <script>
     $(document).ready(function() {
 
-
+        // Setting Radio Buttons On Page Load 
+        $('input:radio[name="RadioInterval"]').filter('[value=@Model.Company.DeliveryInterval]').attr('checked', true);
+        $('input:radio[name="RadioNotification"]').filter('[value=@Model.Company.NotificationMode]')
+            .attr('checked', true);
         // Get CkEditor
         $(function() {
             @*         // Replace the <textarea id="editor1"> with a CKEditor  *@
@@ -573,28 +882,6 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         //End Image / File Upload Preview Code
 
 
-//        // Check-box checked click Enabling controls
-//        $('input').on('ifChecked',
-//            function(event) {
-//                $(this).closest("input").attr('checked', true);
-//                $("#inputName").prop("disabled", false);
-//                $("#inputEmail").prop("disabled", false);
-//                $("#my_file").prop("disabled", false);
-//                console.log(false);
-//
-//            });
-//
-//        // Check-box unchecked click Disabling controls
-//        $('input').on('ifUnchecked',
-//            function(event) {
-//                $(this).closest("input").attr('checked', false);
-//                $("#inputName").prop("disabled", true);
-//                $("#inputEmail").prop("disabled", true);
-//                $("#my_file").prop("disabled", true);
-//                console.log(true);
-//            });
-
-
         //Start Get Star Rating From Number
         $(function() {
 
@@ -607,20 +894,13 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 
                         $("#CompanyRating").val(data.rating);
 //                    alert("The rating is set to " + data.rating + "!");
-                    });
+                    });+
             $("#rateYo").rateYo("option", "starWidth", "20px");
 
         });
 
 
         //End Star Rating From Number
-
-        // Block Company For Later
-        $('#BlockCompany').click(function() {
-//            alert('I am in timeline');
-
-        });
-        //End Block Company
 
 
         //Start Company Map Resize
@@ -638,8 +918,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         //End Company Map Resize
 
         // Color Change on Account Transaction Tab Click
-        $('#timelineTab').click(function() {
-//            alert('I am in timeline');
+        $('#transactionsTab').click(function() {
             $('.fa-money').each(function() {
                 $(this).css('background-color', randomColor());
                 $(this).css('color', 'white');
@@ -677,6 +956,49 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 @*SUCCESS ALERT and Check Box DIV JQUERY*@
 <script>
 
+    @if (@Model.Company != null && @Model.Company.CompanyInventories != null)
+    {
+        Model.RemainingItems = Model.Company.CompanyInventories.FirstOrDefault(x => x.ItemSkuCode.Equals("ITM-LGS-Leads-002")).RemainingItems;
+    }
+    else
+    {
+        Model.RemainingItems = 0.0M;
+    }
+    var leadLimitNo = @Model.RemainingItems;
+    $('.minus-btn').on('click',
+        function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $input = $this.closest('div').find('input');
+            var value = parseInt($input.val());
+
+            if (value >= leadLimitNo && value > 0) {
+                value = value - 1;
+            } else {
+                value = 0;
+            }
+            $input.val(value);
+
+
+        });
+
+    $('.plus-btn').on('click',
+        function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $input = $this.closest('div').find('input');
+            var value = parseInt($input.val());
+
+            if (value < leadLimitNo) {
+                value = value + 1;
+            } else {
+                value = leadLimitNo;
+            }
+
+            $input.val(value);
+        });
+
+
     // Start Check box show behavior code
     $(function() {
         $('input').iCheck({
@@ -698,3 +1020,164 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         1000); //5000=5 seconds
 </script>
 @*SUCCESS ALERT and Check Box DIV JQUERY*@
+
+
+<script>
+    var credit = @Model.UserViewModel.Client.AccountCredit.AvailableCredits;
+    var leadsPerCredit = @Model.LeadPerCredit;
+    var leadLimit = credit * leadsPerCredit;
+    $('.minusbtnCredit').on('click',
+        function(e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $quantityInput = $this.closest('div').find('input');
+            var value = parseInt($quantityInput.val());
+
+            if (value > 0) {
+                value = value - 1;
+            } else {
+                value = 0;
+            }
+            $quantityInput.val(value);
+            var creditQuantity = value / @Model.LeadPerCredit;
+            $("#totalCredits").val(creditQuantity);
+        });
+
+    $('.plusbtnCredit').on('click',
+        function(e) {
+            e.preventDefault();
+            var $this = $(this);
+
+            var $quantityInput = $this.closest('div').find('input');
+
+            var value = parseInt($quantityInput.val());
+
+            if (value < leadLimit) {
+                value = value + 1;
+            } else {
+                value = leadLimit;
+            }
+
+            $quantityInput.val(value);
+            var creditQuantity = value / @Model.LeadPerCredit;
+
+            $("#totalCredits").val(creditQuantity);
+
+        });
+
+</script>
+
+
+<script type="text/javascript">
+    var clientId = @Model.UserViewModel.Client.Id;
+    $(function() {
+        $("#btnPost").click(function() {
+            var companyViewModel = new Object();
+            var radioNotification = $('input[name=RadioNotification]:checked').val();
+            var radioInterval = $('input[name=RadioInterval]:checked').val();
+            companyViewModel.RadioNotification = radioNotification;
+            companyViewModel.RadioInterval = radioInterval;
+            companyViewModel.LeadQuantity = $('#LeadQuantity').val();
+            companyViewModel.CompanyId = @Model.Company.Id;
+            companyViewModel.ClientId = @Model.UserViewModel.Client.Id;
+
+            if (companyViewModel != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "/client/setsettings",
+                    data: JSON.stringify(companyViewModel),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(response) {
+                        location.reload();
+                    }
+                });
+                location.reload();
+            }
+            location.reload();
+        });
+    });
+</script>
+
+<script>
+    $("#GetReviews").click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+
+        var $emailInput = $this.closest('div').find('input');
+        var email = $emailInput.val();
+
+//          alert(email);
+        var reviewMessageBox = $("#chat-box");
+
+        $.ajax({
+
+            url: '/client/GetCustomerReviews',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json; charset=UTF-8",
+            data: {
+                email: email
+            },
+            success: function(reviews) {
+                var customerReviews = reviews;
+                for (var i = 0; i < customerReviews.length; i++) {
+                    var reviewStruct =
+                        "<div class='item'> <img src='/LgsImageRepo/ProfileImages/profiledefault.png' alt='user image' class='offline'>" +
+                            "<p class='message'> <a href='#' class='name'><small class='text-muted pull-right'><i class='fa fa-clock-o'></i> " +
+                            moment(customerReviews[i].CreatedDate ).format("MM/DD/YYYY") +
+                            "</small>" +
+                            customerReviews[i].CustomerName +
+                            " </a>" +
+                            customerReviews[i].Review +
+                            "</p></div>";
+                    reviewMessageBox.append(reviewStruct);
+                }
+            },
+            error: function() {
+                alert("error");
+            }
+        });
+
+
+    });
+</script>
+
+
+<script>
+    $(".item").click(function (e) {
+        e.preventDefault();
+        var $this = $(this);
+       
+        var $emailInput = $this.closest('div.item').find('input');
+        var id = $emailInput.val();
+        var messageBox = $("#chat-box-messages");
+        messageBox.empty();
+        $.ajax({
+            url: '/client/GetCustomerMessages',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json; charset=UTF-8",
+            data: {
+                id: id
+            },
+            success: function(message) {
+                var customerMessage = message;
+                    var messageStruct = "<div class='item'> <img src='/LgsImageRepo/ProfileImages/profiledefault.png' alt='user image' class='offline'>" +
+                            "<p class='message'> <a href='#' class='name'><small class='text-muted pull-right'><i class='fa fa-clock-o'></i> " +
+                            moment(customerMessage.CreatedDate ).format("MM/DD/YYYY") +
+                            "</small>" +
+                            customerMessage.CustomerFullName + " -- "+ customerMessage.CustomerEmail +
+                            " </a>" +
+                            customerMessage.Message +
+                            "</p> <div>"+ customerMessage.MapLocation +" </div> </div>";
+                    messageBox.append(messageStruct);
+            },
+            error: function() {
+                alert("error");
+            }
+        });
+
+
+    });
+</script>

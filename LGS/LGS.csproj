@@ -72,6 +72,9 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.IdentityModel.Tokens.5.1.2\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Nancy.2.0.0\lib\net452\Nancy.dll</HintPath>
+    </Reference>
     <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
     </Reference>
@@ -299,6 +302,7 @@
     <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Analytics\AnalyticsController.cs" />
     <Compile Include="Controllers\ApiControllers\FbWebhookController.cs" />
+    <Compile Include="Controllers\ApiControllers\FbWebhookModule.cs" />
     <Compile Include="Controllers\Client\ClientController.cs" />
     <Compile Include="Controllers\Error\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -311,6 +315,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileUploader\FileUploadHelper.cs" />
+    <Compile Include="Helpers\IFrameGen\IFrameGenerator.cs" />
     <Compile Include="Helpers\Invoices\InvoiceHelper.cs" />
     <Compile Include="Helpers\PaypalConfig\PaypalConfiguration.cs" />
     <Compile Include="Helpers\Ratings\RatingsHelper.cs" />
@@ -912,6 +917,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cardview - Copy.css" />
     <Content Include="Content\cardview.css" />
+    <Content Include="Content\cart\coin.png" />
     <Content Include="Content\cart\delete-icn.svg" />
     <Content Include="Content\cart\funnel-512.png" />
     <Content Include="Content\cart\leadfunnel.png" />
@@ -919,12 +925,14 @@
     <Content Include="Content\cart\plus.svg" />
     <Content Include="Content\cart\leadcartstyle.css" />
     <Content Include="Content\cart\twitter-heart.png" />
+    <Content Include="Content\chatbox.css" />
     <Content Include="Content\copper-loader.gif" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\bg2.jpg" />
     <Content Include="Content\iFrameLayout.css" />
     <Content Include="Content\Loader.css" />
+    <Content Include="Content\rating.css" />
     <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
     <Content Include="Content\sweetalert\docs.css" />
     <Content Include="Content\sweetalert\sweet-alert.css" />
@@ -1066,6 +1074,7 @@
     <Content Include="Views\Error\Error500.cshtml" />
     <Content Include="Views\Home\CompanyDetail.cshtml" />
     <Content Include="Views\Client\Cart.cshtml" />
+    <Content Include="Views\Client\ClientSubView\Reviews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -33,9 +33,11 @@ namespace LGS.Models.Users
         public DateTime UpdatedDate { get; set; }
 
         public virtual List<Company> Companies { get; set; }
-        public virtual List<AccountCredit> AccountCredits { get; set; }
+        [ForeignKey("AccountCreditId")]
+        public virtual AccountCredit AccountCredit { get; set; }
+        public int AccountCreditId { get; set; }
+
         public virtual List<CreditInvoice> CreditInvoices { get; set; }
-        public virtual List<CompanyCredit> CompanyCredits { get; set; }
 
     }
 }

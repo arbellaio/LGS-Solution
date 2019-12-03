@@ -15,5 +15,19 @@ namespace LGS.Data.ViewModels.DatabaseViewModels
         public UserViewModel UserViewModel { get; set; }
 
         public bool IsEnable { get; set; }
+        public int LeadPerCredit { get; set; }
+
+        public decimal RemainingItems { get; set; }
+
+        public int RadioNotification { get; set; }
+        public int RadioInterval { get; set; }
+        public int LeadQuantity { get; set; }
+        public int CompanyId { get; set; }
+        public int ClientId { get; set; }
+
+
+        
+
+
     }
 }

@@ -64,13 +64,16 @@
     <Compile Include="Analytics\Analytics_Visits.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="BusinessTypes\BusinessType.cs" />
+    <Compile Include="Communication\Reviews.cs" />
     <Compile Include="Companies\Company.cs" />
     <Compile Include="Companies\CompanyRating.cs" />
     <Compile Include="Companies\CompanyTypes\CompanyType.cs" />
     <Compile Include="Credits\AccountCredit.cs" />
     <Compile Include="Credits\CompanyCredit.cs" />
+    <Compile Include="Credits\CompanyInvoice.cs" />
     <Compile Include="Credits\CreditInvoice.cs" />
     <Compile Include="FbWebhooks\FbWebhook.cs" />
+    <Compile Include="Items\Item.cs" />
     <Compile Include="PaypalItem\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleNames\RoleName.cs" />

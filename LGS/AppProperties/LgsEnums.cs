@@ -14,6 +14,12 @@ namespace LGS.AppProperties
         SuccessfulDelete = 5,
         SuccessfulBlock = 6,
         SuccessfulUnBlock = 7,
+        MessageSent=8,
+        MessageSentFailed =9,
+        SavedSettings = 10,
+        SaveSettingsFailed = 11,
+        ReviewSaved = 12,
+        ReviewSaveFailed = 13,
 
     }
 
@@ -24,5 +30,10 @@ namespace LGS.AppProperties
         UserDeleted = 3,
         UserDoesnotExist = 4,
         InvalidRequest = 5
+    }
+
+    public enum LgsCompanySettingEnum
+    {
+
     }
 }
