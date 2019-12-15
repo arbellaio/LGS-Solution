@@ -1,20 +1,17 @@
-﻿using System;
+﻿using LGS.Data.AppDataProperties;
+using LGS.Data.ViewModels.DatabaseViewModels;
+using LGS.Models.Analytics;
+using LGS.Models.Companies;
+using LGS.Models.RoleNames;
+using LGS.Models.Users;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using LGS.Data.AppDataProperties;
-using LGS.Data.ViewModels;
-using LGS.Data.ViewModels.DatabaseViewModels;
-using LGS.Models;
-using LGS.Models.Analytics;
-using LGS.Models.Companies;
 using LGS.Models.Credits;
-using LGS.Models.RoleNames;
-using LGS.Models.Users;
+using LGS.Models.Items;
 
 namespace LGS.Data.Services.UserServices
 {
@@ -547,6 +544,40 @@ namespace LGS.Data.Services.UserServices
         }
 
         #endregion
+
+
+        #region Get Invoice Details
+
+        public async Task<CreditInvoice> GetInvoiceDetails(int id)
+        {
+            _context.Configuration.ProxyCreationEnabled = false;
+            var creditInvoice =
+                await _context.CreditInvoices.Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
+            return creditInvoice;
+        }
+
+        #endregion
+
+
+        #region Get Settings
+
+        public async Task<LgsSetting> GetSettings()
+        {
+            _context.Configuration.ProxyCreationEnabled = false;
+            var lgsSetting = await _context.LgsSettings.FirstOrDefaultAsync();
+            return lgsSetting;
+        }
+
+        public async Task<bool> SaveSettings(LgsSetting lgsSetting)
+        {
+            lgsSetting.CreatedDate = DateTime.Now;
+            lgsSetting.UpdatedDate = DateTime.Now;
+            _context.LgsSettings.AddOrUpdate(lgsSetting);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        #endregion
     }
 
     public interface IAdminService
@@ -574,5 +605,8 @@ namespace LGS.Data.Services.UserServices
         Task<Company> GetClientCompanyByCompanyId(int companyId);
         Task<bool> AddUpdateClientCompanyByCompanyId(CompanyViewModel companyViewModel);
         Task<bool> DeleteSubAdminAppUser(int subAdminId);
+        Task<CreditInvoice> GetInvoiceDetails(int id);
+        Task<LgsSetting> GetSettings();
+        Task<bool> SaveSettings(LgsSetting lgsSetting);
     }
 }

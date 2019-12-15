@@ -1,5 +1,4 @@
-﻿@using System.Diagnostics.Eventing.Reader
-@using LGS.AppProperties
+﻿@using LGS.AppProperties
 @using LGS.Models.Communication
 @model LGS.Data.ViewModels.DatabaseViewModels.CompanyViewModel
 @{
@@ -167,9 +166,17 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
     </li>
 
     <li class="">
+        <a href="#leads" id="LeadsTab" data-toggle="tab" aria-expanded="false">Leads</a>
+    </li>
+
+    <li class="">
+        <a href="#leadslocation" id="LeadsLocationTab" data-toggle="tab" aria-expanded="false">Set Leads Area</a>
+    </li>
+
+    <li class="">
         <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Settings</a>
     </li>
-    
+
     <li class="">
         <a href="#messages" id="messagesTab" data-toggle="tab" aria-expanded="false">Messages</a>
     </li>
@@ -220,6 +227,9 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
 
                     <dt style="margin-top: 5px">City / District</dt>
                     <dd style="margin-top: 5px">@Model.Company.AddressThreeLocality.</dd>
+
+                    <dt style="margin-top: 5px">Facebook Page Id</dt>
+                    <dd style="margin-top: 5px">@Model.Company.FacebookId.</dd>
 
 
                     <dt style="margin-top: 35px">Short Description</dt>
@@ -349,6 +359,12 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
                         <dt style="margin-top: 5px">Postal Code</dt>
                         <dd style="margin-top: 5px">
                             <input type="text" name="Company.PostalCode" style="width: 300px" id="CompanyPostalCodeEdit" placeholder="Postal Code" value="@Model.Company.PostalCode">
+                            @* <label for="CompanyPostalCodeEdit" style="color: red; opacity: 0.5">Enter area / company postal code</label> *@
+                        </dd>
+
+                        <dt style="margin-top: 5px">Facebook Page Id</dt>
+                        <dd style="margin-top: 5px">
+                            <input type="text" name="Company.FacebookId" style="width: 300px" id="CompanyFacebookId" placeholder="Facebook Page Id" value="@Model.Company.FacebookId">
                             @* <label for="CompanyPostalCodeEdit" style="color: red; opacity: 0.5">Enter area / company postal code</label> *@
                         </dd>
 
@@ -530,16 +546,36 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
                         </div>
                         <br/>
                         <hr/>
+                        <div class="tab-pane" id="lead-settings">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h5>Set Google Ad Key words</h5>
+                                        <input type="text" id="candidate"/>
+                                        <button onclick="addItem()" class="btn btn-primary">Add Google Ad Key</button>
+                                        <button onclick="removeItem()" class="btn btn-warning">Remove Google Ad Key</button>
+                                        <ul id="dynamic-list"></ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h5>Saved Google AdKeys</h5>
+                                        <div style="overflow-y: scroll;">
+                                            @foreach (var leadAdKey in Model.Company.GoogleKeys)
+                                            {
+                                                <p>@leadAdKey.GoogleAdKey</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-<!-- /.tab-pane -->
-
 
 <div class="tab-pane" id="transactions">
     <ul class="timeline timeline-inverse">
@@ -592,6 +628,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
     </ul>
 </div>
 
+
 <div class="tab-pane" id="services">
     @using (Ajax.BeginForm("buyservices", "client", "", new AjaxOptions {HttpMethod = "POST"}, new {enctype = "multipart/form-data", @class = "form-horizontal"}))
     {
@@ -616,7 +653,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
                         <!-- /.box-header -->
                         <div class="box-body">
                             @{
-                                Model.LeadPerCredit = 2;
+                                Model.LeadPerCredit = @Model.LgsSetting.LeadsPerCredit;
                             }
                             <h5>
                                 No. of Available Credits (Cr) : @Model.UserViewModel.Client.AccountCredit.AvailableCredits
@@ -674,7 +711,8 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
     }
     <!-- /.tab-content -->
 </div>
-<!-- /.tab-pane -->
+
+
 <div class="tab-pane" id="reviews">
     <div class="box-body">
         <div class="box box-success">
@@ -696,32 +734,15 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
                 <div class="box-body chat" id="chat-box" style="overflow-y: scroll; height: 350px;">
 
 
-                    @* <div class="item"> *@
-                    @*     <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline"> *@
-                    @* *@
-                    @*     <p class="message"> *@
-                    @*         <a href="#" class="name"> *@
-                    @*             <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small> *@
-                    @*             Susan Doe *@
-                    @*         </a> *@
-                    @*         I would like to meet you to discuss the latest news about *@
-                    @*         the arrival of the new theme. They say it is going to be one the *@
-                    @*         best themes on the market *@
-                    @*     </p> *@
-                    @* </div> *@
-
-
-                    <!-- /.item --> 
+                    <!-- /.item -->
                 </div>
                 <div class="box-footer">
                     <div class="form-inline">
-                        <form action="/client/replyreview" method="post">
-                            <input class="form-control" name="review" placeholder="Type message......">
+                            <input class="form-control" style="width: 87%" id="reviewReply" name="review" placeholder="Type message......">
 
-                            <button type="submit" class="btn btn-success">
+                            <button type="button" id="SendReviewReply" class="btn btn-success">
                                 <i class="fa fa-plus"></i>
                             </button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -733,18 +754,19 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
                     foreach (var review in Model.Company.CustomerReviews.Distinct(new EmailComparer()))
                     {
                         <!-- chat item -->
-                        <div class="item" id="GetReviews">
-                            <input type="hidden" value="@review.CustomerEmail" id="CusEmail"/>
-                            <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline">
+                        <div class="item itemReview" id="GetReviews">
+                                <input type="hidden" value="@review.CustomerEmail" id="CusEmail"/>
+                                <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline">
 
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right">
-                                        <i class="fa fa-clock-o"></i> @review.CreatedDate.ToShortDateString()</small>
-                                    @review.CustomerName -- @review.CustomerEmail
-                                </a>
-                                @review.Review
-                            </p>
+                                <p class="message">
+                                    <a href="#" class="name">
+                                        <small class="text-muted pull-right">
+                                            <i class="fa fa-clock-o"></i> @review.CreatedDate.ToShortDateString()
+                                        </small>
+                                        @review.CustomerName -- @review.CustomerEmail
+                                    </a>
+                                    @review.Review
+                                </p>
                         </div>
                     }
                 }
@@ -762,12 +784,6 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
 </div>
 
 
-
-
-
-
-
-
 <div class="tab-pane" id="messages">
     <div class="box-body">
         <div class="box box-success">
@@ -777,14 +793,12 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
                 <h3 class="box-title">Messages</h3>
 
                 <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
-                   
+
                 </div>
             </div>
             <div class="pull-right" style="height: 500px; width: 60%;">
                 <div class="box-body chat" id="chat-box-messages" style="overflow-y: scroll; height: 500px;">
 
-
-                   
 
                 </div>
             </div>
@@ -796,19 +810,21 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
                     foreach (var message in Model.Company.CustomerMessages)
                     {
                         <!-- chat item -->
-                        <div class="item" id="GetMessages">
-                            <input type="hidden" value="@message.Id"  name="messageId" />
-                            <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline">
 
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right">
-                                        <i class="fa fa-clock-o"></i> @message.CreatedDate.ToShortDateString()
-                                    </small>
-                                     @message.CustomerFullName
-                                </a>
-                                @message.Message
-                            </p>
+                        
+                        <div class="item itemMessages" id="GetMessages">
+                                <input type="hidden" value="@message.Id" name="messageId"/>
+                                <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline">
+
+                                <p class="message">
+                                    <a href="#" class="name">
+                                        <small class="text-muted pull-right">
+                                            <i class="fa fa-clock-o"></i> @message.CreatedDate.ToShortDateString()
+                                        </small>
+                                        @message.CustomerFullName
+                                    </a>
+                                    @message.Message
+                                </p>
                         </div>
                     }
                 }
@@ -819,19 +835,89 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
 
                 <!-- /.item -->
             </div>
+        </div>
+    </div>
+</div>
 
+
+<div class="tab-pane" id="leadslocation">
+    <div class="box-body">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Set Lead Localities</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div style="width: 800px; height: 500px">
+                    Map
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tab-pane" id="leads">
+    <div class="box-body">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Lead Localities</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <div style="width: 800px; height: 500px">
+                    Map
+                </div>
+                <div class="table-responsive">
+                    <table class="table no-margin">
+                        <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Item</th>
+                            <th>Status</th>
+                            <th>Popularity</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <a href="">OR9842</a>
+                            </td>
+                            <td>Call of Duty IV</td>
+                            <td>
+                                <span class="label label-success">Shipped</span>
+                            </td>
+                            <td>
+                                <div class="sparkbar" data-color="#00a65a" data-height="20">
+                                    <canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
         </div>
     </div>
 </div>
 </div>
-<!-- /.tab-content -->
 </div>
-<!-- /.nav-tabs-custom -->
 </div>
-<!-- /.col -->
 </div>
-<!-- /.row -->
 
 </section>
 
@@ -840,6 +926,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
 <script src="~/admin-lte/ckeditor/styles.js"></script>
 <script src="~/admin-lte/ckeditor/config.js"></script>
 <script src="~/admin-lte/jquery-slimscroll/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=API "></script>
 
 <script src="~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <script>
@@ -894,8 +981,9 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
 
                         $("#CompanyRating").val(data.rating);
 //                    alert("The rating is set to " + data.rating + "!");
-                    });+
-            $("#rateYo").rateYo("option", "starWidth", "20px");
+                    });
+            +
+                $("#rateYo").rateYo("option", "starWidth", "20px");
 
         });
 
@@ -1099,19 +1187,20 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
     });
 </script>
 
+
 <script>
-    $("#GetReviews").click(function (e) {
+    var email = null;
+    var customerReviews = null;
+
+    $(".itemReview").click(function(e) {
         e.preventDefault();
         var $this = $(this);
 
         var $emailInput = $this.closest('div').find('input');
-        var email = $emailInput.val();
+        email = $emailInput.val();
 
-//          alert(email);
         var reviewMessageBox = $("#chat-box");
-
         $.ajax({
-
             url: '/client/GetCustomerReviews',
             type: 'GET',
             dataType: 'json',
@@ -1119,36 +1208,64 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
             data: {
                 email: email
             },
-            success: function(reviews) {
-                var customerReviews = reviews;
+            success: function (reviews) {
+                customerReviews = reviews;
                 for (var i = 0; i < customerReviews.length; i++) {
                     var reviewStruct =
                         "<div class='item'> <img src='/LgsImageRepo/ProfileImages/profiledefault.png' alt='user image' class='offline'>" +
                             "<p class='message'> <a href='#' class='name'><small class='text-muted pull-right'><i class='fa fa-clock-o'></i> " +
-                            moment(customerReviews[i].CreatedDate ).format("MM/DD/YYYY") +
+                            moment(customerReviews[i].CreatedDate).format("MM/DD/YYYY") +
                             "</small>" +
                             customerReviews[i].CustomerName +
                             " </a>" +
-                            customerReviews[i].Review +
+                            customerReviews[i].Review + "<div class='pull-right'> " +
+                       
+                            checkstringnull(customerReviews[i].ReviewReply)
+                            + "</div>" +
                             "</p></div>";
                     reviewMessageBox.append(reviewStruct);
                 }
             },
             error: function() {
-                alert("error");
+
             }
         });
+    });
 
-
+    $("#SendReviewReply").click(function (e) {
+        e.preventDefault();
+        var reviewReply = $("#reviewReply").val();
+        var customerReviewReply = new Object();
+        customerReviewReply.Id = customerReviews[customerReviews.length - 1].Id;
+        customerReviewReply.ReviewReply = reviewReply;
+        if (customerReviewReply != null) {
+            $.ajax({
+                type: "POST",
+                url: "/client/ReviewReply",
+                data: JSON.stringify(customerReviewReply),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                }
+            });
+        }
     });
 </script>
 
+<script>
+    function checkstringnull(reply) {
+        if (reply == null) {
+            return "";
+        } else {
+            return reply;
+        }
+    }
+</script>
 
 <script>
-    $(".item").click(function (e) {
+    $(".itemMessages").click(function(e) {
         e.preventDefault();
         var $this = $(this);
-       
         var $emailInput = $this.closest('div.item').find('input');
         var id = $emailInput.val();
         var messageBox = $("#chat-box-messages");
@@ -1163,21 +1280,112 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SaveSettingsFailed))
             },
             success: function(message) {
                 var customerMessage = message;
-                    var messageStruct = "<div class='item'> <img src='/LgsImageRepo/ProfileImages/profiledefault.png' alt='user image' class='offline'>" +
-                            "<p class='message'> <a href='#' class='name'><small class='text-muted pull-right'><i class='fa fa-clock-o'></i> " +
-                            moment(customerMessage.CreatedDate ).format("MM/DD/YYYY") +
-                            "</small>" +
-                            customerMessage.CustomerFullName + " -- "+ customerMessage.CustomerEmail +
-                            " </a>" +
-                            customerMessage.Message +
-                            "</p> <div>"+ customerMessage.MapLocation +" </div> </div>";
-                    messageBox.append(messageStruct);
+                var messageStruct =
+                    "<div class='item'> <img src='/LgsImageRepo/ProfileImages/profiledefault.png' alt='user image' class='offline'>" +
+                        "<p class='message'> <a href='#' class='name'><small class='text-muted pull-right'><i class='fa fa-clock-o'></i> " +
+                        moment(customerMessage.CreatedDate).format("MM/DD/YYYY") +
+                        "</small>" +
+                        customerMessage.CustomerFullName +
+                        " -- " +
+                        customerMessage.CustomerEmail +
+                        " </a>" +
+                        customerMessage.Message +
+                        "</p> <div>" +
+                        customerMessage.MapLocation +
+                        " </div> </div>";
+                messageBox.append(messageStruct);
             },
             error: function() {
-                alert("error");
+//                    alert("error");
             }
         });
 
 
     });
 </script>
+
+
+<script>
+    function addItem() {
+        var ul = document.getElementById("dynamic-list");
+        var candidate = document.getElementById("candidate");
+        var li = document.createElement("li");
+        li.setAttribute('id', candidate.value);
+        var clientId = @Model.Company.Id;
+        addKey(clientId, candidate.value);
+        li.appendChild(document.createTextNode(candidate.value));
+        ul.appendChild(li);
+    }
+
+    function removeItem() {
+        var ul = document.getElementById("dynamic-list");
+        var candidate = document.getElementById("candidate");
+        var item = document.getElementById(candidate.value);
+        removeKey(clientId, candidate.value);
+
+        ul.removeChild(item);
+    }
+</script>
+
+
+<script>
+    function addKey(clientId, adkey) {
+        var companyViewModel = new Object();
+        companyViewModel.CompanyId = clientId;
+        companyViewModel.GoogleAdKey = adkey;
+        $.ajax({
+            type: "POST",
+            url: "/client/SaveGoogleAdKey",
+            data: JSON.stringify(companyViewModel),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+            }
+        });
+    }
+
+    function removeKey(clientId, adkey) {
+        var companyViewModel = new Object();
+        companyViewModel.CompanyId = clientId;
+        companyViewModel.GoogleAdKey = adkey;
+        $.ajax({
+            type: "Delete",
+            url: "/client/DeleteGoogleAdKey",
+            data: JSON.stringify(companyViewModel),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+            }
+        });
+    }
+</script>
+
+@* <script type="text/javascript"> *@
+@*         var markers = @Html.Raw(ViewBag.Markers); *@
+@*         window.onload = function() { *@
+@*             var mapOptions = { *@
+@*                 center: new google.maps.LatLng(markers[0].lat, markers[0].lng), *@
+@*                 zoom: 4, *@
+@*                 mapTypeId: google.maps.MapTypeId.ROADMAP *@
+@*             }; *@
+@*             var infoWindow = new google.maps.InfoWindow(); *@
+@*             var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions); *@
+@*             for (i = 0; i < markers.length; i++) { *@
+@*                 var data = markers[i] *@
+@*                 var myLatlng = new google.maps.LatLng(data.lat, data.lng); *@
+@*                 var marker = new google.maps.Marker({ *@
+@*                     position: myLatlng, *@
+@*                     map: map, *@
+@*                     title: data.title *@
+@*                 }); *@
+@*                 (function(marker, data) { *@
+@*                     google.maps.event.addListener(marker, *@
+@*                         "click", *@
+@*                         function(e) { *@
+@*                             infoWindow.setContent(data.description); *@
+@*                             infoWindow.open(map, marker); *@
+@*                         }); *@
+@*                 })(marker, data); *@
+@*             } *@
+@*         } *@
+@*  </script> *@

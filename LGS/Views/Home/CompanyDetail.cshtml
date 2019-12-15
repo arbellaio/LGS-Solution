@@ -10,323 +10,336 @@
 
 <section class="content">
 
-    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.MessageSent))
-    {
-        <div id="alert" class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Alert!</h4>
-            <strong>Success! </strong> Message Sent.
-        </div>
-    }
+@if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.MessageSent))
+{
+    <div id="alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> Message Sent.
+    </div>
+}
 
-    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.MessageSentFailed))
-    {
-        <div id="alert" class="alert alert-error alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Alert!</h4>
-            <strong>Failed! </strong> Message Sent Failed.
-        </div>
-    }
+@if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.MessageSentFailed))
+{
+    <div id="alert" class="alert alert-error alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Failed! </strong> Message Sent Failed.
+    </div>
+}
 
-    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.ReviewSaved))
-    {
-        <div id="alert" class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Alert!</h4>
-            <strong>Success! </strong> Review Posted.
-        </div>
-    }
+@if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.ReviewSaved))
+{
+    <div id="alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> Review Posted.
+    </div>
+}
 
-    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.ReviewSaveFailed))
-    {
-        <div id="alert" class="alert alert-error alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Alert!</h4>
-            <strong>Failed! </strong> Review Post Failed.
-        </div>
-    }
-    <div class="row">
+@if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.ReviewSaveFailed))
+{
+    <div id="alert" class="alert alert-error alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Failed! </strong> Review Post Failed.
+    </div>
+}
+<div class="row">
 
-        <div class="col-md-3">
+<div class="col-md-3">
 
-            <!-- Profile Image -->
-            <div class="box box-primary">
-                <div class="box-body box-profile">
-                    @if (string.IsNullOrEmpty(Model.Company.LogoPath))
+    <!-- Profile Image -->
+    <div class="box box-primary">
+        <div class="box-body box-profile">
+            @if (string.IsNullOrEmpty(Model.Company.LogoPath))
+            {
+                <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+            }
+            else
+            {
+                var absolutePath = HttpContext.Current.Server.MapPath("~/" + Model.Company.LogoPath);
+                if (!@File.Exists(absolutePath))
+                {
+                    <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                }
+                else
+                {
+                    <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="@Model.Company.LogoPath" alt="User profile picture">
+                }
+            }
+            <h3 class="profile-username text-center">@Model.Company.CompanyName</h3>
+
+            <p class="text-muted text-center">Company</p>
+
+            <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                    <b>About Co. </b> <a class="pull-right">@Model.Company.MainDescription</a>
+                </li>
+                <li class="list-group-item">
+                    <b>Est. Date</b> <a class="pull-right">@Model.Company.CreatedDate.ToShortDateString()</a>
+                </li>
+                <li class="list-group-item">
+                    @* <b>Ratings</b> <a class="pull-right">@Model.Company.Ratings</a> *@
+                    <b>Ratings</b>
+                    <a class="pull-right">
+                        <span id="rateYo"></span>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <b>Status</b>
+
+                    @if (Model.Company.IsBlocked)
                     {
-                        <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                        <a class="pull-right">
+                            In Active
+                        </a>
                     }
                     else
                     {
-                        var absolutePath = HttpContext.Current.Server.MapPath("~/" + Model.Company.LogoPath);
-                        if (!@File.Exists(absolutePath))
-                        {
-                            <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="/LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
-                        }
-                        else
-                        {
-                            <img type="file" style="cursor: pointer" id="CompanyLogoPic" class="profile-user-img img-responsive img-circle" src="@Model.Company.LogoPath" alt="User profile picture">
-                        }
+                        <a class="pull-right">Active</a>
                     }
-                    <h3 class="profile-username text-center">@Model.Company.CompanyName</h3>
+                </li>
+            </ul>
 
-                    <p class="text-muted text-center">Company</p>
+            <a href="#" class="btn btn-primary btn-block" id="@Model.Company.Id" data-toggle="modal" data-target="#modal-info">
+                <b id="@Model.Company.Id" class="comId">Send Message</b>
+            </a>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+    <!-- About Me Box -->
+    <!-- /.box -->
+</div>
+<!-- /.col -->
+<div class="col-md-9">
+<div class="nav-tabs-custom">
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#activity" data-toggle="tab" aria-expanded="true">Company Profile</a>
+    </li>
+    <li class="">
+        <a href="#reviews" data-toggle="tab" id="reviewsTab" aria-expanded="False">Company Review</a>
+    </li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="activity">
+    <!-- Post -->
+    <div class="box-body">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-building-o"></i>
 
-                    <ul class="list-group list-group-unbordered">
-                        <li class="list-group-item">
-                            <b>About Co. </b> <a class="pull-right">@Model.Company.MainDescription</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Est. Date</b> <a class="pull-right">@Model.Company.CreatedDate.ToShortDateString()</a>
-                        </li>
-                        <li class="list-group-item">
-                            @* <b>Ratings</b> <a class="pull-right">@Model.Company.Ratings</a> *@
-                            <b>Ratings</b>
-                            <a class="pull-right">
-                                <span id="rateYo"></span>
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Status</b>
+                <h3 class="box-title">@Model.Company.CompanyName</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl class="dl-horizontal">
+                    <dt>Complete Co. Name</dt>
+                    <dd>@Model.Company.MainDescription.</dd>
 
-                            @if (Model.Company.IsBlocked)
-                            {
-                                <a class="pull-right">
-                                    In Active
+                    <dt style="margin-top: 5px">Phone Number</dt>
+                    <dd style="margin-top: 5px">@Model.Company.PhoneNumber.</dd>
+
+                    <dt style="margin-top: 5px">Company Email</dt>
+                    <dd style="margin-top: 5px">@Model.Company.CompanyEmail.</dd>
+
+                    <dt style="margin-top: 5px">Street No.</dt>
+                    <dd style="margin-top: 5px">@Model.Company.AddressTwoStreet.</dd>
+
+                    <dt style="margin-top: 5px">Plot No. / Shop No.</dt>
+                    <dd style="margin-top: 5px">@Model.Company.AddressOneUnit.</dd>
+
+                    <dt style="margin-top: 5px">Postal Code</dt>
+                    <dd style="margin-top: 5px">@Model.Company.PostalCode.</dd>
+
+                    <dt style="margin-top: 5px">City / District</dt>
+                    <dd style="margin-top: 5px">@Model.Company.AddressThreeLocality.</dd>
+
+
+                    <dt style="margin-top: 35px">Short Description</dt>
+                    <dd style="margin-top: 35px"> @Html.Raw(@Model.Company.ShortDescription)</dd>
+                </dl>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title"></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="box-group" id="accordion">
+                    <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                    <div class="panel box box-primary">
+                        <div class="box-header with-border">
+                            <h4 class="box-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="True">
+                                    Detailed Description
                                 </a>
-                            }
-                            else
-                            {
-                                <a class="pull-right">Active</a>
-                            }
-                        </li>
-                    </ul>
-
-                    <a href="#" class="btn btn-primary btn-block" id="@Model.Company.Id" data-toggle="modal" data-target="#modal-info">
-                        <b id="@Model.Company.Id" class="comId">Send Message</b>
-                    </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
+                            <div class="box-body">
+                                @Html.Raw(@Model.Company.LongDescription)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel box box-danger">
+                        <div class="box-header with-border">
+                            <h4 class="box-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="True">
+                                    Our Location
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse in" aria-expanded="true">
+                            <div class="box-body">
+                                <div id="mapIframe">
+                                    @if (!string.IsNullOrEmpty(Model.Company.MapLocation))
+                                    {
+                                        @Html.Raw(@Model.Company.MapLocation)
+                                    }
+                                    else
+                                    {
+                                        <iframe width="800" height="500" id="gmap_canvas1" src=" https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                                        </iframe>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
-            <!-- About Me Box -->
-            <!-- /.box -->
         </div>
-        <!-- /.col -->
-        <div class="col-md-9">
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#activity" data-toggle="tab" aria-expanded="true">Company Profile</a>
-                    </li>
-                    <li class="">
-                        <a href="#reviews" data-toggle="tab" id="reviewsTab" aria-expanded="False">Company Review</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="activity">
-                        <!-- Post -->
-                        <div class="box-body">
-                            <div class="box box-solid">
-                                <div class="box-header with-border">
-                                    <i class="fa fa-building-o"></i>
-
-                                    <h3 class="box-title">@Model.Company.CompanyName</h3>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <dl class="dl-horizontal">
-                                        <dt>Complete Co. Name</dt>
-                                        <dd>@Model.Company.MainDescription.</dd>
-
-                                        <dt style="margin-top: 5px">Phone Number</dt>
-                                        <dd style="margin-top: 5px">@Model.Company.PhoneNumber.</dd>
-
-                                        <dt style="margin-top: 5px">Company Email</dt>
-                                        <dd style="margin-top: 5px">@Model.Company.CompanyEmail.</dd>
-
-                                        <dt style="margin-top: 5px">Street No.</dt>
-                                        <dd style="margin-top: 5px">@Model.Company.AddressTwoStreet.</dd>
-
-                                        <dt style="margin-top: 5px">Plot No. / Shop No.</dt>
-                                        <dd style="margin-top: 5px">@Model.Company.AddressOneUnit.</dd>
-
-                                        <dt style="margin-top: 5px">Postal Code</dt>
-                                        <dd style="margin-top: 5px">@Model.Company.PostalCode.</dd>
-
-                                        <dt style="margin-top: 5px">City / District</dt>
-                                        <dd style="margin-top: 5px">@Model.Company.AddressThreeLocality.</dd>
+        <!-- /.tab-pane -->
 
 
-                                        <dt style="margin-top: 35px">Short Description</dt>
-                                        <dd style="margin-top: 35px"> @Html.Raw(@Model.Company.ShortDescription)</dd>
-                                    </dl>
+    </div>
 
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-                            <div class="box box-solid">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"></h3>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">
-                                    <div class="box-group" id="accordion">
-                                        <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                                        <div class="panel box box-primary">
-                                            <div class="box-header with-border">
-                                                <h4 class="box-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="True">
-                                                        Detailed Description
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
-                                                <div class="box-body">
-                                                    @Html.Raw(@Model.Company.LongDescription)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="panel box box-danger">
-                                            <div class="box-header with-border">
-                                                <h4 class="box-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="True">
-                                                        Our Location
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseTwo" class="panel-collapse in" aria-expanded="true">
-                                                <div class="box-body">
-                                                    <div id="mapIframe">
-                                                        @if (!string.IsNullOrEmpty(Model.Company.MapLocation))
-                                                        {
-                                                            @Html.Raw(@Model.Company.MapLocation)
-                                                        }
-                                                        else
-                                                        {
-                                                            <iframe width="800" height="500" id="gmap_canvas1" src=" https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-                                                            </iframe>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.box-body -->
-                                </div>
-                                <!-- /.box -->
-                            </div>
-                            <!-- /.tab-pane -->
+    <!-- /.tab-content -->
+</div>
+<div class="tab-pane" id="reviews">
+    <div class="box-body">
+        <div class="box box-success">
+            <div class="box-header ui-sortable-handle" style="cursor: move;">
+                <i class="fa fa-comments-o"></i>
 
+                <h3 class="box-title">Reviews</h3>
 
-                        </div>
+                <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
 
-                        <!-- /.tab-content -->
-                    </div>
-                    <div class="tab-pane" id="reviews">
-                        <div class="box-body">
-                            <div class="box box-success">
-                                <div class="box-header ui-sortable-handle" style="cursor: move;">
-                                    <i class="fa fa-comments-o"></i>
-
-                                    <h3 class="box-title">Reviews</h3>
-
-                                    <div class="box-tools pull-right" data-toggle="tooltip" title="" data-original-title="Status">
-
-                                    </div>
-                                </div>
-                                <div class="box-body chat" id="chat-box" style="overflow-y: scroll; height: 400px;">
-
-                                    @foreach (var companyReviews in Model.Company.CustomerReviews)
-                                    {
-                                        <!-- chat item -->
-                                        <div class="item">
-                                            <br />
-
-                                            <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="offline">
-
-                                            <p class="message">
-
-                                                <a href="#" class="name">
-                                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> @companyReviews.CreatedDate.Date.ToShortDateString() - @companyReviews.CreatedDate.ToShortTimeString()</small>
-                                                    @companyReviews.CustomerName -- @companyReviews.CustomerEmail
-                                                    <div class="pull-right">
-
-                                                        Service Rating : @companyReviews.ServiceRating &nbsp;
-
-                                                        Quality Rating : @companyReviews.QualityRating &nbsp;
-
-                                                        Price Rating : @companyReviews.PriceRating &nbsp;
-
-                                                    </div>
-                                                </a>
-                                                <br />
-
-                                                @companyReviews.Review
-
-                                            </p>
-                                        </div>
-                                    }
-                                    <!-- /.item -->
-                                    <!-- /.item -->
-                                </div>
-
-                            </div>
-                            <div class="box-footer">
-                                <form action="/home/postreview" method="post">
-                                    <div class="form-inline">
-                                        <input class="form-control" placeholder="Full Name" type="text" name="CustomerReview.CustomerName" value="">
-                                        <input class="form-control" placeholder="Email" type="email" name="CustomerReview.CustomerEmail" value="">
-                                        <input class="form-control" placeholder="Address." type="text" name="CustomerReview.CustomerAddress" value="">
-                                        <input class="form-control" placeholder="Phone Number" type="text" name="CustomerReview.CustomerPhoneNumber" value="">
-
-
-                                    </div>
-                                    <br />
-                                    <input type="hidden" name="CustomerReview.CompanyId" value="@Model.Company.Id">
-
-                                    <div class="form-inline">
-
-                                        Service Rating
-                                        <span class="form-control no-border" id="SetServiceRating"></span>
-                                        <input type="hidden" id="ServiceRating" name="CustomerReview.ServiceRating" value="">
-
-                                        Quality Rating
-                                        <span class="form-control no-border" id="SetQualityRating"></span>
-                                        <input type="hidden" id="QualityRating" name="CustomerReview.QualityRating" value="">
-
-                                        Price Rating
-                                        <span class="form-control no-border" id="SetPriceRating"></span>
-                                        <input type="hidden" id="PriceRating" name="CustomerReview.PriceRating" value="">
-
-                                    </div>
-                                    <br />
-                                    <br />
-                                    <div class="input-group">
-
-                                        <input class="form-control" placeholder="Type Review..." type="text" name="CustomerReview.Review" value="">
-
-                                        <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="fa fa-paper-plane"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- /.nav-tabs-custom -->
                 </div>
-                <!-- /.col -->
+            </div>
+            <div class="box-body chat" id="chat-box" style="overflow-y: scroll; height: 400px;">
+
+                @foreach (var companyReviews in Model.Company.CustomerReviews)
+                {
+                    <!-- chat item -->
+                    <div class="item">
+                        <br/>
+
+                        <img src="~/LgsImageRepo/ProfileImages/profiledefault.png" alt="user image" class="online">
+
+                        <p class="message">
+
+                            <a href="#" class="name">
+                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> @companyReviews.CreatedDate.Date.ToShortDateString() - @companyReviews.CreatedDate.ToShortTimeString()</small>
+                                @companyReviews.CustomerName -- @companyReviews.CustomerEmail
+                                <div class="pull-right">
+
+                                    Service Rating : @companyReviews.ServiceRating &nbsp;
+
+                                    Quality Rating : @companyReviews.QualityRating &nbsp;
+
+                                    Price Rating : @companyReviews.PriceRating &nbsp;
+
+                                </div>
+                            </a>
+                            <br/>
+
+                            @companyReviews.Review
+
+                        </p>
+                    </div>
+                    if (!string.IsNullOrEmpty(companyReviews.ReviewReply))
+                    {
+                            <div class="item">
+                                <br />
+                                <img src="@companyReviews.Company.LogoPath" alt="user image" class="offline">
+                                <p class="message">
+                                    <a href="#" class="name">
+                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> @companyReviews.ReviewReplyDate.Date.ToShortDateString() - @companyReviews.ReviewReplyDate.ToShortTimeString()</small>
+                                        @companyReviews.Company.CompanyName
+                                    </a>
+                                    <br />
+                                <p style="color: red">
+                                    @companyReviews.ReviewReply
+                                </p>
+                                </p>
+                            </div>
+                    }
+                }
             </div>
         </div>
-        <!-- /.col -->
-        <!-- /.row -->
+        <div class="box-footer">
+            <form action="/home/postreview" method="post">
+                <div class="form-inline">
+                    <input class="form-control" style="padding:22px" placeholder="Full Name" type="text" name="CustomerReview.CustomerName" value="">
+                    <input class="form-control" style="padding:22px" placeholder="Email" type="email" name="CustomerReview.CustomerEmail" value="">
+                    <input class="form-control" style="padding:22px" placeholder="Address." type="text" name="CustomerReview.CustomerAddress" value="">
+                    <input class="form-control" style="padding:22px" placeholder="Phone Number" type="text" name="CustomerReview.CustomerPhoneNumber" value="">
+
+
+                </div>
+                <br/>
+                <input type="hidden" name="CustomerReview.CompanyId" value="@Model.Company.Id">
+
+                <div class="form-inline">
+                    <span>Service Rating</span>
+                    <span class="form-control no-border" style="height: 22px" id="SetServiceRating"></span>
+                    <input type="hidden"  id="ServiceRating" name="CustomerReview.ServiceRating" value="">
+
+                    <span>Quality Rating</span> 
+                    <span class="form-control no-border" style="height: 22px" id="SetQualityRating"></span>
+                    <input type="hidden" id="QualityRating" name="CustomerReview.QualityRating" value="">
+
+                    <span>Price Rating</span>
+                    <span class="form-control no-border" style="height: 22px" id="SetPriceRating"></span>
+                    <input type="hidden" id="PriceRating" name="CustomerReview.PriceRating" value="">
+
+                </div>
+                <br/>
+                <br/>
+                <div class="input-group">
+
+                    <input class="form-control" style="padding:22px" placeholder="Type Review..." type="text" name="CustomerReview.Review" value="">
+
+                    <div class="input-group-btn">
+                        <button type="submit" style="padding:12px" class="btn btn-success">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
     </div>
+</div>
+
+<!-- /.nav-tabs-custom -->
+</div>
+<!-- /.col -->
+</div>
+</div>
+<!-- /.col -->
+<!-- /.row -->
+</div>
 
 </section>
 
@@ -348,7 +361,7 @@
                     <input class="CId" name="CompanyId" type="hidden" value="@Model.Company.Id">
 
                     @Html.AntiForgeryToken()
-                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.ValidationSummary("", new {@class = "text-danger"})
 
                     <div class="form-group">
                         <label for="exampleInputFullNameedit" style="color: black">Full Name</label>

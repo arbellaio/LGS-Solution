@@ -185,6 +185,42 @@
     <Compile Include="Migrations\201912011833362_Added_Properties_Customer_Messages.Designer.cs">
       <DependentUpon>201912011833362_Added_Properties_Customer_Messages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912080823234_Added_Google_Lead_Google_Lead_Details.cs" />
+    <Compile Include="Migrations\201912080823234_Added_Google_Lead_Google_Lead_Details.Designer.cs">
+      <DependentUpon>201912080823234_Added_Google_Lead_Google_Lead_Details.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912091439503_LgsSettings.cs" />
+    <Compile Include="Migrations\201912091439503_LgsSettings.Designer.cs">
+      <DependentUpon>201912091439503_LgsSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912101911218_Added_PhoneNumber_FacebookAccessKey_In_Client_Table.cs" />
+    <Compile Include="Migrations\201912101911218_Added_PhoneNumber_FacebookAccessKey_In_Client_Table.Designer.cs">
+      <DependentUpon>201912101911218_Added_PhoneNumber_FacebookAccessKey_In_Client_Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912110121105_Added_FacebookLeads_FacebookLeadDetails.cs" />
+    <Compile Include="Migrations\201912110121105_Added_FacebookLeads_FacebookLeadDetails.Designer.cs">
+      <DependentUpon>201912110121105_Added_FacebookLeads_FacebookLeadDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912121736050_Added_DateTimeToFacebookLeads_AddedGoogleAdKeyTable.cs" />
+    <Compile Include="Migrations\201912121736050_Added_DateTimeToFacebookLeads_AddedGoogleAdKeyTable.Designer.cs">
+      <DependentUpon>201912121736050_Added_DateTimeToFacebookLeads_AddedGoogleAdKeyTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912132221519_Customer_Review_Replies.cs" />
+    <Compile Include="Migrations\201912132221519_Customer_Review_Replies.Designer.cs">
+      <DependentUpon>201912132221519_Customer_Review_Replies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912140857121_Remove_Review_Id.cs" />
+    <Compile Include="Migrations\201912140857121_Remove_Review_Id.Designer.cs">
+      <DependentUpon>201912140857121_Remove_Review_Id.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912140916559_Remove_Review_Replies.cs" />
+    <Compile Include="Migrations\201912140916559_Remove_Review_Replies.Designer.cs">
+      <DependentUpon>201912140916559_Remove_Review_Replies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912140936372_Added_Review_Reply_Date.cs" />
+    <Compile Include="Migrations\201912140936372_Added_Review_Reply_Date.Designer.cs">
+      <DependentUpon>201912140936372_Added_Review_Reply_Date.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientServices\ClientService.cs" />
@@ -300,6 +336,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912011833362_Added_Properties_Customer_Messages.resx">
       <DependentUpon>201912011833362_Added_Properties_Customer_Messages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912080823234_Added_Google_Lead_Google_Lead_Details.resx">
+      <DependentUpon>201912080823234_Added_Google_Lead_Google_Lead_Details.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912091439503_LgsSettings.resx">
+      <DependentUpon>201912091439503_LgsSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912101911218_Added_PhoneNumber_FacebookAccessKey_In_Client_Table.resx">
+      <DependentUpon>201912101911218_Added_PhoneNumber_FacebookAccessKey_In_Client_Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912110121105_Added_FacebookLeads_FacebookLeadDetails.resx">
+      <DependentUpon>201912110121105_Added_FacebookLeads_FacebookLeadDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912121736050_Added_DateTimeToFacebookLeads_AddedGoogleAdKeyTable.resx">
+      <DependentUpon>201912121736050_Added_DateTimeToFacebookLeads_AddedGoogleAdKeyTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912132221519_Customer_Review_Replies.resx">
+      <DependentUpon>201912132221519_Customer_Review_Replies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912140857121_Remove_Review_Id.resx">
+      <DependentUpon>201912140857121_Remove_Review_Id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912140916559_Remove_Review_Replies.resx">
+      <DependentUpon>201912140916559_Remove_Review_Replies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912140936372_Added_Review_Reply_Date.resx">
+      <DependentUpon>201912140936372_Added_Review_Reply_Date.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

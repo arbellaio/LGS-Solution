@@ -1,13 +1,11 @@
-﻿using System;
+﻿using LGS.Models.Communication;
+using LGS.Models.Companies;
+using LGS.Models.Users;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using LGS.Models.Communication;
-using LGS.Models.Companies;
-using LGS.Models.Users;
 
 namespace LGS.Data.Services.HomeServices
 {

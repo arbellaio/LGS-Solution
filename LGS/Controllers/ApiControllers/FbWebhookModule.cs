@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Web;
-using Nancy;
+﻿using Nancy;
 using Nancy.Extensions;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Net;
 
 namespace LGS.Controllers.ApiControllers
 {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using LGS.Models;
+﻿using LGS.Models;
 using LGS.Models.Analytics;
+using System.Collections.Generic;
 
 namespace LGS.Data.ViewModels.DatabaseViewModels
 {

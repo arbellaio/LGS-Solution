@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace LGS.Models.FbWebhooks
+namespace LGS.Models.Webhooks
 {
     public class JsonData
     {

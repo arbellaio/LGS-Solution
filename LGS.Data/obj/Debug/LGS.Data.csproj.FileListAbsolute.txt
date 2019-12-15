@@ -53,3 +53,12 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LG
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_ForeignKey_Customer_Message_Review.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Properties_Reviews_Table.resources
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Properties_Customer_Messages.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Google_Lead_Google_Lead_Details.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.LgsSettings.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_PhoneNumber_FacebookAccessKey_In_Client_Table.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_FacebookLeads_FacebookLeadDetails.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_DateTimeToFacebookLeads_AddedGoogleAdKeyTable.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Customer_Review_Replies.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Remove_Review_Id.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Remove_Review_Replies.resources
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS.Data\obj\Debug\LGS.Data.Migrations.Added_Review_Reply_Date.resources

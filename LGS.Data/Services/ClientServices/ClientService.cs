@@ -1,17 +1,17 @@
-﻿using System;
+﻿using LGS.Data.ViewModels.DatabaseViewModels;
+using LGS.Models.Communication;
+using LGS.Models.Companies;
+using LGS.Models.Credits;
+using LGS.Models.Leads;
+using LGS.Models.RoleNames;
+using LGS.Models.Users;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using LGS.Data.ViewModels.DatabaseViewModels;
-using LGS.Models.Communication;
-using LGS.Models.Companies;
-using LGS.Models.Credits;
-using LGS.Models.PaypalItem;
-using LGS.Models.RoleNames;
-using LGS.Models.Users;
+using LGS.Models.Items;
 
 namespace LGS.Data.Services.ClientServices
 {
@@ -37,6 +37,24 @@ namespace LGS.Data.Services.ClientServices
                 var clientInDbWithCompaniesCredits = await _context.Clients.Include(x => x.User)
                     .Include(x => x.Companies).Include(x => x.AccountCredit).Include(x => x.CreditInvoices)
                     .FirstOrDefaultAsync(x => x.AppUserId.Equals(id));
+                var userVm = new UserViewModel
+                {
+                    Client = clientInDbWithCompaniesCredits,
+                    User = clientInDbWithCompaniesCredits?.User
+                };
+                return userVm;
+            }
+
+            return null;
+        }
+
+        public UserViewModel GetClientUserByIdSync(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var clientInDbWithCompaniesCredits = _context.Clients.Include(x => x.User)
+                    .Include(x => x.Companies).Include(x => x.AccountCredit).Include(x => x.CreditInvoices)
+                    .FirstOrDefault(x => x.AppUserId.Equals(id));
                 var userVm = new UserViewModel
                 {
                     Client = clientInDbWithCompaniesCredits,
@@ -79,9 +97,8 @@ namespace LGS.Data.Services.ClientServices
         {
             if (companyId > 0)
             {
-                _context.Configuration.ProxyCreationEnabled = false;
-
-                var companyInDb = await _context.Companies.Include(x => x.Client).Include(x => x.CompanyInvoices).Include(x => x.CustomerReviews).Include(x => x.CustomerMessages)
+                var companyInDb = await _context.Companies.Include(x => x.Client).Include(x => x.CompanyInvoices)
+                    .Include(x => x.CustomerReviews).Include(x => x.CustomerMessages).Include(x => x.GoogleKeys)
                     .FirstOrDefaultAsync(x => x.Id.Equals(companyId));
 
                 // for getting app-user may or may not need in future depending on page view 
@@ -102,21 +119,21 @@ namespace LGS.Data.Services.ClientServices
         {
             if (companyViewModel?.Company != null)
             {
-                var companyInDb =
-                    await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(companyViewModel.Company.Id));
+                var companyInDb = await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(companyViewModel.Company.Id));
                 if (companyInDb == null)
                 {
                     var company = companyViewModel.Company;
                     company.CreatedDate = DateTime.UtcNow;
                     company.UpdatedDate = DateTime.UtcNow;
+                    company.CreditUseDateTime = DateTime.UtcNow;
                     _context.Companies.AddOrUpdate(company);
                 }
                 else
                 {
+                    companyViewModel.Company.CreditUseDateTime = companyInDb.CreditUseDateTime;
+                    companyViewModel.Company.CreatedDate = companyInDb.CreatedDate;
                     companyInDb = companyViewModel.Company;
-
                     companyInDb.UpdatedDate = DateTime.UtcNow;
-                    companyInDb.CreatedDate = DateTime.UtcNow;
                     _context.Companies.AddOrUpdate(companyInDb);
                 }
 
@@ -156,7 +173,8 @@ namespace LGS.Data.Services.ClientServices
         }
 
 
-       
+      
+
         public async Task<bool> DeleteClient(int id)
         {
             if (id > 0)
@@ -224,7 +242,6 @@ namespace LGS.Data.Services.ClientServices
         }
 
         #endregion
-
 
         #region Purchases Invoices
 
@@ -320,29 +337,155 @@ namespace LGS.Data.Services.ClientServices
         #endregion
 
 
+        #region Save Leads Data
+
+        public async Task<bool> SaveGoogleLeadData(GoogleLead googleLead, List<GoogleLeadDetail> googleLeadDetailList)
+        {
+            if (googleLead != null && googleLeadDetailList != null)
+            {
+                _context.GoogleLeads.AddOrUpdate(googleLead);
+                foreach (var googleLeadDetail in googleLeadDetailList)
+                {
+                    _context.GoogleLeadDetails.AddOrUpdate(googleLeadDetail);
+                }
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> SaveFacebookLeadData(List<FacebookLead> facebookLeads)
+        {
+            if (facebookLeads != null && facebookLeads.Any())
+            {
+                foreach (var facebookLead in facebookLeads)
+                {
+                    if (facebookLead.FacebookLeadDetails != null && facebookLead.FacebookLeadDetails.Any())
+                    {
+                        var facebookLeadInDb = await _context.FacebookLeads.FirstOrDefaultAsync( x => x.CreatedDateTime == facebookLead.CreatedDateTime);
+                        if (facebookLeadInDb == null)
+                            _context.FacebookLeads.AddOrUpdate(facebookLead);
+                        foreach (var facebookLeadDetail in facebookLead.FacebookLeadDetails)
+                        {
+                            var facebookLeadDetailInDb = await _context.FacebookLeads.FirstOrDefaultAsync(x => x.CreatedDateTime == facebookLead.CreatedDateTime);
+                            if (facebookLeadDetailInDb == null)
+                             _context.FacebookLeadsDetails.AddOrUpdate(facebookLeadDetail);
+                        }
+                        await _context.SaveChangesAsync();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        #endregion
+
+
         public async Task<List<CustomerReview>> GetCustomerReviews(string email)
         {
             if (!string.IsNullOrEmpty(email))
             {
-                _context.Configuration.ProxyCreationEnabled = false;
-
                 return await _context.CustomerReviews.Where(x => x.CustomerEmail.Equals(email)).ToListAsync();
             }
 
             return null;
         }
 
-        public async Task<CustomerMessage> GetCustomerMessage( int messageId)
+        public async Task<CustomerMessage> GetCustomerMessage(int messageId)
         {
             if (messageId > 0)
             {
-                _context.Configuration.ProxyCreationEnabled = false;
-
                 var message = await _context.CustomerMessages.FirstOrDefaultAsync(x => x.Id.Equals(messageId));
-               return message;
+                return message;
             }
 
             return null;
+        }
+
+        public async Task<LgsSetting> GetSettings()
+        {
+            var lgsSetting = await _context.LgsSettings.FirstOrDefaultAsync();
+            return lgsSetting;
+        }
+
+
+        public bool SaveFacebookUserAccessTokenSync(Client client)
+        {
+            if (client != null)
+            {
+                _context.Clients.AddOrUpdate(client);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool SaveFacebookPageAccessTokenForCompanySync(Company company)
+        {
+            if (company != null)
+            {
+                _context.Companies.AddOrUpdate(company);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool SaveGoogleKeyId(CompanyGoogleKey companyGoogleKey)
+        {
+            if (companyGoogleKey != null)
+            {
+                var googleKeyInDb = _context.CompanyGoogleKeys.FirstOrDefault(x => x.GoogleAdKey.Equals(companyGoogleKey.GoogleAdKey));
+                if (googleKeyInDb != null)
+                {
+                    googleKeyInDb.GoogleAdKey = companyGoogleKey.GoogleAdKey;
+                    _context.CompanyGoogleKeys.AddOrUpdate(googleKeyInDb);
+                }
+                else
+                {
+                    _context.CompanyGoogleKeys.AddOrUpdate(companyGoogleKey);
+                }
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool DeleteGoogleKeyId(CompanyGoogleKey companyGoogleKey)
+        {
+            if (companyGoogleKey != null)
+            {
+                var googleKeyInDb = _context.CompanyGoogleKeys.FirstOrDefault(x => x.GoogleAdKey.Equals(companyGoogleKey.GoogleAdKey));
+                if (googleKeyInDb != null)
+                {
+                 _context.CompanyGoogleKeys.Remove(googleKeyInDb);
+                }
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool SendReviewReply(CustomerReview customerReviewReply)
+        {
+            if (customerReviewReply != null)
+            {
+                var review = _context.CustomerReviews.FirstOrDefault(x => x.Id.Equals(customerReviewReply.Id));
+                if (review != null)
+                {
+                    review.ReviewReply = customerReviewReply.ReviewReply;
+                    review.ReviewReplyDate = customerReviewReply.ReviewReplyDate;
+                    _context.CustomerReviews.AddOrUpdate(review);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+
+            return false;
         }
 
     }
@@ -355,8 +498,7 @@ namespace LGS.Data.Services.ClientServices
         Task<bool> AddUpdateClientCompanyByCompanyId(CompanyViewModel companyViewModel);
         Task<bool> AddInvoice(CreditInvoice creditInvoice, AccountCredit accountCredit);
 
-        Task<bool> AddCompanyPurchase(AccountCredit accountCredit, CompanyInvoice companyInvoice,
-            CompanyInventory companyInventory);
+        Task<bool> AddCompanyPurchase(AccountCredit accountCredit, CompanyInvoice companyInvoice,CompanyInventory companyInventory);
 
         Task<UserViewModel> GetClientUserById(string id);
         Task<UserViewModel> GetLoggedInUserInfo(string id, string userRole);
@@ -368,9 +510,22 @@ namespace LGS.Data.Services.ClientServices
         Task<bool> SaveCompanySettings(Company company);
         Task<List<CustomerReview>> GetCustomerReviews(string email);
         Task<CustomerMessage> GetCustomerMessage(int messageId);
+        Task<LgsSetting> GetSettings();
+
+
+        Task<bool> SaveGoogleLeadData(GoogleLead googleLead, List<GoogleLeadDetail> googleLeadDetail);
+        Task<bool> SaveFacebookLeadData(List<FacebookLead> facebookLeads);
+
         Task<bool> DeleteClient(int id);
         Task<bool> DeleteCompany(int id);
-    }
 
-   
+        UserViewModel GetClientUserByIdSync(string id);
+        bool SaveFacebookUserAccessTokenSync(Client client);
+        bool SaveFacebookPageAccessTokenForCompanySync(Company company);
+
+        bool SendReviewReply(CustomerReview customerReviewReply);
+
+        bool SaveGoogleKeyId(CompanyGoogleKey companyGoogleKey);
+        bool DeleteGoogleKeyId(CompanyGoogleKey companyGoogleKey);
+    }
 }

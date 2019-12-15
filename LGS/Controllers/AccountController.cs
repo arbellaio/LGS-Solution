@@ -1,21 +1,17 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Services.Description;
-using KruisIT.Web.Analytics.Attributes;
+﻿using KruisIT.Web.Analytics.Attributes;
 using LGS.AppProperties;
 using LGS.Data;
 using LGS.Data.Services.UserServices;
+using LGS.Models;
+using LGS.Models.RoleNames;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using LGS.Models;
-using LGS.Models.RoleNames;
-using LGS.Models.Users;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace LGS.Controllers
 {

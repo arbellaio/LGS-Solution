@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="KruisIT.Web.Analytics, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\KruisIT.Web.Analytics.2.6.0\lib\net45\KruisIT.Web.Analytics.dll</HintPath>
     </Reference>
@@ -303,6 +306,7 @@
     <Compile Include="Controllers\Analytics\AnalyticsController.cs" />
     <Compile Include="Controllers\ApiControllers\FbWebhookController.cs" />
     <Compile Include="Controllers\ApiControllers\FbWebhookModule.cs" />
+    <Compile Include="Controllers\ApiControllers\GWebController.cs" />
     <Compile Include="Controllers\Client\ClientController.cs" />
     <Compile Include="Controllers\Error\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -314,6 +318,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FacebookLeadGen\FacebookClientHelper.cs" />
     <Compile Include="Helpers\FileUploader\FileUploadHelper.cs" />
     <Compile Include="Helpers\IFrameGen\IFrameGenerator.cs" />
     <Compile Include="Helpers\Invoices\InvoiceHelper.cs" />
@@ -1075,12 +1080,13 @@
     <Content Include="Views\Home\CompanyDetail.cshtml" />
     <Content Include="Views\Client\Cart.cshtml" />
     <Content Include="Views\Client\ClientSubView\Reviews.cshtml" />
+    <Content Include="Views\Admin\LgsSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helpers\FacebookLeadGen\" />
     <Folder Include="LgsImageRepo\ContentImages\" />
     <Folder Include="Views\Analytics\" />
+    <Folder Include="Views\Facebook\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

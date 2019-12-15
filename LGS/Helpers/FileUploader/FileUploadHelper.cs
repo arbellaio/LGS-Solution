@@ -1,10 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
-using Microsoft.Owin;
 
 namespace LGS.Helpers.FileUploader
 {

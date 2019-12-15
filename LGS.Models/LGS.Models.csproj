@@ -64,6 +64,8 @@
     <Compile Include="Analytics\Analytics_Visits.cs" />
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="BusinessTypes\BusinessType.cs" />
+    <Compile Include="Communication\CustomerReview.cs" />
+    <Compile Include="Communication\CustomerReviewReply.cs" />
     <Compile Include="Communication\Reviews.cs" />
     <Compile Include="Companies\Company.cs" />
     <Compile Include="Companies\CompanyRating.cs" />
@@ -72,7 +74,12 @@
     <Compile Include="Credits\CompanyCredit.cs" />
     <Compile Include="Credits\CompanyInvoice.cs" />
     <Compile Include="Credits\CreditInvoice.cs" />
-    <Compile Include="FbWebhooks\FbWebhook.cs" />
+    <Compile Include="Items\LgsSetting.cs" />
+    <Compile Include="Leads\FacebookLead.cs" />
+    <Compile Include="Leads\FacebookUserAccount.cs" />
+    <Compile Include="Leads\GoogleLead.cs" />
+    <Compile Include="Webhooks\FbJsonData.cs" />
+    <Compile Include="Webhooks\FbWebhook.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="PaypalItem\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +87,7 @@
     <Compile Include="Users\Client.cs" />
     <Compile Include="Users\Customer.cs" />
     <Compile Include="Users\SubAdmin.cs" />
+    <Compile Include="Webhooks\GJsonData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

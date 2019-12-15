@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using LGS.Models;
-using LGS.Models.Analytics;
+﻿using LGS.Models;
 using LGS.Models.BusinessTypes;
 using LGS.Models.Communication;
 using LGS.Models.Companies;
 using LGS.Models.Companies.CompanyTypes;
 using LGS.Models.Credits;
-using LGS.Models.PaypalItem;
+using LGS.Models.Leads;
 using LGS.Models.Users;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
+using LGS.Models.Items;
 using Item = LGS.Models.Items.Item;
 
 namespace LGS.Data
@@ -33,11 +29,19 @@ namespace LGS.Data
         public DbSet<CompanyInventory> CompanyInventories { get; set; }
         public DbSet<CustomerMessage> CustomerMessages { get; set; }
         public DbSet<CustomerReview> CustomerReviews { get; set; }
-        
+
+        public DbSet<GoogleLead> GoogleLeads { get; set; }
+        public DbSet<GoogleLeadDetail> GoogleLeadDetails { get; set; }
+        public DbSet<LgsSetting> LgsSettings { get; set; }
+        public DbSet<FacebookLead> FacebookLeads { get; set; }
+        public DbSet<FacebookLeadDetail> FacebookLeadsDetails { get; set; }
+        public DbSet<CompanyGoogleKey> CompanyGoogleKeys { get; set; }
+
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Configuration.ProxyCreationEnabled = false;
         }
 
         public static ApplicationDbContext Create()

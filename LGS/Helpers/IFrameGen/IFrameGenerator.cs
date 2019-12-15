@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace LGS.Helpers.IFrameGen
+﻿namespace LGS.Helpers.IFrameGen
 {
     public class FrameGenerator
     {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace LGS.AppProperties
+﻿namespace LGS.AppProperties
 {
     public enum LgsAlertEnums
     {
@@ -35,5 +30,18 @@ namespace LGS.AppProperties
     public enum LgsCompanySettingEnum
     {
 
+    }
+
+    public enum LgsNotificationEnum
+    {
+        Sms = 1,
+        Email = 2,
+        Both = 3
+    }
+
+    public enum LgsNotificationIntervalEnum
+    {
+        Weekly = 0,
+        Monthly = 1,
     }
 }

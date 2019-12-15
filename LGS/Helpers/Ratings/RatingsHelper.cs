@@ -1,8 +1,7 @@
-﻿using System;
+﻿using LGS.Models.Companies;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using LGS.Models.Companies;
 
 namespace LGS.Helpers.Ratings
 {

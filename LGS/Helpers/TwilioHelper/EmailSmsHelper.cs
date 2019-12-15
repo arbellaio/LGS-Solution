@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using LGS.AppProperties;
+﻿using LGS.AppProperties;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System;
+using System.Threading.Tasks;
 using Twilio;
 using Twilio.Exceptions;
 using Twilio.Rest.Api.V2010.Account;

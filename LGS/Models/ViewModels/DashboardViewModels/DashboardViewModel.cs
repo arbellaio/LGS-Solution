@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using LGS.Data.ViewModels.DatabaseViewModels;
+﻿using LGS.Data.ViewModels.DatabaseViewModels;
 using LGS.Models.Communication;
 using LGS.Models.Companies;
-using LGS.Models.PaypalItem;
 using LGS.Models.Users;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web;
+using LGS.Models.Items;
+using Item = LGS.Models.PaypalItem.Item;
 
 namespace LGS.Models.ViewModels.DashboardViewModels
 {
@@ -40,6 +39,7 @@ namespace LGS.Models.ViewModels.DashboardViewModels
         public int ClientUserId { get; set; }
         public HttpPostedFileBase ProfilePic { get; set; }
 
+        public LgsSetting LgsSetting { get; set; }
         #endregion
 
 

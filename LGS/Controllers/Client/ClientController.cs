@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using LGS.AppProperties;
+﻿using LGS.AppProperties;
 using LGS.Data;
 using LGS.Data.Services.ClientServices;
 using LGS.Data.ViewModels.DatabaseViewModels;
-using LGS.Filters;
 using LGS.Helpers.FileUploader;
 using LGS.Helpers.IFrameGen;
 using LGS.Helpers.Invoices;
@@ -20,6 +12,18 @@ using LGS.Models.RoleNames;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PayPal.Api;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Facebook;
+using LGS.Helpers.FacebookLeadGen;
+using LGS.Models.Communication;
+using LGS.Models.Leads;
+using Newtonsoft.Json;
 using DashboardViewModel = LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel;
 
 namespace LGS.Controllers.Client
@@ -66,7 +70,7 @@ namespace LGS.Controllers.Client
                 TempData[AppConstants.AlertDialog] = 0;
             ViewBag.AlertDialog = (int) TempData[AppConstants.AlertDialog];
             var loggedInUserId = User.Identity.GetUserId();
-
+            var settings = await Service.GetSettings();
             if (!string.IsNullOrEmpty(loggedInUserId))
             {
                 var clientUserVm = await Service.GetClientUserById(loggedInUserId);
@@ -74,7 +78,8 @@ namespace LGS.Controllers.Client
                 {
                     var clientDashboardVm = new DashboardViewModel
                     {
-                        UserVm = clientUserVm
+                        UserVm = clientUserVm,
+                        LgsSetting = settings
                     };
                     return View(clientDashboardVm);
                 }
@@ -97,6 +102,7 @@ namespace LGS.Controllers.Client
                 var companyInDb = await Service.GetClientCompanyByCompanyId(id);
                 if (companyInDb != null)
                 {
+                    var settings = await Service.GetSettings();
                     var userViewModel = new UserViewModel
                     {
                         Client = companyInDb?.Client,
@@ -106,8 +112,15 @@ namespace LGS.Controllers.Client
                     var companyDetailViewModel = new CompanyViewModel
                     {
                         Company = companyInDb,
-                        UserViewModel = userViewModel
+                        UserViewModel = userViewModel,
+                        LgsSetting = settings
                     };
+                    var facebookHelper = new FacebookClientHelper();
+                    var facePageInfo = facebookHelper.GetPageInfo(companyDetailViewModel.Company.FacebookPageAccessToken,companyDetailViewModel.Company.FacebookId, AppKeys.FacebookAppId, AppKeys.FacebookAppSecret);
+                    if (facePageInfo != null)
+                    {
+                        await Service.SaveFacebookLeadData(facePageInfo);
+                    }
                     return View(companyDetailViewModel);
                 }
 
@@ -495,6 +508,9 @@ namespace LGS.Controllers.Client
 
         #endregion
 
+
+        #region Buy Services
+
         public async Task<ActionResult> BuyServices(Models.PaypalItem.Item item)
         {
             var accountCredit = await Service.GetAccountCredit(item.ClientId);
@@ -502,24 +518,24 @@ namespace LGS.Controllers.Client
             if (accountCredit != null)
             {
                 accountCredit.AvailableCredits -= Convert.ToDecimal(item.price);
-//                var invoice = new CreditInvoice
-//                {
-//                    ClientId = item.ClientId,
-//                    CreatedDate = DateTime.UtcNow,
-//                    UpdatedDate = DateTime.UtcNow,
-//                    TransactionAmount = Convert.ToDecimal(item.price),
-//                    Description = item.description,
-//                    InvoiceNo = InvoiceHelper.GetInvoiceNumber(InvoiceHelper.GetUserNameFromEmail(item.Email)),
-//                    Currency = "Cr",
-//                    Name = item.name,
-//                    Quantity = item.quantity,
-//                    SkuCode = item.sku,
-//                    Price = item.priceperitem,
-//                    TotalPrice = item.price,
-//                    TransactionService = AppConstants.DescriptionPurchaseInternal,
-//                    TransactionId = Guid.NewGuid().ToString(),
-//                    UserId = item.UserId,
-//                };
+                //                var invoice = new CreditInvoice
+                //                {
+                //                    ClientId = item.ClientId,
+                //                    CreatedDate = DateTime.UtcNow,
+                //                    UpdatedDate = DateTime.UtcNow,
+                //                    TransactionAmount = Convert.ToDecimal(item.price),
+                //                    Description = item.description,
+                //                    InvoiceNo = InvoiceHelper.GetInvoiceNumber(InvoiceHelper.GetUserNameFromEmail(item.Email)),
+                //                    Currency = "Cr",
+                //                    Name = item.name,
+                //                    Quantity = item.quantity,
+                //                    SkuCode = item.sku,
+                //                    Price = item.priceperitem,
+                //                    TotalPrice = item.price,
+                //                    TransactionService = AppConstants.DescriptionPurchaseInternal,
+                //                    TransactionId = Guid.NewGuid().ToString(),
+                //                    UserId = item.UserId,
+                //                };
 
                 var companyInvoice = new CompanyInvoice
                 {
@@ -571,6 +587,11 @@ namespace LGS.Controllers.Client
             return null;
         }
 
+        #endregion
+
+
+        #region SetSettings
+
         public async Task SetSettings(CompanyViewModel companyViewModel)
         {
             if (companyViewModel != null && companyViewModel.CompanyId > 0)
@@ -587,18 +608,17 @@ namespace LGS.Controllers.Client
                 {
                     TempData[AppConstants.AlertDialog] = LgsAlertEnums.SavedSettings;
                     return;
-//                    return RedirectToAction("companydetail", "client",new {id = companyViewModel.CompanyId, clientId = companyViewModel.ClientId});
                 }
 
                 TempData[AppConstants.AlertDialog] = LgsAlertEnums.SaveSettingsFailed;
-//                return RedirectToAction("companydetail", "client",
-//                    new {id = companyViewModel.CompanyId, clientId = companyViewModel.ClientId});
             }
 
             TempData[AppConstants.AlertDialog] = LgsAlertEnums.SaveSettingsFailed;
-//            return RedirectToAction("companydetail", "client",
-//                new {id = companyViewModel.CompanyId, clientId = companyViewModel.ClientId});
         }
+
+        #endregion
+
+        #region Get Reviews And Messages
 
         public async Task<JsonResult> GetCustomerReviews(string email)
         {
@@ -607,6 +627,7 @@ namespace LGS.Controllers.Client
                 var reviews = await Service.GetCustomerReviews(email);
                 return Json(reviews, JsonRequestBehavior.AllowGet);
             }
+
             return null;
         }
 
@@ -615,11 +636,140 @@ namespace LGS.Controllers.Client
             if (id > 0)
             {
                 var message = await Service.GetCustomerMessage(id);
-                var mapLocation = FrameGenerator.GenerateIFrame(message.AddressOneUnit + " " + message.AddressTwoStreet + " "+ message.AddressThreeLocality);
+                var mapLocation = FrameGenerator.GenerateIFrame(
+                    message.AddressOneUnit + " " + message.AddressTwoStreet + " " + message.AddressThreeLocality);
                 message.MapLocation = mapLocation;
                 return Json(message, JsonRequestBehavior.AllowGet);
             }
+
             return null;
         }
+
+
+        public void ReviewReply(CustomerReview customerReviewReply)
+        {
+            if (customerReviewReply != null)
+            {
+                customerReviewReply.ReviewReplyDate = DateTime.Now;
+                var reviews =  Service.SendReviewReply(customerReviewReply);
+            }
+        }
+
+        #endregion
+
+        #region Save Delete Google Ad Key
+
+        public void SaveGoogleAdKey(CompanyViewModel companyViewModel)
+        {
+            if (companyViewModel.CompanyId > 0 && !string.IsNullOrEmpty(companyViewModel.GoogleAdKey))
+            {
+                var googleCompanyAdkey = new CompanyGoogleKey
+                {
+                    CompanyId = companyViewModel.CompanyId,
+                    GoogleAdKey = companyViewModel.GoogleAdKey
+                };
+                Service.SaveGoogleKeyId(googleCompanyAdkey);
+            }
+        }
+        [HttpDelete]
+        public void DeleteGoogleAdKey(CompanyViewModel companyViewModel)
+        {
+            if (companyViewModel.CompanyId > 0 && !string.IsNullOrEmpty(companyViewModel.GoogleAdKey))
+            {
+                var googleCompanyAdkey = new CompanyGoogleKey
+                {
+                    CompanyId = companyViewModel.CompanyId,
+                    GoogleAdKey = companyViewModel.GoogleAdKey
+                };
+                Service.DeleteGoogleKeyId(googleCompanyAdkey);
+            }
+        }
+
+        #endregion
+
+        #region Facebook Auth
+
+        private Uri RedirectUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url);
+                uriBuilder.Query = null;
+                uriBuilder.Fragment = null;
+                uriBuilder.Path = Url.Action("FacebookCallback");
+                return uriBuilder.Uri;
+            }
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult Facebook()
+        {
+            var fb = new FacebookClient();
+            var loginUrl = fb.GetLoginUrl(new
+            {
+                client_id = AppKeys.FacebookAppId,
+                client_secret = AppKeys.FacebookAppSecret,
+                redirect_uri = RedirectUri.AbsoluteUri,
+                response_type = "code",
+                scope = "email,manage_pages"
+            });
+
+            return Redirect(loginUrl.AbsoluteUri);
+        }
+
+
+        public ActionResult FacebookCallback(string code)
+        {
+            var fb = new FacebookClient();
+            dynamic result = fb.Post("oauth/access_token", new
+            {
+                client_id = AppKeys.FacebookAppId,
+                client_secret = AppKeys.FacebookAppSecret,
+                redirect_uri = RedirectUri.AbsoluteUri,
+                code = code
+            });
+
+            var accessToken = result.access_token;
+            var loggedInUserId = User.Identity.GetUserId();
+            var clientUser = Service.GetClientUserByIdSync(loggedInUserId);
+            // Store the access token in the session for farther use
+            Session["AccessToken"] = accessToken;
+            clientUser.Client.FacebookUserAccessToken = accessToken;
+            Service.SaveFacebookUserAccessTokenSync(clientUser.Client);
+            // update the facebook client with the access token so
+            // we can make requests on behalf of the user
+            fb.AccessToken = accessToken;
+
+            var userAccountObject = fb.Get("me/accounts");
+            var userAccountObjectString = userAccountObject.ToString();
+            var facebookUserAccount = JsonConvert.DeserializeObject<FacebookUserAccount>(userAccountObjectString);
+            if (facebookUserAccount != null)
+            {
+                foreach (var facebookUserAccountDetail in facebookUserAccount.data)
+                {
+                    fb.AppId = AppKeys.FacebookAppId;
+                    fb.AppSecret = AppKeys.FacebookAppSecret;
+                    fb.AccessToken = facebookUserAccountDetail.access_token;
+                     var o = fb.Get(facebookUserAccountDetail.id+"/subscribed_apps?subscribed_fields=feed");
+                }
+                foreach (var company in clientUser.Client.Companies)
+                {
+
+                    var facebookUserPageId = facebookUserAccount.data.Find(x => x.id.Equals(company.FacebookId));
+                    if (facebookUserPageId != null)
+                    {
+                        company.FacebookPageAccessToken = facebookUserPageId.access_token;
+                        Service.SaveFacebookPageAccessTokenForCompanySync(company);
+                    }
+                }
+            }
+           
+
+           
+            return RedirectToAction("Index", "Home");
+        }
+
+        #endregion
     }
 }

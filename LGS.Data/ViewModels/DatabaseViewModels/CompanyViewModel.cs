@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LGS.Models.Companies;
 using System.Web;
-using LGS.Models.Companies;
+using LGS.Models.Items;
 
 namespace LGS.Data.ViewModels.DatabaseViewModels
 {
@@ -15,7 +11,7 @@ namespace LGS.Data.ViewModels.DatabaseViewModels
         public UserViewModel UserViewModel { get; set; }
 
         public bool IsEnable { get; set; }
-        public int LeadPerCredit { get; set; }
+        public decimal LeadPerCredit { get; set; }
 
         public decimal RemainingItems { get; set; }
 
@@ -25,8 +21,11 @@ namespace LGS.Data.ViewModels.DatabaseViewModels
         public int CompanyId { get; set; }
         public int ClientId { get; set; }
 
+        public LgsSetting LgsSetting { get; set; }
 
-        
+        public string GoogleAdKey { get; set; }
+
+
 
 
     }

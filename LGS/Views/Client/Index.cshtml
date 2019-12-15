@@ -75,9 +75,6 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         <a href="#activity" data-toggle="tab" aria-expanded="true">Companies</a>
     </li>
     <li class="">
-        <a href="#settings" data-toggle="tab" aria-expanded="false">Leads Info</a>
-    </li>
-    <li class="">
         <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Account Transactions</a>
     </li>
     <li class="">
@@ -97,6 +94,12 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
         <div class="col-md-2 pull-right">
             <a href="/client/addcompany" class="pull-right">
                 <button type="button" class="btn btn-warning">Add Company</button>
+            </a>
+           
+        </div>
+        <div class="col-md-2 pull-right">
+            <a href="/client/facebook" class="pull-right">
+                <button type="button" class="btn btn-microsoft">Connect Facebook</button>
             </a>
         </div>
     </div>
@@ -308,30 +311,30 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 <!-- /.nav-tabs-custom -->
 
 
-<div class="tab-pane" id="settings">
-    <div class="box-body">
-        <div class="row">
-            <div class="row margin">
-                <div class="box box-solid">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Settings</h3>
-                    </div>
-
-                    <!-- /.box-header -->
-                    <div class="box-body">
-
-
-                        <!-- /.box-body -->
-                        <!-- /.box -->
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!-- /.tab-pane -->
-    </div>
-    <!-- /.tab-content -->
-</div>
+@* <div class="tab-pane" id="settings"> *@
+@*     <div class="box-body"> *@
+@*         <div class="row"> *@
+@*             <div class="row margin"> *@
+@*                 <div class="box box-solid"> *@
+@*                     <div class="box-header with-border"> *@
+@*                         <h3 class="box-title">Settings</h3> *@
+@*                     </div> *@
+@* *@
+@*                     <!-- /.box-header --> *@
+@*                     <div class="box-body"> *@
+@* *@
+@* *@
+@*                         <!-- /.box-body --> *@
+@*                         <!-- /.box --> *@
+@*                     </div> *@
+@* *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <!-- /.tab-pane --> *@
+@*     </div> *@
+@*     <!-- /.tab-content --> *@
+@* </div> *@
 </div>
 </div>
 </div>
@@ -380,8 +383,8 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                             @* 795 Folsom Ave, Suite 600<br> *@
                             @* San Francisco, CA 94107<br> *@
                             Phone:
-                            <span>
-                                (555) 539-1037
+                            <span id="phoneNumber">
+                                
                             </span><br>
                             Email:
                             <span id="userEmail">
@@ -610,6 +613,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                 $("#userFullName").text(creditInvoice.User.FullName);
                 $("#userEmail").text(creditInvoice.User.Email);
                 $("#invoiceNo").text(creditInvoice.InvoiceNo);
+                $("#phoneNumber").text(creditInvoice.InvoiceNo);
                 $("#subTotal").text(creditInvoice.TotalPrice);
                 $("#total").text(creditInvoice.TotalPrice);
 
@@ -673,7 +677,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
             } else {
                 value = 0;
             }
-            totalPrice = value * 1;
+            totalPrice = value * @Model.LgsSetting.CreditPerMoney;
             $('.total-price').val(totalPrice);
             $input.val(value);
 
@@ -691,7 +695,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
             } else {
                 value = 100;
             }
-            totalPrice = value * 1;
+            totalPrice = value * @Model.LgsSetting.CreditPerMoney;
 
             $('.total-price').val(totalPrice);
             $input.val(value);

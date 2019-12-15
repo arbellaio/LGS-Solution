@@ -148,3 +148,5 @@ E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\PayPal.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\PayPal.xml
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Nancy.dll
 E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Nancy.xml
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Facebook.dll
+E:\FreeLance Workspace\Lead Generation System\LGS Solution\LGS\bin\Facebook.xml

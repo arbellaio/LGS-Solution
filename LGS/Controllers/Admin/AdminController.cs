@@ -1,25 +1,22 @@
-﻿using System;
+﻿using LGS.AppProperties;
+using LGS.Data;
+using LGS.Data.Services.UserServices;
+using LGS.Data.ViewModels.DatabaseViewModels;
+using LGS.Helpers.FileUploader;
+using LGS.Helpers.UsersHelper;
+using LGS.Models;
+using LGS.Models.RoleNames;
+using LGS.Models.Users;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
-using LGS.AppProperties;
-using LGS.Data;
-using LGS.Data.Services.UserServices;
-using LGS.Data.ViewModels.DatabaseViewModels;
-using LGS.Extensions;
-using LGS.Filters;
-using LGS.Helpers.FileUploader;
-using LGS.Helpers.UsersHelper;
-using LGS.Models;
-using LGS.Models.ViewModels.DashboardViewModels;
-using LGS.Models.RoleNames;
-using LGS.Models.Users;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+using LGS.Models.Items;
 using CompanyViewModel = LGS.Data.ViewModels.DatabaseViewModels.CompanyViewModel;
 using DashboardViewModel = LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel;
 
@@ -705,6 +702,53 @@ namespace LGS.Controllers.Admin
 
         #endregion
 
+        #region LGS Web Settings
+
+        [HttpGet]
+        public async Task<ActionResult> LgsSettings()
+        {
+            if (TempData[AppConstants.AlertDialog] == null)
+                TempData[AppConstants.AlertDialog] = 0;
+            ViewBag.AlertDialog = (int)TempData[AppConstants.AlertDialog];
+            var loggedInUserId = User.Identity.GetUserId();
+
+            var lgsSettings = await Service.GetSettings();
+            if (lgsSettings != null)
+            {
+                lgsSettings.UpdatedBy = loggedInUserId;
+                return View(lgsSettings);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveLgsSettings(LgsSetting lgsSetting)
+        {
+            if (ModelState.IsValid && lgsSetting != null && lgsSetting.CreditPerMoney > 0 && lgsSetting.LeadsPerCredit > 0)
+            {
+                TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulUpdate;
+                await Service.SaveSettings(lgsSetting);
+                return RedirectToAction("lgssettings");
+            }
+
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+            return RedirectToAction("lgssettings");
+        }
+
+        #endregion
+
+
+        #region Account Invoice Details
+
+        [HttpGet]
+        public async Task<ActionResult> GetInvoiceDetails(int id)
+        {
+            if (id == 0) return Json("");
+            var creditInvoice = await Service.GetInvoiceDetails(id);
+            return Json(creditInvoice, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
         #region Get Users With Roles User_View_Model Helper method
 

@@ -8,261 +8,275 @@
 
 <section class="content">
 
-    <div class="row">
-        @* SUCCESS ALERT DIV *@
-        @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulRegistration))
-        {
-            <div id="alert" class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                <strong>Success! </strong> Client is Registered.
-            </div>
-        }
-        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUpdate))
-        {
-            <div id="alert" class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                <strong>Success! </strong> Client is Updated.
-            </div>
-        }
-        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulDelete))
-        {
-            <div id="alert" class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                <strong>Success! </strong> Client is Deleted.
-            </div>
-        }
-        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulBlock))
-        {
-            <div id="alert" class="alert alert-error alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                <strong>Success! </strong> User has been blocked.
-            </div>
-        }
-        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.UserExist))
-        {
-            <div id="alert" class="alert alert-error alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                <strong>Failure! </strong> User already exist with this email.
-            </div>
-        }
-        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUnBlock))
-        {
-            <div id="alert" class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Alert!</h4>
-                <strong>Success! </strong> User has been Unblocked.
-            </div>
-        }
-        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.InvalidModel))
-        {
-            <div id="alert" class="alert alert-error alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                <strong>Failure! </strong> Something is wrong with information you entered.
-            </div>
-        }
-
-        @*SUCCESS ALERT DIV CLOSED*@
-        <div class="col-md-3">
-
-            <!-- Profile Image -->
-            <div class="box box-primary">
-                <div class="box-body box-profile">
-                    @if (string.IsNullOrEmpty(@Model.UserVm.User.UserProfilePic))
-                    {
-                        <img type="file" class="profile-user-img img-responsive img-circle" style="cursor: pointer" id="DetailProfilePic" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
-                    }
-                    else
-                    {
-                        var absolutePath = HttpContext.Current.Server.MapPath("~/" + Model.UserVm.User.UserProfilePic);
-                        if (!@System.IO.File.Exists(absolutePath))
-                        {
-                            <img type="file" class="profile-user-img img-responsive img-circle" style="cursor: pointer" id="DetailProfilePic" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
-                        }
-                        else
-                        {
-                            <img type="file" class="profile-user-img img-responsive img-circle" style="cursor: pointer" id="DetailProfilePic" src="@Model.UserVm.User.UserProfilePic" alt="User profile picture">
-                        }
-                    }
-
-                    <h3 class="profile-username text-center">@Model.UserVm.User.FullName</h3>
-
-                    <p class="text-muted text-center" name="UserVm.RoleName">@Model.UserVm.RoleName</p>
-
-                    <ul class="list-group list-group-unbordered">
-
-                        <li class="list-group-item">
-                            <b>Email</b> <a class="pull-right">@Model.UserVm.User.Email</a>
-                        </li>
-
-
-                    </ul>
-
-                </div>
-                <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-            <!-- About Me Box -->
-            @* <div class="box box-primary"> *@
-            @*     <div class="box-header with-border"> *@
-            @*         <h3 class="box-title">About Me</h3> *@
-            @*     </div> *@
-            @*     <!-- /.box-header --> *@
-            @*     <div class="box-body"> *@
-            @*         <strong><i class="fa fa-book margin-r-5"></i> Education</strong> *@
-            @* *@
-            @*         <p class="text-muted"> *@
-            @*             B.S. in Computer Science from the University of Tennessee at Knoxville *@
-            @*         </p> *@
-            @* *@
-            @*         <hr> *@
-            @* *@
-            @*         <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong> *@
-            @* *@
-            @*         <p class="text-muted">Malibu, California</p> *@
-            @* *@
-            @*         <hr> *@
-            @* *@
-            @*         <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong> *@
-            @* *@
-            @*         <p> *@
-            @*             <span class="label label-danger">UI Design</span> *@
-            @*             <span class="label label-success">Coding</span> *@
-            @*             <span class="label label-info">Javascript</span> *@
-            @*             <span class="label label-warning">PHP</span> *@
-            @*             <span class="label label-primary">Node.js</span> *@
-            @*         </p> *@
-            @* *@
-            @*         <hr> *@
-            @* *@
-            @*         <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong> *@
-            @* *@
-            @*         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p> *@
-            @*     </div> *@
-            @*     <!-- /.box-body --> *@
-            @* </div> *@
-            <!-- /.box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-9">
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#activity" data-toggle="tab" aria-expanded="true">Account Details</a>
-                    </li>
-                    <li class="">
-                        <a href="#settings" data-toggle="tab" aria-expanded="false">Reset Password</a>
-                    </li>
-                    @* <li class=""> *@
-                    @*     <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Account Transactions</a> *@
-                    @* </li> *@
-
-                </ul>
-                <div class="tab-content">
-                    @if (User.IsInRole(RoleName.Client))
-                    {
-                        <div class="tab-pane active" id="activity">
-                            <!-- Post -->
-                            @using (Ajax.BeginForm("ProfilePage", "Client","", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
-                            {
-                                @Html.AntiForgeryToken()
-
-                                @Html.ValidationSummary("", new { @class = "text-danger" })
-
-                                <input type="file" id="my_file" name="ProfilePic" disabled style="display: none;" />
-                                <input type="hidden" name="UserVm.Client.Id" value="@Model.UserVm.Client.Id" />
-                                <input type="hidden" name="UserVm.Client.ProfilePhoto" value="@Model.UserVm.Client.ProfilePhoto" />
-                                <input type="hidden" name="UserVm.Client.IsBlocked" value="@Model.UserVm.Client.IsBlocked" />
-                                <input type="hidden" name="UserVm.RoleName" value="@Model.UserVm.RoleName" />
-                                <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName" disabled name="UserVm.User.FullName" placeholder="Name" value="@Model.UserVm.User.FullName">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" name="UserVm.User.Email" disabled placeholder="Email" value="@Model.UserVm.User.Email">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <div class="checkbox icheck">
-                                            @Html.CheckBoxFor(m => m.IsEnable, new { @id = "checkBox", @style = "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px;" })
-                                            Enable Edit
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Save</button>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-
-                <div class="tab-pane" id="settings">
-                    @if (User.IsInRole(RoleName.Client))
-                    {
-                        <div class="tab-pane active" id="activity">
-                            <!-- Post -->
-                            @using (Ajax.BeginForm("ResetPassword", "Client", "", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
-                            {
-                                @Html.AntiForgeryToken()
-
-                                @Html.ValidationSummary("", new { @class = "text-danger" })
-
-                                <input type="hidden" name="UserVm.Client.Id" value="@Model.UserVm.Client.Id" />
-                                <input type="hidden" name="UserVm.User.Email" value="@Model.UserVm.User.Email" />
-                                <div class="form-group">
-                                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-                                    <div class="col-sm-10">
-                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder ="Password" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputRePassword" class="col-sm-2 control-label">Confirm Password</label>
-                                    <div class="col-sm-10">
-                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" id="passwordSubmit" class="btn btn-danger">Save</button>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-                </div>
-                    <!-- /.post -->
-                </div>
-                <!-- /.tab-content -->
-            </div>
-            <!-- /.nav-tabs-custom -->
-        </div>
-        <!-- /.col -->
+<div class="row">
+@* SUCCESS ALERT DIV *@
+@if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulRegistration))
+{
+    <div id="alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> Client is Registered.
     </div>
-    <!-- /.row -->
+}
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulUpdate))
+{
+    <div id="alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> Client is Updated.
+    </div>
+}
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulDelete))
+{
+    <div id="alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> Client is Deleted.
+    </div>
+}
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulBlock))
+{
+    <div id="alert" class="alert alert-error alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> User has been blocked.
+    </div>
+}
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.UserExist))
+{
+    <div id="alert" class="alert alert-error alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+        <strong>Failure! </strong> User already exist with this email.
+    </div>
+}
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulUnBlock))
+{
+    <div id="alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Alert!</h4>
+        <strong>Success! </strong> User has been Unblocked.
+    </div>
+}
+else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
+{
+    <div id="alert" class="alert alert-error alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+        <strong>Failure! </strong> Something is wrong with information you entered.
+    </div>
+}
+
+@*SUCCESS ALERT DIV CLOSED*@
+<div class="col-md-3">
+
+    <!-- Profile Image -->
+    <div class="box box-primary">
+        <div class="box-body box-profile">
+            @if (string.IsNullOrEmpty(@Model.UserVm.User.UserProfilePic))
+            {
+                <img type="file" class="profile-user-img img-responsive img-circle" style="cursor: pointer" id="DetailProfilePic" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+            }
+            else
+            {
+                var absolutePath = HttpContext.Current.Server.MapPath("~/" + Model.UserVm.User.UserProfilePic);
+                if (!@System.IO.File.Exists(absolutePath))
+                {
+                    <img type="file" class="profile-user-img img-responsive img-circle" style="cursor: pointer" id="DetailProfilePic" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                }
+                else
+                {
+                    <img type="file" class="profile-user-img img-responsive img-circle" style="cursor: pointer" id="DetailProfilePic" src="@Model.UserVm.User.UserProfilePic" alt="User profile picture">
+                }
+            }
+
+            <h3 class="profile-username text-center">@Model.UserVm.User.FullName</h3>
+
+            <p class="text-muted text-center" name="UserVm.RoleName">@Model.UserVm.RoleName</p>
+
+            <ul class="list-group list-group-unbordered">
+
+                <li class="list-group-item">
+                    <b>Email</b> <a class="pull-right">@Model.UserVm.User.Email</a>
+                </li>
+
+
+            </ul>
+
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+    <!-- About Me Box -->
+    @* <div class="box box-primary"> *@
+    @*     <div class="box-header with-border"> *@
+    @*         <h3 class="box-title">About Me</h3> *@
+    @*     </div> *@
+    @*     <!-- /.box-header --> *@
+    @*     <div class="box-body"> *@
+    @*         <strong><i class="fa fa-book margin-r-5"></i> Education</strong> *@
+    @* *@
+    @*         <p class="text-muted"> *@
+    @*             B.S. in Computer Science from the University of Tennessee at Knoxville *@
+    @*         </p> *@
+    @* *@
+    @*         <hr> *@
+    @* *@
+    @*         <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong> *@
+    @* *@
+    @*         <p class="text-muted">Malibu, California</p> *@
+    @* *@
+    @*         <hr> *@
+    @* *@
+    @*         <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong> *@
+    @* *@
+    @*         <p> *@
+    @*             <span class="label label-danger">UI Design</span> *@
+    @*             <span class="label label-success">Coding</span> *@
+    @*             <span class="label label-info">Javascript</span> *@
+    @*             <span class="label label-warning">PHP</span> *@
+    @*             <span class="label label-primary">Node.js</span> *@
+    @*         </p> *@
+    @* *@
+    @*         <hr> *@
+    @* *@
+    @*         <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong> *@
+    @* *@
+    @*         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p> *@
+    @*     </div> *@
+    @*     <!-- /.box-body --> *@
+    @* </div> *@
+    <!-- /.box -->
+</div>
+<!-- /.col -->
+<div class="col-md-9">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#activity" data-toggle="tab" aria-expanded="true">Account Details</a>
+            </li>
+            <li class="">
+                <a href="#settings" data-toggle="tab" aria-expanded="false">Reset Password</a>
+            </li>
+            <li class="">
+                <a href="#lead-settings" id="timelineTab" data-toggle="tab" aria-expanded="false">Lead Settings</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            @if (User.IsInRole(RoleName.Client))
+            {
+            <div class="tab-pane active" id="activity">
+                <!-- Post -->
+                @using (Ajax.BeginForm("ProfilePage", "Client", "", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <input type="file" id="my_file" name="ProfilePic" disabled style="display: none;" />
+                    <input type="hidden" name="UserVm.Client.Id" value="@Model.UserVm.Client.Id" />
+                    <input type="hidden" name="UserVm.Client.ProfilePhoto" value="@Model.UserVm.Client.ProfilePhoto" />
+                    <input type="hidden" name="UserVm.Client.IsBlocked" value="@Model.UserVm.Client.IsBlocked" />
+                    <input type="hidden" name="UserVm.RoleName" value="@Model.UserVm.RoleName" />
+                    <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Name</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputName" disabled name="UserVm.User.FullName" placeholder="Name" value="@Model.UserVm.User.FullName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail" name="UserVm.User.Email" disabled placeholder="Email" value="@Model.UserVm.User.Email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone Number</label>
+
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputPhoneNumber" name="UserVm.User.PhoneNumber" disabled placeholder="Phone Number" value="@Model.UserVm.User.PhoneNumber">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox icheck">
+                                @Html.CheckBoxFor(m => m.IsEnable, new { @id = "checkBox", @style = "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px;" })
+                                Enable Edit
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-danger">Save</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+
+            <div class="tab-pane" id="settings">
+                @if (User.IsInRole(RoleName.Client))
+                {
+                    <div class="tab-pane active" id="activity">
+                        <!-- Post -->
+                        @using (Ajax.BeginForm("ResetPassword", "Client", "", new AjaxOptions {HttpMethod = "POST"}, new {enctype = "multipart/form-data", @class = "form-horizontal"}))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary("", new {@class = "text-danger"})
+
+                            <input type="hidden" name="UserVm.Client.Id" value="@Model.UserVm.Client.Id"/>
+                            <input type="hidden" name="UserVm.User.Email" value="@Model.UserVm.User.Email"/>
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                                <div class="col-sm-10">
+                                    @Html.PasswordFor(m => m.Password, new {@class = "form-control", @placeholder = "Password"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputRePassword" class="col-sm-2 control-label">Confirm Password</label>
+                                <div class="col-sm-10">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control", @placeholder = "Confirm Password"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" id="passwordSubmit" class="btn btn-danger">Save</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+
+           
+            <!-- /.post -->
+        </div>
+        <!-- /.tab-content -->
+        
+            
+    </div>
+    <!-- /.nav-tabs-custom -->
+</div>
+<!-- /.col -->
+</div>
+<!-- /.row -->
 </section>
 
 
 <script src="/Scripts/jquery-3.3.1.js"></script>
 <script>
+
     $(document).ready(function() {
 
-       
 
         //Start Image / File Upload Preview Code
         function readURL(input) {
@@ -289,6 +303,7 @@
                 $(this).closest("input").attr('checked', true);
                 $("#inputName").prop("disabled", false);
                 $("#inputEmail").prop("disabled", false);
+                $("#inputPhoneNumber").prop("disabled", false);
                 $("#my_file").prop("disabled", false);
                 console.log(false);
 
@@ -301,6 +316,7 @@
                 $("#inputName").prop("disabled", true);
                 $("#inputEmail").prop("disabled", true);
                 $("#my_file").prop("disabled", true);
+                $("#inputPhoneNumber").prop("disabled", true);
                 console.log(true);
             });
 
@@ -365,3 +381,4 @@
         1000); //5000=5 seconds
 </script>
 @*SUCCESS ALERT and Check Box DIV JQUERY*@
+

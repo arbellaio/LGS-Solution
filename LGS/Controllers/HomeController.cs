@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using KruisIT.Web.Analytics.Attributes;
+﻿using KruisIT.Web.Analytics.Attributes;
 using LGS.AppProperties;
 using LGS.Data;
 using LGS.Data.Services.HomeServices;
-using LGS.Data.Services.UserServices;
-using LGS.Data.ViewModels.DatabaseViewModels;
 using LGS.Helpers.Ratings;
 using LGS.Models.Communication;
 using LGS.Models.RoleNames;
 using LGS.Models.Users;
+using System;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using LGS.Extensions;
+using LGS.Helpers.TwilioHelper;
 using CompanyViewModel = LGS.Models.ViewModels.DashboardViewModels.CompanyViewModel;
 
 namespace LGS.Controllers
@@ -154,6 +151,29 @@ namespace LGS.Controllers
                     
                 };
                 var isSendMessage = await Service.SendMessage(customer,customerMessage);
+
+                if (companyViewModel.Company.NotificationMode.Equals(LgsNotificationEnum.Email))
+                {
+                    await EmailSmsHelper.SendEmail(companyViewModel.Customer.Email, companyViewModel.Customer.FullName,
+                        companyViewModel.Company.CompanyEmail, companyViewModel.Company.CompanyName,
+                        companyViewModel.CustomerMessage.Message, companyViewModel.CustomerMessage.Message,"");
+                }
+                if (companyViewModel.Company.NotificationMode.Equals(LgsNotificationEnum.Sms))
+                {
+                    await EmailSmsHelper.SendSms(
+                        companyViewModel.CustomerMessage.CustomerEmail + " " +
+                        companyViewModel.CustomerMessage.CustomerFullName +"Sent Message :"+companyViewModel.CustomerMessage.Message, companyViewModel.Company.PhoneNumber);
+                }
+                if (companyViewModel.Company.NotificationMode.Equals(LgsNotificationEnum.Both))
+                {
+                    await EmailSmsHelper.SendEmail(companyViewModel.Customer.Email, companyViewModel.Customer.FullName,
+                        companyViewModel.Company.CompanyEmail, companyViewModel.Company.CompanyName,
+                        companyViewModel.CustomerMessage.Message, companyViewModel.CustomerMessage.Message, "");
+
+                    await EmailSmsHelper.SendSms(
+                        companyViewModel.CustomerMessage.CustomerEmail + " " +
+                        companyViewModel.CustomerMessage.CustomerFullName + "Sent Message :" + companyViewModel.CustomerMessage.Message, companyViewModel.Company.PhoneNumber);
+                }
                 if (isSendMessage)
                 {
                     TempData[AppConstants.AlertDialog] = LgsAlertEnums.MessageSent;

@@ -1,14 +1,12 @@
-﻿using System;
+﻿using LGS.Models.Communication;
+using LGS.Models.Credits;
+using LGS.Models.Users;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
-using LGS.Models.Communication;
-using LGS.Models.Credits;
-using LGS.Models.Users;
+using LGS.Models.Leads;
 
 namespace LGS.Models.Companies
 {
@@ -36,6 +34,7 @@ namespace LGS.Models.Companies
         public bool IsDeleted { get; set; }
         public string FacebookId { get; set; }
         public string FacebookPageLink { get; set; }
+        public string FacebookPageAccessToken { get; set; }
         public string GoogleId { get; set; }
 
         [ForeignKey("ClientId")]
@@ -70,5 +69,6 @@ namespace LGS.Models.Companies
 
         public virtual List<CustomerReview> CustomerReviews { get; set; }
         public virtual List<CustomerMessage> CustomerMessages { get; set; }
+        public virtual List<CompanyGoogleKey> GoogleKeys { get; set; }
     }
 }

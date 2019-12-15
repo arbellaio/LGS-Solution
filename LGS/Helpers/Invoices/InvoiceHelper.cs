@@ -1,8 +1,6 @@
-﻿using System;
+﻿using PayPal.Api;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using PayPal.Api;
 
 namespace LGS.Helpers.Invoices
 {

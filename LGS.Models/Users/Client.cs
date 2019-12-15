@@ -39,5 +39,7 @@ namespace LGS.Models.Users
 
         public virtual List<CreditInvoice> CreditInvoices { get; set; }
 
+        public string FacebookUserAccessToken { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
