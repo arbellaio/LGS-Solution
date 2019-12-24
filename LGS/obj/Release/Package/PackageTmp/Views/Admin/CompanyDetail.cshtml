@@ -299,88 +299,49 @@
                     <div class="tab-pane" id="timeline">
                         <!-- The timeline -->
                         <ul class="timeline timeline-inverse">
-                            <!-- timeline time label -->
-                            <li class="time-label">
-                                <span class="" id="timeLabel">
-                                    10 Feb. 2014
-                                </span>
-                            </li>
-                            <!-- /.timeline-label -->
-                            <!-- timeline item -->
-                            <li>
-                                <i class="fa fa-money" id="moneySymbol"></i>
+                            @if (@Model.Company.CompanyInvoices != null && @Model.Company.CompanyInvoices.Any())
+                            {
+                                Model.Company.CompanyInvoices.Reverse();
+                                foreach (var creditInvoice in @Model.Company.CompanyInvoices)
+                                {
+                                    <li class="time-label">
+                                        <span class="timeLabel" id="timeLabel">
+                                            @creditInvoice.CreatedDate.ToShortDateString()
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-money" id="moneySymbol"></i>
 
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                                        <div class="timeline-item">
+                                            <span class="time">
+                                                <i class="fa fa-clock-o"></i> @creditInvoice.CreatedDate.ToShortTimeString()
+                                            </span>
 
-                                    <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
+                                            <h3 class="timeline-header"><a href="#">@Model.UserViewModel.User.FullName</a> transaction record</h3>
 
-                                    <div class="timeline-body">
-                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                        quora plaxo ideeli hulu weebly balihoo...
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-xs">View Details</a>
-                                        <a class="btn btn-danger btn-xs">Hide</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- END timeline item -->
-                            <!-- timeline item -->
-                            <li>
-                                <i class="fa fa-money" id="moneySymbol"></i>
+                                            <div class="timeline-body">
+                                                Company Name : @creditInvoice.Company.CompanyName <span class="pull-right">Invoice No : @creditInvoice.InvoiceNo</span>
+                                                <br />
+                                                <br />
+                                                Item Purchased : @creditInvoice.ItemName <span class="pull-right">Item Quantity : @creditInvoice.ItemQuantity</span>
+                                                <br />
+                                                <br />
+                                                Credits Used : @creditInvoice.Credits
+                                            </div>
 
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                                            <div class="timeline-footer">
+                                                @* <a class="btn btn-primary btn-xs" id="@creditInvoice.Id" data-toggle="modal" data-target="#modal-info">View Details</a> *@
+                                                @* <a class="btn btn-danger btn-xs">Hide</a> *@
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <h3 style="text-align: center">No Purchases Found</h3>
+                            }
 
-                                    <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
-
-                                    <div class="timeline-body">
-                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                        quora plaxo ideeli hulu weebly balihoo...
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-xs">View Details</a>
-                                        <a class="btn btn-danger btn-xs">Hide</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- END timeline item -->
-                            <!-- timeline item -->
-                            <!-- END timeline item -->
-                            <!-- timeline time label -->
-                            <li class="time-label">
-                                <span class="" id="timeLabel2">
-                                    3 Feb. 2014
-                                </span>
-                            </li>
-                            <!-- /.timeline-label -->
-                            <!-- timeline item -->
-                            <li>
-                                <i class="fa fa-money" id="moneySymbol"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                                    <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
-
-                                    <div class="timeline-body">
-                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                        quora plaxo ideeli hulu weebly balihoo...
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-xs">View Details</a>
-                                        <a class="btn btn-danger btn-xs">Hide</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- END timeline item -->
                             <li>
                                 <i class="fa fa-clock-o bg-gray"></i>
                             </li>
@@ -543,11 +504,14 @@
 
 </section>
 
-<script src="/Scripts/jquery-3.3.1.js"></script>
-<script src="~/admin-lte/ckeditor/ckeditor.js"></script>
-<script src="~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<script src="~/admin-lte/ckeditor/styles.js"></script>
-<script src="~/admin-lte/ckeditor/config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+
+@* <script src="/Scripts/jquery-3.3.1.min.js"></script> *@
+
+@* <script src="~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script> *@
+@* <script src="~/admin-lte/ckeditor/styles.js"></script> *@
+@* <script src="~/admin-lte/ckeditor/config.js"></script> *@
 <script>
     $(document).ready(function() {
 

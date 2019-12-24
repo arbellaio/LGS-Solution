@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Facebook;
 using LGS.Helpers.FacebookLeadGen;
 using LGS.Models.Communication;
@@ -29,6 +30,7 @@ using DashboardViewModel = LGS.Models.ViewModels.DashboardViewModels.DashboardVi
 namespace LGS.Controllers.Client
 {
     [HandleError]
+    [OutputCache(Duration = 20, VaryByParam = "none", Location = OutputCacheLocation.Client, NoStore = true)]
     [Authorize(Roles = RoleName.Client)]
     public class ClientController : Controller
     {
@@ -62,7 +64,6 @@ namespace LGS.Controllers.Client
         }
 
         #endregion
-
 
         public async Task<ActionResult> Index()
         {
@@ -116,11 +117,14 @@ namespace LGS.Controllers.Client
                         LgsSetting = settings
                     };
                     var facebookHelper = new FacebookClientHelper();
-                    var facePageInfo = facebookHelper.GetPageInfo(companyDetailViewModel.Company.FacebookPageAccessToken,companyDetailViewModel.Company.FacebookId, AppKeys.FacebookAppId, AppKeys.FacebookAppSecret);
+                    var facePageInfo = facebookHelper.GetPageInfo(
+                        companyDetailViewModel.Company.FacebookPageAccessToken,
+                        companyDetailViewModel.Company.FacebookId, AppKeys.FacebookAppId, AppKeys.FacebookAppSecret);
                     if (facePageInfo != null)
                     {
                         await Service.SaveFacebookLeadData(facePageInfo);
                     }
+
                     return View(companyDetailViewModel);
                 }
 
@@ -170,6 +174,30 @@ namespace LGS.Controllers.Client
         }
 
         #endregion
+
+
+        [HttpGet]
+        public async Task<ActionResult> BlockCompany(int id, int clientId)
+        {
+            if (id > 0)
+            {
+                var isBlocked = await Service.BlockCompany(id);
+                if (isBlocked)
+                {
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulBlock;
+                }
+                else
+                {
+                    TempData[AppConstants.AlertDialog] = LgsAlertEnums.SuccessfulUnBlock;
+                }
+
+                return RedirectToAction("companydetail", "client", new {id, clientId});
+            }
+
+            TempData[AppConstants.AlertDialog] = LgsAlertEnums.InvalidModel;
+            return RedirectToAction("Index");
+        }
+
 
         #region Profile Page Region 
 
@@ -620,12 +648,17 @@ namespace LGS.Controllers.Client
 
         #region Get Reviews And Messages
 
-        public async Task<JsonResult> GetCustomerReviews(string email)
+        public async Task<JsonResult> GetCustomerReviews(string email, int id)
         {
             if (!string.IsNullOrEmpty(email))
             {
-                var reviews = await Service.GetCustomerReviews(email);
-                return Json(reviews, JsonRequestBehavior.AllowGet);
+                var reviews = await Service.GetCustomerReviews(email,id);
+                var reviewsWithReplies = JsonConvert.SerializeObject(reviews,
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    });
+                return Json(reviewsWithReplies, JsonRequestBehavior.AllowGet);
             }
 
             return null;
@@ -651,7 +684,7 @@ namespace LGS.Controllers.Client
             if (customerReviewReply != null)
             {
                 customerReviewReply.ReviewReplyDate = DateTime.Now;
-                var reviews =  Service.SendReviewReply(customerReviewReply);
+                var reviews = Service.SendReviewReply(customerReviewReply);
             }
         }
 
@@ -671,6 +704,7 @@ namespace LGS.Controllers.Client
                 Service.SaveGoogleKeyId(googleCompanyAdkey);
             }
         }
+
         [HttpDelete]
         public void DeleteGoogleAdKey(CompanyViewModel companyViewModel)
         {
@@ -751,11 +785,11 @@ namespace LGS.Controllers.Client
                     fb.AppId = AppKeys.FacebookAppId;
                     fb.AppSecret = AppKeys.FacebookAppSecret;
                     fb.AccessToken = facebookUserAccountDetail.access_token;
-                     var o = fb.Get(facebookUserAccountDetail.id+"/subscribed_apps?subscribed_fields=feed");
+                    var o = fb.Get(facebookUserAccountDetail.id + "/subscribed_apps?subscribed_fields=feed");
                 }
+
                 foreach (var company in clientUser.Client.Companies)
                 {
-
                     var facebookUserPageId = facebookUserAccount.data.Find(x => x.id.Equals(company.FacebookId));
                     if (facebookUserPageId != null)
                     {
@@ -764,9 +798,8 @@ namespace LGS.Controllers.Client
                     }
                 }
             }
-           
 
-           
+
             return RedirectToAction("Index", "Home");
         }
 

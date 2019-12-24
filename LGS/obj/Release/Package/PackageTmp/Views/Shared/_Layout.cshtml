@@ -32,7 +32,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert/sweet-alert.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 
 </head>
@@ -78,124 +78,12 @@ desired effect
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
-            <!-- Navbar Right Menu -->
-            @{ var user = (System.Security.Claims.ClaimsIdentity)User.Identity; }
+                <!-- Navbar Right Menu -->
+                @{ var user = (System.Security.Claims.ClaimsIdentity)User.Identity; }
 
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <!-- Menu toggle button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
-                                <li>
-                                    <!-- inner menu: contains the messages -->
-                                    <ul class="menu">
-                                        <li>
-                                            <!-- start message -->
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <!-- User Image -->
-                                                    @if (string.IsNullOrEmpty(user.FindFirstValue("CustomPic")))
-                                                    {
-                                                        <img src="/LgsImageRepo/ProfileImages/profiledefault.png" class="img-circle" alt="User Image">
-                                                    }
-                                                    else
-                                                    {
-                                                        var absolutePath = HttpContext.Current.Server.MapPath("~/" + user.FindFirstValue("CustomPic"));
-                                                        if (!@System.IO.File.Exists(absolutePath))
-                                                        {
-                                                            <img class="img-circle"  src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
-                                                        }
-                                                        else
-                                                        {
-                                                            <img class="img-circle" src="@user.FindFirstValue("CustomPic")" alt="User profile picture">
-                                                        }
-                                                    }
-                                                </div>
-                                                <!-- Message title and timestamp -->
-                                                <h4>
-                                                    Support Team
-                                                    <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                </h4>
-                                                <!-- The message -->
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                        <!-- end message -->
-                                    </ul>
-                                    <!-- /.menu -->
-                                </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
-                            </ul>
-                        </li>
-                        <!-- /.messages-menu -->
-                        <!-- Notifications Menu -->
-                        <li class="dropdown notifications-menu">
-                            <!-- Menu toggle button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
-                                <li>
-                                    <!-- Inner Menu: contains the notifications -->
-                                    <ul class="menu">
-                                        <li>
-                                            <!-- start notification -->
-                                            <a href="#">
-                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                            </a>
-                                        </li>
-                                        <!-- end notification -->
-                                    </ul>
-                                </li>
-                                <li class="footer"><a href="#">View all</a></li>
-                            </ul>
-                        </li>
-                        <!-- Tasks Menu -->
-                        <li class="dropdown tasks-menu">
-                            <!-- Menu Toggle Button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-flag-o"></i>
-                                <span class="label label-danger">9</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 9 tasks</li>
-                                <li>
-                                    <!-- Inner menu: contains the tasks -->
-                                    <ul class="menu">
-                                        <li>
-                                            <!-- Task item -->
-                                            <a href="#">
-                                                <!-- Task title and progress text -->
-                                                <h3>
-                                                    Design some buttons
-                                                    <small class="pull-right">20%</small>
-                                                </h3>
-                                                <!-- The progress bar -->
-                                                <div class="progress xs">
-                                                    <!-- Change the css width attribute to simulate progress -->
-                                                    <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                                                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">20% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <!-- end task item -->
-                                    </ul>
-                                </li>
-                                <li class="footer">
-                                    <a href="#">View all tasks</a>
-                                </li>
-                            </ul>
-                        </li>
+
                         <!-- User Account Menu -->
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
@@ -210,7 +98,7 @@ desired effect
                                     var absolutePath = HttpContext.Current.Server.MapPath("~/" + user.FindFirstValue("CustomPic"));
                                     if (!@System.IO.File.Exists(absolutePath))
                                     {
-                                        <img class="user-image"  src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                        <img class="user-image" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
                                     }
                                     else
                                     {
@@ -233,7 +121,7 @@ desired effect
                                         var absolutePath = HttpContext.Current.Server.MapPath("~/" + user.FindFirstValue("CustomPic"));
                                         if (!@System.IO.File.Exists(absolutePath))
                                         {
-                                            <img class="img-circle"  src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                            <img class="img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
                                         }
                                         else
                                         {
@@ -248,18 +136,18 @@ desired effect
                                 </li>
                                 <!-- Menu Body -->
                                 @* <li class="user-body"> *@
-                                    @* <div class="row"> *@
-                                    @*     <div class="col-xs-4 text-center"> *@
-                                    @*         <a href="#">Followers</a> *@
-                                    @*     </div> *@
-                                    @*     <div class="col-xs-4 text-center"> *@
-                                    @*         <a href="#">Sales</a> *@
-                                    @*     </div> *@
-                                    @*     <div class="col-xs-4 text-center"> *@
-                                    @*         <a href="#">Friends</a> *@
-                                    @*     </div> *@
-                                    @* </div> *@
-                                    <!-- /.row -->
+                                @* <div class="row"> *@
+                                @*     <div class="col-xs-4 text-center"> *@
+                                @*         <a href="#">Followers</a> *@
+                                @*     </div> *@
+                                @*     <div class="col-xs-4 text-center"> *@
+                                @*         <a href="#">Sales</a> *@
+                                @*     </div> *@
+                                @*     <div class="col-xs-4 text-center"> *@
+                                @*         <a href="#">Friends</a> *@
+                                @*     </div> *@
+                                @* </div> *@
+                                <!-- /.row -->
                                 @* </li> *@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
@@ -327,7 +215,7 @@ desired effect
                             var absolutePath = HttpContext.Current.Server.MapPath("~/" + user.FindFirstValue("CustomPic"));
                             if (!@System.IO.File.Exists(absolutePath))
                             {
-                                <img class="img-circle"  src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                <img class="img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
                             }
                             else
                             {
@@ -374,6 +262,7 @@ desired effect
                                 <li><a href="/admin/clientindex"><i class="fa fa-user"></i>Clients</a></li>
                             </ul>
                         </li>
+                        <li><a href="/admin/lgssettings"><i class="fa ion-settings"></i> <span>LGS Settings</span></a> </li>
                         <li><a href="/analytics"><i class="fa fa-bar-chart-o"></i> <span>Analytics</span></a> </li>
                         <li><a href="/admin/liveChat"><i class="fa fa-headphones"></i> <span>Live Chat</span></a> </li>
                         <li><a href="/home/about"><i class="fa fa-info-circle"></i> <span>About</span></a> </li>
@@ -469,59 +358,37 @@ desired effect
         <div class="control-sidebar-bg"></div>
     </div>
 
-<script type="text/javascript">
-    window.onload = function() {
-        function add_chatinline() {
-            var hccid = 55894625;
-            var nt = document.createElement("script");
-            nt.async = true;
-            nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid;
-            var ct = document.getElementsByTagName("script")[0];
-            ct.parentNode.insertBefore(nt, ct);
+    <script type="text/javascript">
+        window.onload = function () {
+            function add_chatinline() {
+                var hccid = 55894625;
+                var nt = document.createElement("script");
+                nt.async = true;
+                nt.src = "https://mylivechat.com/chatinline.aspx?hccid=" + hccid;
+                var ct = document.getElementsByTagName("script")[0];
+                ct.parentNode.insertBefore(nt, ct);
+            }
+
+            add_chatinline();
         }
+    </script>
 
-        add_chatinline();
-    }
-</script>
-
-    @* Loading Animation Script Code *@
-    @* <script type="text/javascript"> *@
-    @*     var modal, loading; *@
-    @* *@
-    @*     function ShowProgress() { *@
-    @*         modal = document.createElement("DIV"); *@
-    @*         modal.className = "modalloader"; *@
-    @*         document.body.appendChild(modal); *@
-    @*         loading = document.getElementsByClassName("loading")[0]; *@
-    @*         loading.style.display = "block"; *@
-    @*         var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0); *@
-    @*         var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0); *@
-    @*         loading.style.top = top + "px"; *@
-    @*         loading.style.left = left + "px"; *@
-    @*     }; *@
-    @* *@
-    @*     ShowProgress(); *@
-    @* </script> *@
-    @* *@
-    @* <!-- Keep the Page Content Here.--> *@
-    @* *@
-    @* <script type="text/javascript"> *@
-    @*     window.onload = function() { *@
-    @*         setTimeout(function() { *@
-    @*                 document.body.removeChild(modal); *@
-    @*                 loading.style.display = "none"; *@
-    @*             }, *@
-    @*             2000); //Delay just used for example and must be set to 0. *@
-    @*     }; *@
-    @* </script> *@
-    @Scripts.Render("~/bundles/jquery")
+    
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/admin-lte/js")
-    @* @Scripts.Render("~/cdnjs/") *@
+
+
+    @Scripts.Render("https://code.jquery.com/ui/1.10.1/jquery-ui.min.js")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/dist/js/adminlte.min.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/bower_components/chart.js/Chart.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/bower_components/jquery/dist/jquery.min.js")
+    @Scripts.Render("https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/plugins/iCheck/icheck.min.js")
+
     @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 
-    
+
 
     @* <script> *@
     @*     $.getJSON('https://json.geoiplookup.io/', function(data) { *@
@@ -531,83 +398,10 @@ desired effect
 
 
 
-    @Scripts.Render( "~/Scripts/sweetalert.min.js");
-    @Scripts.Render("~/admin-lte/plugins/iCheck/icheck.min.js")
+    @Scripts.Render("~/Scripts/sweetalert.min.js");
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js")
     @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js")
 
 </body>
 </html>
 
-
-<!-- Control Sidebar -->
-@* <aside class="control-sidebar control-sidebar-dark"> *@
-@*     <!-- Create the tabs --> *@
-@*     <ul class="nav nav-tabs nav-justified control-sidebar-tabs"> *@
-@*         <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li> *@
-@*         <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li> *@
-@*     </ul> *@
-@*     <!-- Tab panes --> *@
-@*     <div class="tab-content"> *@
-@*         <!-- Home tab content --> *@
-@*         <div class="tab-pane active" id="control-sidebar-home-tab"> *@
-@*             <h3 class="control-sidebar-heading">Recent Activity</h3> *@
-@*             <ul class="control-sidebar-menu"> *@
-@*                 <li> *@
-@*                     <a href="javascript:;"> *@
-@*                         <i class="menu-icon fa fa-birthday-cake bg-red"></i> *@
-@* *@
-@*                         <div class="menu-info"> *@
-@*                             <h4 class="control-sidebar-subheading">Langdon's Birthday</h4> *@
-@* *@
-@*                             <p>Will be 23 on April 24th</p> *@
-@*                         </div> *@
-@*                     </a> *@
-@*                 </li> *@
-@*             </ul> *@
-@*             <!-- /.control-sidebar-menu --> *@
-@* *@
-@*             <h3 class="control-sidebar-heading">Tasks Progress</h3> *@
-@*             <ul class="control-sidebar-menu"> *@
-@*                 <li> *@
-@*                     <a href="javascript:;"> *@
-@*                         <h4 class="control-sidebar-subheading"> *@
-@*                             Custom Template Design *@
-@*                             <span class="pull-right-container"> *@
-@*                                 <span class="label label-danger pull-right">70%</span> *@
-@*                             </span> *@
-@*                         </h4> *@
-@* *@
-@*                         <div class="progress progress-xxs"> *@
-@*                             <div class="progress-bar progress-bar-danger" style="width: 70%"></div> *@
-@*                         </div> *@
-@*                     </a> *@
-@*                 </li> *@
-@*             </ul> *@
-@*             <!-- /.control-sidebar-menu --> *@
-@* *@
-@*         </div> *@
-@*         <!-- /.tab-pane --> *@
-@*         <!-- Stats tab content --> *@
-@*         <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div> *@
-@*         <!-- /.tab-pane --> *@
-@*         <!-- Settings tab content --> *@
-@*         <div class="tab-pane" id="control-sidebar-settings-tab"> *@
-@*             <form method="post"> *@
-@*                 <h3 class="control-sidebar-heading">General Settings</h3> *@
-@* *@
-@*                 <div class="form-group"> *@
-@*                     <label class="control-sidebar-subheading"> *@
-@*                         Report panel usage *@
-@*                         <input type="checkbox" class="pull-right" checked> *@
-@*                     </label> *@
-@* *@
-@*                     <p> *@
-@*                         Some information about this general settings option *@
-@*                     </p> *@
-@*                 </div> *@
-@*                 <!-- /.form-group --> *@
-@*             </form> *@
-@*         </div> *@
-@*         <!-- /.tab-pane --> *@
-@*     </div> *@
-@* </aside> *@

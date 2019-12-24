@@ -16,11 +16,11 @@ using CompanyViewModel = LGS.Models.ViewModels.DashboardViewModels.CompanyViewMo
 namespace LGS.Controllers
 {
     [HandleError]
+    [OutputCache(Duration = 20, VaryByParam = "none")]
     [Analytics(AppConstants.ConnectionName)]
     public class HomeController : Controller
     {
         private IHomeService _service;
-
         public HomeController()
         {
         }
@@ -52,7 +52,7 @@ namespace LGS.Controllers
 
             }
            
-            return View();
+            return View(new object());
         }
 
         public ActionResult About()
@@ -121,6 +121,8 @@ namespace LGS.Controllers
         {
             if (companyViewModel != null && companyViewModel.Customer != null && companyViewModel.CompanyId != 0 && companyViewModel.CustomerMessage != null)
             {
+                var company = await Service.GetCompanyDetailByCompanyId(companyViewModel.CompanyId);
+                companyViewModel.Company = company;
                 var customer = new Customer
                 {
                     AddressOneUnit = companyViewModel.Customer.AddressOneUnit,
@@ -151,20 +153,20 @@ namespace LGS.Controllers
                     
                 };
                 var isSendMessage = await Service.SendMessage(customer,customerMessage);
-
-                if (companyViewModel.Company.NotificationMode.Equals(LgsNotificationEnum.Email))
+                
+                if (companyViewModel.Company.NotificationMode.Equals((int)LgsNotificationEnum.Email))
                 {
                     await EmailSmsHelper.SendEmail(companyViewModel.Customer.Email, companyViewModel.Customer.FullName,
                         companyViewModel.Company.CompanyEmail, companyViewModel.Company.CompanyName,
                         companyViewModel.CustomerMessage.Message, companyViewModel.CustomerMessage.Message,"");
                 }
-                if (companyViewModel.Company.NotificationMode.Equals(LgsNotificationEnum.Sms))
+                if (companyViewModel.Company.NotificationMode.Equals((int)LgsNotificationEnum.Sms))
                 {
                     await EmailSmsHelper.SendSms(
                         companyViewModel.CustomerMessage.CustomerEmail + " " +
                         companyViewModel.CustomerMessage.CustomerFullName +"Sent Message :"+companyViewModel.CustomerMessage.Message, companyViewModel.Company.PhoneNumber);
                 }
-                if (companyViewModel.Company.NotificationMode.Equals(LgsNotificationEnum.Both))
+                if (companyViewModel.Company.NotificationMode.Equals((int)LgsNotificationEnum.Both))
                 {
                     await EmailSmsHelper.SendEmail(companyViewModel.Customer.Email, companyViewModel.Customer.FullName,
                         companyViewModel.Company.CompanyEmail, companyViewModel.Company.CompanyName,
@@ -204,6 +206,7 @@ namespace LGS.Controllers
                 };
                 companyViewModel.CustomerReview.CreatedDate = DateTime.Now;
                 companyViewModel.CustomerReview.UpdatedDate = DateTime.Now;
+                companyViewModel.CustomerReview.ReviewReplyDate = DateTime.Now;
                 var IsSaved = await Service.SendReview(newCustomer, companyViewModel.CustomerReview);
                 if (IsSaved)
                 {

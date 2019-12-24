@@ -1,4 +1,5 @@
-﻿@model  LGS.Models.ViewModels.DashboardViewModels.CompanyViewModel
+﻿@using LGS.AppProperties
+@model  LGS.Models.ViewModels.DashboardViewModels.CompanyViewModel
 @{
     ViewBag.Title = "Companies";
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
@@ -7,7 +8,43 @@
 
 <div class="box-body" style="margin: 30px">
     <h3 style="margin: 30px">Companies Register with Us.</h3>
-    
+
+    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.MessageSent))
+    {
+        <div id="alert" class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Alert!</h4>
+            <strong>Success! </strong> Message Sent.
+        </div>
+    }
+
+    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.MessageSentFailed))
+    {
+        <div id="alert" class="alert alert-error alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Alert!</h4>
+            <strong>Failed! </strong> Message Sent Failed.
+        </div>
+    }
+
+    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.ReviewSaved))
+    {
+        <div id="alert" class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Alert!</h4>
+            <strong>Success! </strong> Review Posted.
+        </div>
+    }
+
+    @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.ReviewSaveFailed))
+    {
+        <div id="alert" class="alert alert-error alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Alert!</h4>
+            <strong>Failed! </strong> Review Post Failed.
+        </div>
+    }
+
     @if (Model.Companies == null || !Model.Companies.Any())
     {
         <p style="text-align: center">
@@ -20,7 +57,7 @@
         {
             @*             <a href="@Url.Action("CompanyDetail","Admin",new { id = company.Id,clientId =company.Client.Id })"> *@
             <div id="@company.Id" class="col-md-3" style="cursor: pointer">
-                <a href="/home/companydetail/@company.Id">
+                <a href="/home/companydetail/@company.Id" id="CId">
 
                     <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
 
@@ -64,12 +101,13 @@
                                         <p class="text-muted pull-right">Active</p>
                                     }
                                 </li>
+
                             </ul>
 
 
-                            @* <a href="#" class="btn btn-primary btn-block"> *@
-                            @*     <b>Follow</b> *@
-                            @* </a> *@
+                            <a href="#" class="btn btn-primary btn-block" id="@company.Id" data-toggle="modal" data-target="#modal-info">
+                                <b id="@company.Id" class="comId">Send Message</b>
+                            </a>
                         </div>
                         <!-- /.box-body -->
                     </div>
@@ -77,6 +115,98 @@
 
             </div>
         }
-
     }
+
+    <div class="content modal modal-info fade" id="modal-info" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div style="background-color: white;">
+                    <div class="modal-header">
+                        <button type="button" class="close" id="modalinfoclose" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Write Message</h4>
+                    </div>
+                </div>
+                <div class="box-body">
+
+                    <form action="/home/sendmessage" method="post">
+                        <input class="CId" name="CompanyId" type="hidden">
+
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            <label for="exampleInputFullNameedit" style="color: black">Full Name</label>
+                            <input class="form-control" data-val="true" data-val-required="The Full Name field is required." id="CFullName" name="Customer.FullName" placeholder="Full Name" type="text" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmailedit" style="color: black">Email Address</label>
+                            <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="CEmail" name="Customer.Email" placeholder="Email" type="text" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPhoneNumeredit" style="color: black">Phone Number</label>
+                            <input class="form-control" data-val="true" data-val-required="The Phone Number is required." id="CPhoneNumber" name="Customer.PhoneNumber" placeholder="Phone Number" type="text" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputOneUnitedit" style="color: black">Address No.</label>
+                            <input class="form-control" data-val="false" data-val-required="The Address No. field is required." id="CAddressNo" name="Customer.AddressOneUnit" placeholder="Address No." type="text" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputTwoUnitedit" style="color: black">Address Street</label>
+                            <input class="form-control" data-val="true" data-val-required="The Address Street is required." id="CAddressStreet" name="Customer.AddressTwoStreet" placeholder="Address Street" type="text" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputThreeUnitedit" style="color: black">Address City / Locality</label>
+                            <input class="form-control" data-val="true" data-val-required="The Address City is required." id="CAddressCity" name="Customer.AddressThreeLocality" placeholder="Address City" type="text" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputPostalCodeedit" style="color: black">Postal Code</label>
+                            <input class="form-control" data-val="true" data-val-required="The Postal Code is required." id="CPostalCode" name="Customer.PostalCode" placeholder="Postal Code" type="text" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputMessageedit" style="color: black">Message</label>
+                            <input class="form-control" data-val="true" data-val-required="The Message is required." id="CMessage" name="CustomerMessage.Message" placeholder="Message" type="text" value="">
+                        </div>
+
+                        @* <input class="form-control" id="CMEmail" name="CustomerMessage.CustomerEmail" type="hidden" value=""> *@
+                        @* <input class="form-control" id="CMPhoneNumber" name="CustomerMessage.CustomerPhoneNumber" type="hidden" value=""> *@
+                        @* <input class="form-control" id="CMCompanyId" name="CustomerMessage.CompanyId" type="hidden" value=""> *@
+
+                        <button type="submit" id="SubmitMessage" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+@* <script src="/Scripts/jquery-3.3.1.js"></script> *@
+
+<script>
+    var companyId = null;
+
+    $(document).ready(function () {
+        $('.comId').click(function () {
+            companyId = $(this).attr("id");
+            $(".CId").val(companyId);
+        });
+
+        //Alert Script Code
+        setTimeout(function () {
+            $("#alert").fadeTo(1000, 200).slideUp(200,
+                function () {
+                    $("#alert").remove();
+                });
+        },
+            1000); //5000=5 seconds
+    });
+</script>
+

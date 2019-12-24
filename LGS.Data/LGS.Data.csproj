@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201912140936372_Added_Review_Reply_Date.Designer.cs">
       <DependentUpon>201912140936372_Added_Review_Reply_Date.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912172157149_Added_Customer_Replies.cs" />
+    <Compile Include="Migrations\201912172157149_Added_Customer_Replies.Designer.cs">
+      <DependentUpon>201912172157149_Added_Customer_Replies.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClientServices\ClientService.cs" />
@@ -363,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912140936372_Added_Review_Reply_Date.resx">
       <DependentUpon>201912140936372_Added_Review_Reply_Date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912172157149_Added_Customer_Replies.resx">
+      <DependentUpon>201912172157149_Added_Customer_Replies.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

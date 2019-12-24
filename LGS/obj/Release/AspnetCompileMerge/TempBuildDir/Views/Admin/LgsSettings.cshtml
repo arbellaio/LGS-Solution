@@ -1,0 +1,158 @@
+﻿@using LGS.AppProperties
+@using LGS.Models.Items
+@model LgsSetting
+
+@{
+    ViewBag.Title = "LGS-Settings";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Admin Dashboard
+        <small>LGS Control Panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-dashboard"></i> Level</a>
+        </li>
+        <li class="active">Admin Dashboard</li>
+    </ol>
+</section>
+<hr/>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+
+            <div class="box-header with-border">
+
+                <h3 class="box-title">LGS Settings Panel</h3>
+
+                <div class="box-tools pull-right">
+
+                    <div class="btn-group">
+
+                    </div>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+
+                </div>
+            </div>
+            <!-- /.box-header -->
+            @* SUCCESS ALERT DIV *@
+            @if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulUpdate))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Success! </strong> Settings are Updated.
+                </div>
+            }
+           
+
+            @*SUCCESS ALERT DIV CLOSED*@
+
+            <div class="box-body">
+                <div class="row">
+                    <div class="row margin">
+                        <div class="box box-solid">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Set Rates for Credits and Leads</h3>
+                            </div>
+                            <div class="box-body">
+                                @using (Ajax.BeginForm("SaveLgsSettings", "Admin", new AjaxOptions {HttpMethod = "POST"}))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary("", new {@class = "text-danger"})
+
+                                    <div class="row">
+
+                                        <div class="col-md-5">
+                                            <h5>LGS Leads per Credit(In-house Currency)</h5>
+                                        </div>
+                                        <div class="col-md-5 pull-right">
+
+                                            <input type="number" name="LgsSetting.LeadsPerCredit" value="@Model.LeadsPerCredit"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <h5>LGS Credits(In-house Currency) per USD</h5>
+                                        </div>
+                                        <div class="col-md-5 pull-right">
+
+                                            <input type="number" name="LgsSetting.CreditPerMoney" value="@Model.CreditPerMoney"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <input type="hidden" name="LgsSetting.UpdatedBy" value="@Model.UpdatedBy" />
+                                            <input type="hidden" name="LgsSetting.Id" value="@Model.Id" />
+                                            <br />
+                                            <button type="submit" class="btn btn-danger pull-right">Save Settings</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <!-- ./box-body -->
+                            <div class="box-footer">
+                                <div class="row">
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block border-right">
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-xs-6">
+                                        <div class="description-block">
+
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.box-footer -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*SUCCESS ALERT DIV JQUERY*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    setTimeout(function() {
+            $("#alert").fadeTo(1000, 200).slideUp(200,
+                function() {
+                    $("#alert").remove();
+                });
+        },
+        1000); //5000=5 seconds
+</script>
+@*SUCCESS ALERT DIV JQUERY*@

@@ -21,18 +21,10 @@ namespace LGS
         {
 			var container = new UnityContainer();
 
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
-
-            // e.g. container.RegisterType<ITestService, TestService>();
-//            container.RegisterType(typeof(IUserStore<ApplicationUser>), typeof(UserStore<ApplicationUser>));
-//            container.RegisterType<ApplicationSignInManager>();
-//            container.RegisterType<ApplicationUserManager>();
-//            container.RegisterType<ApplicationDbContext>();
               container.RegisterType<AccountController>(new InjectionConstructor());
               container.RegisterType<AdminController>(new InjectionConstructor());
               container.RegisterType<ClientController>(new InjectionConstructor());
-              container.RegisterType<HomeController>(new InjectionConstructor());
+//              container.RegisterType<HomeController>(new InjectionConstructor());
               container.RegisterType<IAdminService,AdminService>();
               container.RegisterType<IClientService,ClientService>();
               container.RegisterType<IHomeService, HomeService>();

@@ -40,10 +40,50 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-@* <script> *@
-@*     $.getJSON('https://json.geoiplookup.io/', function(data) { *@
-@*         console.log(JSON.stringify(data, null, 2)); *@
-@*     }); *@
-@* </script> *@
+    @* <script> *@
+    @*     $.getJSON('https://json.geoiplookup.io/', function(data) { *@
+    @*         console.log(JSON.stringify(data, null, 2)); *@
+    @*     }); *@
+    @* </script> *@
+
+
+
+@* <div class="loading" align="center"> *@
+@*     $1$ Loading. Please wait.<br /> #1# *@
+@*     $1$ <br /> #1# *@
+@*     <img src="../../Content/copper-loader.gif" alt="" /> *@
+@* </div> *@
+
+
+@* Loading Animation Script Code *@
+    @* <script type="text/javascript"> *@
+    @*     var modal, loading; *@
+    @* *@
+    @*     function ShowProgress() { *@
+    @*         modal = document.createElement("DIV"); *@
+    @*         modal.className = "modalloader"; *@
+    @*         document.body.appendChild(modal); *@
+    @*         loading = document.getElementsByClassName("loading")[0]; *@
+    @*         loading.style.display = "block"; *@
+    @*         var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0); *@
+    @*         var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0); *@
+    @*         loading.style.top = top + "px"; *@
+    @*         loading.style.left = left + "px"; *@
+    @*     }; *@
+    @* *@
+    @*     ShowProgress(); *@
+    @* </script> *@
+    @* *@
+    @* <!-- Keep the Page Content Here.--> *@
+    @* *@
+    @* <script type="text/javascript"> *@
+    @*     window.onload = function() { *@
+    @*         setTimeout(function() { *@
+    @*                 document.body.removeChild(modal); *@
+    @*                 loading.style.display = "none"; *@
+    @*             }, *@
+    @*             2000); //Delay just used for example and must be set to 0. *@
+    @*     }; *@
+    @* </script> *@
 </body>
 </html>

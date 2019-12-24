@@ -1,0 +1,56 @@
+﻿@model LGS.Models.RegisterViewModel
+@{
+    Layout = "../Shared/_LayoutAccount.cshtml";
+    ViewBag.Title = "Register - LGS";
+}
+
+<div class="register-box">
+    <div class="register-logo">
+        <a href="/Home"><b>LGS</b>LTE</a>
+    </div>
+
+    <div class="register-box-body">
+        <p class="login-box-msg">Register a new membership</p>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new {@class = "text-danger"})
+            <div class="form-group has-feedback">
+
+                @Html.TextBoxFor(m => m.FullName, new {@class = "form-control", @placeholder="Full Name"})
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.Email, new {@class = "form-control", @placeholder="Email"})
+            </div>
+
+            <div class="form-group has-feedback">
+
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control", @placeholder="Password"})
+            </div>
+          
+            <div class="form-group has-feedback">
+
+                @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control", @placeholder="Confirm Password"})
+            </div>
+            <div class="row">
+                @* <div class="col-xs-8"> *@
+                @*     <div class="checkbox icheck"> *@
+                @*         <label> *@
+                @*             @Html.CheckBoxFor(m => m.) Remember Me *@
+                @*         </label> *@
+                @*     </div> *@
+                @* </div> *@
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        }
+
+
+        @Html.ActionLink("Already have an account!", "Login", "Account", new {@class = "text-center"})
+    </div>
+    <!-- /.form-box -->
+</div>
+<!-- /.register-box -->

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
+using System.Linq;
 using System.Threading.Tasks;
 using LGS.Models.Credits;
 using LGS.Models.Items;
@@ -28,8 +29,8 @@ namespace LGS.Data.Services.UserServices
 
         public async Task<DashboardViewModel> GetAdminDashboardViewData()
         {
-            var users = await _context.Users.Include(x => x.Roles).ToListAsync();
-            var analyticsUnique = await _context.Database
+            var users =  await _context.Users.Include(x => x.Roles).ToListAsync();
+            var analyticsUnique = await  _context.Database
                 .SqlQuery<Analytics_Visits>("select distinct IpAddress FROM Analytics_Visits").ToListAsync();
 
             var dashboardViewModel = new DashboardViewModel
@@ -485,11 +486,11 @@ namespace LGS.Data.Services.UserServices
             }
         }
 
-        public async Task<UserViewModel> GetSubAdminUserById(int id)
+        public UserViewModel GetSubAdminUserById(int id)
         {
             if (id != 0)
             {
-                var subAdmin = await _context.SubAdmins.Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
+                var subAdmin = _context.SubAdmins.Include(x => x.User).FirstOrDefault(x => x.Id.Equals(id));
                 var userVm = new UserViewModel
                 {
                     SubAdmin = subAdmin,
@@ -505,7 +506,7 @@ namespace LGS.Data.Services.UserServices
         {
             if (userViewModel?.SubAdmin != null)
             {
-                var subAdminAppUser = await GetSubAdminUserById(userViewModel.SubAdmin.Id);
+                var subAdminAppUser = GetSubAdminUserById(userViewModel.SubAdmin.Id);
                 if (subAdminAppUser != null)
                 {
                     subAdminAppUser.SubAdmin.UpdatedDate = DateTime.UtcNow;
@@ -528,7 +529,7 @@ namespace LGS.Data.Services.UserServices
         {
             if (subAdminId != 0)
             {
-                var subAdminAppUser = await GetSubAdminUserById(subAdminId);
+                var subAdminAppUser = GetSubAdminUserById(subAdminId);
                 if (subAdminAppUser != null)
                 {
                     _context.Users.Remove(subAdminAppUser.User);
@@ -550,7 +551,6 @@ namespace LGS.Data.Services.UserServices
 
         public async Task<CreditInvoice> GetInvoiceDetails(int id)
         {
-            _context.Configuration.ProxyCreationEnabled = false;
             var creditInvoice =
                 await _context.CreditInvoices.Include(x => x.User).FirstOrDefaultAsync(x => x.Id.Equals(id));
             return creditInvoice;
@@ -563,7 +563,6 @@ namespace LGS.Data.Services.UserServices
 
         public async Task<LgsSetting> GetSettings()
         {
-            _context.Configuration.ProxyCreationEnabled = false;
             var lgsSetting = await _context.LgsSettings.FirstOrDefaultAsync();
             return lgsSetting;
         }
@@ -599,7 +598,7 @@ namespace LGS.Data.Services.UserServices
         Task<bool> DeleteClient(int id);
         Task<LgsUserStatus> CheckUserStatus(string email);
 
-        Task<UserViewModel> GetSubAdminUserById(int id);
+        UserViewModel GetSubAdminUserById(int id);
         Task<UserViewModel> GetClientUserById(int id);
         Task<UserViewModel> GetLoggedInUserInfo(string id, string userRole);
         Task<Company> GetClientCompanyByCompanyId(int companyId);

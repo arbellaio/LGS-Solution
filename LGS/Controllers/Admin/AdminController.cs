@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using LGS.Models.Items;
 using CompanyViewModel = LGS.Data.ViewModels.DatabaseViewModels.CompanyViewModel;
 using DashboardViewModel = LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel;
@@ -23,6 +24,7 @@ using DashboardViewModel = LGS.Models.ViewModels.DashboardViewModels.DashboardVi
 namespace LGS.Controllers.Admin
 {
     [HandleError]
+    [OutputCache(Duration = 20, VaryByParam = "none", Location = OutputCacheLocation.Client, NoStore = true)]
     [Authorize(Roles = RoleName.Admin + "," + RoleName.SubAdmin)]
     public class AdminController : Controller
     {
@@ -74,7 +76,7 @@ namespace LGS.Controllers.Admin
             if (dashboardViewModel?.Users != null && dashboardViewModel.Users.Count > 0)
             {
                 //Get users with user role
-                var userViewModelList = await GetUsersWithRoles(dashboardViewModel.Users);
+                var userViewModelList =  GetUsersWithRoles(dashboardViewModel.Users);
                 if (userViewModelList != null && userViewModelList.Count > 0)
                 {
                     var subAdmins = UserHelper.GetUsersWithSpecificRole(userViewModelList, RoleName.SubAdmin);
@@ -108,7 +110,7 @@ namespace LGS.Controllers.Admin
             var dashboardViewModel = await Service.GetAdminDashboardViewData();
 
             //Get users with user role
-            var userViewModelList = await GetUsersWithRoles(dashboardViewModel.Users);
+            var userViewModelList =  GetUsersWithRoles(dashboardViewModel.Users);
             var clientsUserVm = UserHelper.GetUsersWithSpecificRole(userViewModelList, RoleName.Client);
             clientsUserVm = await Service.GetClientsUserVm(clientsUserVm);
 
@@ -122,7 +124,7 @@ namespace LGS.Controllers.Admin
                 return View(dashboardVm);
             }
 
-            return View();
+            return View(new DashboardViewModel());
         }
 
 
@@ -188,7 +190,7 @@ namespace LGS.Controllers.Admin
             var dashboardViewModel = await Service.GetAdminDashboardViewData();
 
             //Get users with user role
-            var userViewModelList = await GetUsersWithRoles(dashboardViewModel.Users);
+            var userViewModelList = GetUsersWithRoles(dashboardViewModel.Users);
             var subAdminsUserVm = UserHelper.GetUsersWithSpecificRole(userViewModelList, RoleName.SubAdmin);
             subAdminsUserVm = await Service.GetSubAdminsUserVm(subAdminsUserVm);
             if (subAdminsUserVm != null)
@@ -256,10 +258,10 @@ namespace LGS.Controllers.Admin
         #region Sub-Admin Details Page Get And Post Methods
 
         [Authorize(Roles = RoleName.Admin)]
-        public async Task<ActionResult> SubAdminDetails(int id)
+        public JsonResult SubAdminDetails(int id)
         {
             if (id == 0) return Json("");
-            var userVm = await Service.GetSubAdminUserById(id);
+            var userVm = Service.GetSubAdminUserById(id);
             return Json(userVm, JsonRequestBehavior.AllowGet);
         }
 
@@ -272,7 +274,7 @@ namespace LGS.Controllers.Admin
                 (dashboardViewModel?.ProfilePic != null && dashboardViewModel.IsEnable &&
                  dashboardViewModel.SubAdminUserId > 0))
             {
-                var userVmInDb = await Service.GetSubAdminUserById(dashboardViewModel.SubAdminUserId);
+                var userVmInDb =  Service.GetSubAdminUserById(dashboardViewModel.SubAdminUserId);
                 if (userVmInDb?.User != null && userVmInDb.SubAdmin != null)
                 {
                     if (dashboardViewModel.RegisterVm != null &&
@@ -340,7 +342,7 @@ namespace LGS.Controllers.Admin
                 }
             }
 
-            return View();
+            return View(new DashboardViewModel());
         }
 
 
@@ -624,7 +626,7 @@ namespace LGS.Controllers.Admin
                 return View(userDashboardVm);
             }
 
-            return View();
+            return View(new DashboardViewModel());
         }
 
 
@@ -752,12 +754,12 @@ namespace LGS.Controllers.Admin
 
         #region Get Users With Roles User_View_Model Helper method
 
-        public async Task<List<UserViewModel>> GetUsersWithRoles(List<ApplicationUser> users)
+        public List<UserViewModel> GetUsersWithRoles(List<ApplicationUser> users)
         {
             var userViewModelList = new List<UserViewModel>();
             foreach (var user in users)
             {
-                var roleName = await UserManager.GetRolesAsync(user.Id);
+                var roleName =  UserManager.GetRoles(user.Id);
                 var userViewModel = new UserViewModel
                 {
                     User = user,

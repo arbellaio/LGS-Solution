@@ -1,5 +1,7 @@
-﻿using LGS.Models.Companies;
+﻿using System.Collections.Generic;
+using LGS.Models.Companies;
 using System.Web;
+using LGS.Models.Communication;
 using LGS.Models.Items;
 
 namespace LGS.Data.ViewModels.DatabaseViewModels
@@ -24,6 +26,8 @@ namespace LGS.Data.ViewModels.DatabaseViewModels
         public LgsSetting LgsSetting { get; set; }
 
         public string GoogleAdKey { get; set; }
+
+        public List<CustomerReview> RetrieveCustomerReviews { get; set; }
 
 
 

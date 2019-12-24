@@ -1,0 +1,128 @@
+[
+  {
+    "outputFileName": "Content/bootstrap.min.css",
+    "inputFiles": [
+      "Content/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/jquery-1.10.2.min.js",
+    "inputFiles": [
+      "Scripts/jquery-1.10.2.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/cardview.min.css",
+    "inputFiles": [
+      "Content/cardview.css"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/css/AdminLTE.min.css",
+    "inputFiles": [
+      "admin-lte/css/AdminLTE.css"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/css/font-awesome.min.css",
+    "inputFiles": [
+      "admin-lte/css/font-awesome.css"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/css/ionicons.min.css",
+    "inputFiles": [
+      "admin-lte/css/ionicons.css"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/css/skins/skin-purple-light.min.css",
+    "inputFiles": [
+      "admin-lte/css/skins/skin-purple-light.css"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/plugins/iCheck/square/blue.min.css",
+    "inputFiles": [
+      "admin-lte/plugins/iCheck/square/blue.css"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/jquery-3.3.1.min.js",
+    "inputFiles": [
+      "Scripts/jquery-3.3.1.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/modernizr-2.8.3.min.js",
+    "inputFiles": [
+      "Scripts/modernizr-2.8.3.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/bootstrap.min.js",
+    "inputFiles": [
+      "Scripts/bootstrap.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/jquery.validate.min.js",
+    "inputFiles": [
+      "Scripts/jquery.validate.js"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/js/adminlte.min.js",
+    "inputFiles": [
+      "admin-lte/js/adminlte.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/datetimeFormat.min.js",
+    "inputFiles": [
+      "Scripts/datetimeFormat.js"
+    ]
+  },
+  {
+    "outputFileName": "Scripts/respond.min.js",
+    "inputFiles": [
+      "Scripts/respond.js"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/js/fastclick.min.js",
+    "inputFiles": [
+      "admin-lte/js/fastclick.js"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/ckeditor/config.min.js",
+    "inputFiles": [
+      "admin-lte/ckeditor/config.js"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/ckeditor/styles.min.js",
+    "inputFiles": [
+      "admin-lte/ckeditor/styles.js"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/ckeditor/ckeditor.min.js",
+    "inputFiles": [
+      "admin-lte/ckeditor/ckeditor.js"
+    ]
+  },
+  {
+    "outputFileName": "admin-lte/jquery-slimscroll/jquery.slimscroll.min.js",
+    "inputFiles": [
+      "admin-lte/jquery-slimscroll/jquery.slimscroll.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/sweetalert/sweet-alert.min.css",
+    "inputFiles": [
+      "Content/sweetalert/sweet-alert.css"
+    ]
+  }
+]

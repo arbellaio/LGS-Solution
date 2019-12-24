@@ -17,43 +17,64 @@
         </div>
     </div>
     <!-- /.box-header -->
-    <div class="box-body">
-        <div class="table-responsive">
-            <table class="table no-margin">
-                <thead>
-                    <tr>
-                        <th>Item No</th>
-                        <th>Item</th>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Price Per Each</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Item)
-                    {
-                        <tr>
-                            <td><span class="label label-info">@item.sku</span></td>
-                            <td>@item.name</td>
-                            <td>@item.description</td>
-                            <td>@item.quantity</td>
-                            <td>
-                                $@item.priceperitem
-                            </td>
-                            <td>$@item.price</td>
+    @using (Ajax.BeginForm("paymentwithpaypal", "client", "", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
 
+        <div class="box-body">
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead>
+                        <tr>
+                            <th>Item No</th>
+                            <th>Item</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Price Per Each</th>
+                            <th>Price</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @for (var itemIndex = 0; itemIndex < Model.Items.Count(); itemIndex++)
+                        {
+                            <tr>
+                                @Html.HiddenFor(x => Model.Items[itemIndex].sku)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].Email)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].name)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].UserId)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].currency)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].description)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].id)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].price)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].priceperitem)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].quantity)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].tax)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].url)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].CreatedDateTime)
+                                @Html.HiddenFor(x => Model.Items[itemIndex].UpdatedDateTime)
+                                <td>
+                                    <span class="label label-info">@Model.Items[itemIndex].sku</span>
+                                </td>
+                                <td>@Model.Items[itemIndex].name</td>
+                                <td>@Model.Items[itemIndex].description</td>
+                                <td>@Model.Items[itemIndex].quantity</td>
+                                <td>
+                                    $@Model.Items[itemIndex].priceperitem
+                                </td>
+                                <td>$@Model.Items[itemIndex].price</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
         </div>
-        <!-- /.table-responsive -->
-    </div>
-    <!-- /.box-body -->
-    <div class="box-footer clearfix">
-        <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-        @* <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a> *@
-    </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+            <button type="submit" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</button>
+        </div>
+    }
     <!-- /.box-footer -->
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

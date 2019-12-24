@@ -8,377 +8,344 @@
 @Styles.Render("~/Content/cart/leadcartstyle.css")
 <section class="content">
 
-<div class="row">
-@* SUCCESS ALERT DIV *@
-@if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulRegistration))
-{
-    <div id="alert" class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i> Alert!</h4>
-        <strong>Success! </strong> Client is Registered.
-    </div>
-}
-else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulUpdate))
-{
-    <div id="alert" class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i> Alert!</h4>
-        <strong>Success! </strong> Client is Updated.
-    </div>
-}
-else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulDelete))
-{
-    <div id="alert" class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i> Alert!</h4>
-        <strong>Success! </strong> Client is Deleted.
-    </div>
-}
-else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulBlock))
-{
-    <div id="alert" class="alert alert-error alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i> Alert!</h4>
-        <strong>Success! </strong> User has been blocked.
-    </div>
-}
-else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.UserExist))
-{
-    <div id="alert" class="alert alert-error alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-        <strong>Failure! </strong> User already exist with this email.
-    </div>
-}
-else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulUnBlock))
-{
-    <div id="alert" class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i> Alert!</h4>
-        <strong>Success! </strong> User has been Unblocked.
-    </div>
-}
-else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
-{
-    <div id="alert" class="alert alert-error alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-        <strong>Failure! </strong> Something is wrong with information you entered.
-    </div>
-}
-
-@*SUCCESS ALERT DIV CLOSED*@
-<div class="col-md-9">
-<div class="nav-tabs-custom">
-<ul class="nav nav-tabs">
-    <li class="active">
-        <a href="#activity" data-toggle="tab" aria-expanded="true">Companies</a>
-    </li>
-    <li class="">
-        <a href="#settings" data-toggle="tab" aria-expanded="false">Leads Info</a>
-    </li>
-    <li class="">
-        <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Account Transactions</a>
-    </li>
-    <li class="">
-        <a href="#buy-products" data-toggle="tab" aria-expanded="false">Buy Services</a>
-    </li>
-
-
-</ul>
-<div class="tab-content">
-
-<div class="tab-pane active" id="activity">
-    <!-- Post -->
     <div class="row">
-        <div class="col-md-2 pull-right">
-            <a href="/client/addcompany" class="pull-right">
-                <button type="button" class="btn btn-warning">Add Company</button>
-            </a>
-        </div>
-    </div>
-    <div class="box-body">
-
-        @if (Model.UserVm.Client.Companies == null || Model.UserVm.Client.Companies.Count == 0)
+        @* SUCCESS ALERT DIV *@
+        @if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulRegistration))
         {
-            <p style="text-align: center">
-                <b>No companies registered against this user.</b>
-            </p>
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Client is Registered.
+            </div>
         }
-        @foreach (var company in Model.UserVm.Client.Companies)
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUpdate))
         {
-                                @*             <a href="@Url.Action("CompanyDetail","Admin",new { id = company.Id,clientId =company.Client.Id })"> *@
-            <div id="@company.Id" class="col-md-5" style="cursor: pointer">
-                <a href="/client/companydetail/@company.Id?clientId=@company.Client.Id">
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Client is Updated.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulDelete))
+        {
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> Client is Deleted.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulBlock))
+        {
+            <div id="alert" class="alert alert-error alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> User has been blocked.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.UserExist))
+        {
+            <div id="alert" class="alert alert-error alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                <strong>Failure! </strong> User already exist with this email.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.SuccessfulUnBlock))
+        {
+            <div id="alert" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                <strong>Success! </strong> User has been Unblocked.
+            </div>
+        }
+        else if (ViewBag.AlertDialog.Equals((int)LgsAlertEnums.InvalidModel))
+        {
+            <div id="alert" class="alert alert-error alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                <strong>Failure! </strong> Something is wrong with information you entered.
+            </div>
+        }
 
-                    <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
+        @*SUCCESS ALERT DIV CLOSED*@
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#activity" data-toggle="tab" aria-expanded="true">Companies</a>
+                    </li>
+                    <li class="">
+                        <a href="#timeline" id="timelineTab" data-toggle="tab" aria-expanded="false">Account Transactions</a>
+                    </li>
+                    <li class="">
+                        <a href="#buy-products" data-toggle="tab" aria-expanded="false">Buy Credits</a>
+                    </li>
+                    @* <li class=""> *@
+                    @*     <a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a> *@
+                    @* </li> *@
 
-                        <div class="box-body box-profile">
-                            @if (string.IsNullOrEmpty(company.LogoPath))
+
+                </ul>
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="activity">
+                        <!-- Post -->
+                        <div class="row">
+                            <div class="col-md-2 pull-right">
+                                <a href="/client/addcompany" class="pull-right">
+                                    <button type="button" class="btn btn-warning">Add Company</button>
+                                </a>
+
+                            </div>
+                            <div class="col-md-2 pull-right">
+                                <a href="/client/facebook" class="pull-right">
+                                    <button type="button" class="btn btn-microsoft">Connect Facebook</button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            @if (Model.UserVm.Client.Companies == null || Model.UserVm.Client.Companies.Count == 0)
                             {
-                                <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                                <p style="text-align: center">
+                                    <b>No companies registered against this user.</b>
+                                </p>
                             }
                             else
                             {
-                                var absolutePath = HttpContext.Current.Server.MapPath("~/" + company.LogoPath);
-                                if (!@System.IO.File.Exists(absolutePath))
+                                foreach (var company in Model.UserVm.Client.Companies)
                                 {
-                                    <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
-                                }
-                                else
-                                {
-                                    <img class="profile-user-img img-responsive img-circle" src="@company.LogoPath" alt="User profile picture">
+                                    @*             <a href="@Url.Action("CompanyDetail","Admin",new { id = company.Id,clientId =company.Client.Id })"> *@
+                                    <div id="@company.Id" class="col-md-5" style="cursor: pointer">
+                                        <a href="/client/companydetail/@company.Id?clientId=@company.Client.Id">
+
+                                            <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
+
+                                                <div class="box-body box-profile">
+                                                    @if (string.IsNullOrEmpty(company.LogoPath))
+                                                    {
+                                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                                                    }
+                                                    else
+                                                    {
+                                                        var absolutePath = HttpContext.Current.Server.MapPath("~/" + company.LogoPath);
+                                                        if (!@System.IO.File.Exists(absolutePath))
+                                                        {
+                                                            <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/CompanyImages/companydefault.png" alt="User profile picture">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img class="profile-user-img img-responsive img-circle" src="@company.LogoPath" alt="User profile picture">
+                                                        }
+                                                    }
+                                                    @Html.Hidden("UserId", "", new { @id = "userId" })
+                                                    <h3 class="profile-username text-center">@company.CompanyName</h3>
+                                                    <p class="text-muted text-center">@company.MainDescription</p>
+
+                                                    <ul class="list-group list-group-unbordered">
+                                                        <li class="list-group-item">
+                                                            <b style="color: black">Email Address :</b>
+                                                            <p class="text-muted pull-right">@company.CompanyEmail</p>
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <b style="color: black">Created Date :</b>
+                                                            <p class="text-muted pull-right">@company.CreatedDate.ToShortDateString()</p>
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <b style="color: black">Company Status :</b>
+                                                            @if (company.IsBlocked)
+                                                            {
+                                                                <p class="text-muted pull-right">Blocked / Inactive</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p class="text-muted pull-right">Active</p>
+                                                            }
+                                                        </li>
+                                                    </ul>
+
+
+                                                    @* <a href="#" class="btn btn-primary btn-block"> *@
+                                                    @*     <b>Follow</b> *@
+                                                    @* </a> *@
+                                                </div>
+                                                <!-- /.box-body -->
+                                            </div>
+                                        </a>
+
+                                    </div>
                                 }
                             }
-                            @Html.Hidden("UserId", "", new {@id = "userId"})
-                            <h3 class="profile-username text-center">@company.CompanyName</h3>
-                            <p class="text-muted text-center">@company.MainDescription</p>
 
-                            <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
-                                    <b style="color: black">Email Address :</b>
-                                    <p class="text-muted pull-right">@company.CompanyEmail</p>
-                                </li>
-                                <li class="list-group-item">
-                                    <b style="color: black">Created Date :</b>
-                                    <p class="text-muted pull-right">@company.CreatedDate.ToShortDateString()</p>
-                                </li>
-                                <li class="list-group-item">
-                                    <b style="color: black">Company Status :</b>
-                                    @if (company.IsBlocked)
-                                    {
-                                        <p class="text-muted pull-right">Blocked / Inactive</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="text-muted pull-right">Active</p>
-                                    }
-                                </li>
-                            </ul>
-
-
-                            @* <a href="#" class="btn btn-primary btn-block"> *@
-                            @*     <b>Follow</b> *@
-                            @* </a> *@
                         </div>
-                        <!-- /.box-body -->
+                        <!-- /.post -->
                     </div>
-                </a>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="timeline">
+                        <!-- The timeline -->
+                        <ul class="timeline timeline-inverse">
 
-            </div>
-        }
-    </div>
-    <!-- /.post -->
-</div>
-<!-- /.tab-pane -->
-<div class="tab-pane" id="timeline">
-    <!-- The timeline -->
-    <ul class="timeline timeline-inverse">
-        <!-- timeline time label -->
-        <li class="time-label">
-            <span class="" id="timeLabel">
-                10 Feb. 2014
-            </span>
-        </li>
-        <!-- /.timeline-label -->
-        <!-- timeline item -->
-        <li>
-            <i class="fa fa-money" id="moneySymbol"></i>
+                            @if (@Model.UserVm.Client.CreditInvoices != null && @Model.UserVm.Client.CreditInvoices.Any())
+                            {
+                                Model.UserVm.Client.CreditInvoices.Reverse();
+                                foreach (var creditInvoice in @Model.UserVm.Client.CreditInvoices)
+                                {
+                                    <!-- timeline time label -->
+                                    <li class="time-label">
+                                        <span class="timeLabel" id="timeLabel">
+                                            @creditInvoice.CreatedDate.ToShortDateString()
+                                        </span>
+                                    </li>
+                                    <!-- /.timeline-label -->
+                                    <!-- timeline item -->
+                                    <li>
+                                        <i class="fa fa-money" id="moneySymbol"></i>
 
-            <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                                        <div class="timeline-item">
+                                            <span class="time">
+                                                <i class="fa fa-clock-o"></i> @creditInvoice.CreatedDate.ToShortTimeString()
+                                            </span>
 
-                <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
+                                            <h3 class="timeline-header"><a href="#">@Model.UserVm.User.FullName</a> transaction record</h3>
 
-                <div class="timeline-body">
-                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                    quora plaxo ideeli hulu weebly balihoo...
-                </div>
-                <div class="timeline-footer">
-                    <a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-info">View Details</a>
-                    <a class="btn btn-danger btn-xs">Hide</a>
-                </div>
-            </div>
-        </li>
-        <!-- END timeline item -->
-        <!-- timeline item -->
-        <li>
-            <i class="fa fa-money" id="moneySymbol"></i>
-
-            <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
-
-                <div class="timeline-body">
-                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                    quora plaxo ideeli hulu weebly balihoo...
-                </div>
-                <div class="timeline-footer">
-                    <a class="btn btn-primary btn-xs">View Details</a>
-                    <a class="btn btn-danger btn-xs">Hide</a>
-                </div>
-            </div>
-        </li>
-        <!-- END timeline item -->
-        <!-- timeline item -->
-        <!-- END timeline item -->
-        <!-- timeline time label -->
-        <li class="time-label">
-            <span class="" id="timeLabel2">
-                3 Feb. 2014
-            </span>
-        </li>
-        <!-- /.timeline-label -->
-        <!-- timeline item -->
-        <li>
-            <i class="fa fa-money" id="moneySymbol"></i>
-
-            <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-
-                <h3 class="timeline-header"><a href="#">Support Team</a> transaction record</h3>
-
-                <div class="timeline-body">
-                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                    quora plaxo ideeli hulu weebly balihoo...
-                </div>
-                <div class="timeline-footer">
-                    <a class="btn btn-primary btn-xs">View Details</a>
-                    <a class="btn btn-danger btn-xs">Hide</a>
-                </div>
-            </div>
-        </li>
-        <!-- END timeline item -->
-        <li>
-            <i class="fa fa-clock-o bg-gray"></i>
-        </li>
-    </ul>
-</div>
-<!-- /.tab-pane -->
-
-<div class="tab-pane" id="buy-products">
-    @using (Ajax.BeginForm("cart", "client", "", new AjaxOptions {HttpMethod = "POST"}, new {enctype = "multipart/form-data", @class = "form-horizontal"}))
-    {
-        @Html.AntiForgeryToken()
-        <div class="row">
-            <div class="col-md-2 pull-right">
+                                            <div class="timeline-body">
+                                                @creditInvoice.Description
+                                            </div>
+                                            <div class="timeline-footer">
+                                                <a class="btn btn-primary btn-xs" id="@creditInvoice.Id" data-toggle="modal" data-target="#modal-info">View Details</a>
+                                                @* <a class="btn btn-danger btn-xs">Hide</a> *@
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
 
 
-                <a href="/client/cart" class="pull-right">
-                    <button type="submit" class="btn btn-info"><i class="icon fa fa-cart-plus"></i> &nbsp; View Cart</button>
-                </a>
-            </div>
-        </div>
-        <div class="box-body">
 
-            <div class="row">
+                            <li>
+                                <i class="fa fa-clock-o bg-gray"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="buy-products">
+                        @using (Ajax.BeginForm("cart", "client", "", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-md-2 pull-right">
 
 
-                <div class="row margin">
-
-                    <div class="box box-solid">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Buy Leads</h3>
-                        </div>
-
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <!-- Product #1 -->
-                            <div class="item">
-                                <div class="buttons">
-                                    <!-- <span class="delete-btn"></span>
-                                    <span class="like-btn"></span> -->
+                                    <a href="/client/cart" class="pull-right">
+                                        <button type="submit" class="btn btn-info"><i class="icon fa fa-cart-plus"></i> &nbsp; View Cart</button>
+                                    </a>
                                 </div>
-
-                                <div class="image">
-                                    <img src="/Content/cart/leadfunnel.png" alt=""/>
-                                </div>
-
-                                <div class="description">
-                                    <input  hidden readonly="readonly" style="border: none" type="text" name="Item.name" value="Leads">
-                                    <input  hidden readonly="readonly" style="border: none" type="text" name="Item.description" value="Leads - Buy leads to get clienttel">
-                                    <input  hidden readonly="readonly" style="border: none" type="text" name="Item.sku" value="ITM - LGS001">
-                                    <input  hidden readonly="readonly" style="border: none" type="text" name="Item.UserId" value="@Model.UserVm.Client.Id">
-                                    <input  hidden readonly="readonly" style="border: none" type="text" name="Item.Email" value="@Model.UserVm.User.Email">
-                                    <input  hidden readonly="readonly" style="border: none" type="text" name="Item.priceperitem" value="100">
-
-                                    <span>Leads</span>
-                                    <span>More the better</span>
-                                    <span>Buy leads to get clienttel</span>
-                                </div>
-
-                                <div class="quantity">
-                                    <button class="plus-btn buttoncart" type="button" name="button">
-                                        <img src="/Content/cart/plus.svg" alt=""/>
-                                    </button>
-                                    <input type="text" readonly="readonly" name="Item.quantity" value="1">
-                                    <button class="minus-btn buttoncart" type="button" name="button">
-                                        <img src="/Content/cart/minus.svg" alt=""/>
-                                    </button>
-                                </div>
-
-                                <div class="col-md-2">
-                                    $<input class="total-price" readonly="readonly" style="border: none" type="text" name="Item.price" value="100">
-                                </div>
-
                             </div>
-                            <!-- /.box-body -->
-                            <!-- /.box -->
-                        </div>
-                        @* <h5>Select No. of Leads to Purchase</h5> *@
-                        @* <div class="col-sm-2"> *@
-                        @*     <div class="slider slider-horizontal" id="red"> *@
-                        @* *@
-                        @*         <div class="slider-track"> *@
-                        @*             <div class="slider-track-low" style="left: 0px; width: 0%;"></div> *@
-                        @*             <div class="slider-selection" style="left: 0%; width: 57.5%;"></div> *@
-                        @*             <div class="slider-track-high" style="right: 0px; width: 42.5%;"></div> *@
-                        @*         </div> *@
-                        @*         <div class="tooltip tooltip-main top in" role="presentation" style="left: 28.75%;"> *@
-                        @*             <div class="tooltip-arrow"></div> *@
-                        @*             <div class="tooltip-inner">-200 : 30</div> *@
-                        @*         </div> *@
-                        @*         <div class="tooltip tooltip-min top" role="presentation" style="left: 0%; display: none;"> *@
-                        @*             <div class="tooltip-arrow"></div> *@
-                        @*             <div class="tooltip-inner">-200</div> *@
-                        @*         </div> *@
-                        @*         <div class="tooltip tooltip-max top" role="presentation" style="left: 57.5%; display: none;"> *@
-                        @*             <div class="tooltip-arrow"></div> *@
-                        @*             <div class="tooltip-inner">30</div> *@
-                        @*         </div> *@
-                        @*         <div class="slider-handle max-slider-handle round" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" style="left: 57.5%;" tabindex="0"></div> *@
-                        @*     </div> *@
-                        @*     <input type="text" value="0,100" class="slider form-control" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[0,100]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-slider-id="purple" style="display: none;" data-value="-135,135"> *@
-                        @* </div> *@
+                            <div class="box-body">
+
+                                <div class="row">
+
+
+                                    <div class="row margin">
+
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title">Buy Leads</h3>
+                                            </div>
+
+                                            <!-- /.box-header -->
+                                            <div class="box-body">
+                                                <!-- Product #1 -->
+                                                <div class="cartitem">
+                                                    <div class="buttons">
+                                                        <!-- <span class="delete-btn"></span>
+                                                        <span class="like-btn"></span> -->
+                                                    </div>
+
+                                                    <div class="image">
+                                                        <img src="/Content/cart/coin.png" alt="" />
+                                                    </div>
+
+                                                    <div class="description">
+                                                        <input hidden readonly="readonly" style="border: none" type="text" name="Item.name" value="Credits">
+                                                        <input hidden readonly="readonly" style="border: none" type="text" name="Item.description" value="In-House-Currency (Credits) to Buy Services">
+                                                        <input hidden readonly="readonly" style="border: none" type="text" name="Item.sku" value="ITM-LGS-Crdits-001">
+                                                        <input hidden readonly="readonly" style="border: none" type="text" name="Item.UserId" value="@Model.UserVm.User.Id">
+                                                        <input hidden readonly="readonly" style="border: none" type="text" name="Item.Email" value="@Model.UserVm.User.Email">
+                                                        <input hidden readonly="readonly" style="border: none" type="text" name="Item.ClientId" value="@Model.UserVm.Client.Id">
+                                                        <input hidden readonly="readonly" style="border: none" type="text" name="Item.priceperitem" value="1">
+
+                                                        <span>Credits</span>
+                                                        <span>In-house currency</span>
+                                                        <span>Buy Credits to get clienttel</span>
+                                                        <br />
+                                                        <br />
+                                                    </div>
+
+                                                    <div class="quantity">
+                                                        <button class="plus-btn buttoncart" type="button" name="button">
+                                                            <img src="/Content/cart/plus.svg" alt="" />
+                                                        </button>
+                                                        <input type="text" readonly="readonly" name="Item.quantity" value="0">
+                                                        <button class="minus-btn buttoncart" type="button" name="button">
+                                                            <img src="/Content/cart/minus.svg" alt="" />
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        $<input class="total-price" readonly="readonly" style="border: none" type="text" name="Item.price" value="0">
+                                                    </div>
+
+                                                </div>
+                                                <!-- /.box-body -->
+                                                <!-- /.box -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.tab-pane -->
+                            </div>
+                        }
+                        <!-- /.tab-content -->
                     </div>
+                    <!-- /.nav-tabs-custom -->
+                    @* <div class="tab-pane" id="settings"> *@
+                    @*     <div class="box-body"> *@
+                    @*         <div class="row"> *@
+                    @*             <div class="row margin"> *@
+                    @*                 <div class="box box-solid"> *@
+                    @*                     <div class="box-header with-border"> *@
+                    @*                         <h3 class="box-title">Settings</h3> *@
+                    @*                     </div> *@
+                    @* *@
+                    @*                     <!-- /.box-header --> *@
+                    @*                     <div class="box-body"> *@
+                    @* *@
+                    @* *@
+                    @*                         <!-- /.box-body --> *@
+                    @*                         <!-- /.box --> *@
+                    @*                     </div> *@
+                    @* *@
+                    @*                 </div> *@
+                    @*             </div> *@
+                    @*         </div> *@
+                    @*         <!-- /.tab-pane --> *@
+                    @*     </div> *@
+                    @*     <!-- /.tab-content --> *@
+                    @* </div> *@
                 </div>
             </div>
-            <!-- /.tab-pane -->
         </div>
-    }
-    <!-- /.tab-content -->
-</div>
-<!-- /.nav-tabs-custom -->
-</div>
-<!-- /.col -->
-</div>
-<!-- /.row -->
-</div>
-</div>
-
+    </div>
 </section>
+
+
 <div class="content modal modal-info fade" id="modal-info" style="display: none;">
     <div class="content">
         <div style="background-color: white;">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" id="modalinfoclose" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
                 <h4 class="modal-title">Account Invoice</h4>
@@ -388,8 +355,8 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                 <div class="row">
                     <div class="col-xs-12">
                         <h2 class="page-header">
-                            <i class="fa fa-globe"></i> AdminLTE, Inc.
-                            <small class="pull-right">Date: 2/10/2014</small>
+                            <i class="fa fa-globe"></i> LGSLTE Inc.
+                            <small class="pull-right">Date: <span id="createdDate1"></span></small>
                         </h2>
                     </div>
                     <!-- /.col -->
@@ -399,31 +366,38 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                     <div class="col-sm-4 invoice-col">
                         From
                         <address>
-                            <strong>Admin, Inc.</strong><br>
-                            795 Folsom Ave, Suite 600<br>
-                            San Francisco, CA 94107<br>
-                            Phone: (804) 123-5432<br>
-                            Email: info@almasaeedstudio.com
+                            <strong>LGSLTE, Inc.</strong><br>
+                            @* 795 Folsom Ave, Suite 600<br> *@
+                            @* San Francisco, CA 94107<br> *@
+                            @* Phone: (804) 123-5432<br> *@
+                            Email: leadgenx2019@gmail.com
                         </address>
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">
                         To
                         <address>
-                            <strong>John Doe</strong><br>
-                            795 Folsom Ave, Suite 600<br>
-                            San Francisco, CA 94107<br>
-                            Phone: (555) 539-1037<br>
-                            Email: john.doe@example.com
+                            <strong id="userFullName"></strong>
+                            <br>
+                            @* 795 Folsom Ave, Suite 600<br> *@
+                            @* San Francisco, CA 94107<br> *@
+                            Phone:
+                            <span id="phoneNumber">
+
+                            </span><br>
+                            Email:
+                            <span id="userEmail">
+                                @* john.doe@example.com *@
+                            </span>
                         </address>
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">
-                        <b>Invoice #007612</b><br>
+                        <b>Invoice: </b><span id="invoiceNo"></span><br>
                         <br>
-                        <b>Order ID:</b> 4F3S8J<br>
-                        <b>Payment Due:</b> 2/22/2014<br>
-                        <b>Account:</b> 968-34567
+                        @* <b>Order ID:</b> 4F3S8J<br> *@
+                        <b>Purchase Date:</b> <span id="createdDate"></span>
+                        @* <b>Account:</b> 968-34567 *@
                     </div>
                     <!-- /.col -->
                 </div>
@@ -433,43 +407,22 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                     <div class="col-xs-12 table-responsive">
                         <table class="table table-striped">
                             <thead>
-                            <tr>
-                                <th>Qty</th>
-                                <th>Product</th>
-                                <th>Serial #</th>
-                                <th>Description</th>
-                                <th>Subtotal</th>
-                            </tr>
+                                <tr>
+                                    <th>SKU Code</th>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Description</th>
+                                    <th>Subtotal</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Call of Duty</td>
-                                <td>455-981-221</td>
-                                <td>El snort testosterone trophy driving gloves handsome</td>
-                                <td>$64.50</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Need for Speed IV</td>
-                                <td>247-925-726</td>
-                                <td>Wes Anderson umami biodiesel</td>
-                                <td>$50.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Monsters DVD</td>
-                                <td>735-845-642</td>
-                                <td>Terry Richardson helvetica tousled street art master</td>
-                                <td>$10.70</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Grown Ups Blue Ray</td>
-                                <td>422-568-642</td>
-                                <td>Tousled lomo letterpress</td>
-                                <td>$25.99</td>
-                            </tr>
+                                <tr>
+                                    <td><span id="skuCode"></span></td>
+                                    <td><span id="name"></span></td>
+                                    <td><span id="qty"></span></td>
+                                    <td><span id="description"></span></td>
+                                    <td>$<span id="subtotal"></span></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -481,39 +434,38 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                     <!-- accepted payments column -->
                     <div class="col-xs-6">
                         <p class="lead">Payment Methods:</p>
-                        <img src="../../admin-lte/img/credit/visa.png" alt="Visa">
-                        <img src="../../admin-lte/img/credit/mastercard.png" alt="Mastercard">
-                        <img src="../../admin-lte/img/credit/american-express.png" alt="American Express">
+                        @* <img src="../../admin-lte/img/credit/visa.png" alt="Visa"> *@
+                        @* <img src="../../admin-lte/img/credit/mastercard.png" alt="Mastercard"> *@
+                        @* <img src="../../admin-lte/img/credit/american-express.png" alt="American Express"> *@
                         <img src="../../admin-lte/img/credit/paypal2.png" alt="Paypal">
 
                         <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg
-                            dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                            Payment Method being used is PayPal
                         </p>
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-6">
-                        <p class="lead">Amount Due 2/22/2014</p>
+                        @* <p class="lead">Amount Paid Date <label>2/22/2014</label></p> *@
 
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
-                                <tr>
-                                    <th style="width: 50%">Subtotal:</th>
-                                    <td>$250.30</td>
-                                </tr>
-                                <tr>
-                                    <th>Tax (9.3%)</th>
-                                    <td>$10.34</td>
-                                </tr>
-                                <tr>
-                                    <th>Shipping:</th>
-                                    <td>$5.80</td>
-                                </tr>
-                                <tr>
-                                    <th>Total:</th>
-                                    <td>$265.24</td>
-                                </tr>
+                                    <tr>
+                                        <th style="width: 50%">Subtotal:</th>
+                                        <td>$<span id="subTotal"></span></td>
+                                    </tr>
+                                    @* <tr> *@
+                                    @*     <th>Tax (9.3%)</th> *@
+                                    @*     <td id="taxAmount">$10.34</td> *@
+                                    @* </tr> *@
+                                    @* <tr> *@
+                                    @*     <th>Shipping:</th> *@
+                                    @*     <td>$5.80</td> *@
+                                    @* </tr> *@
+                                    <tr>
+                                        <th>Total:</th>
+                                        <td>$<span id="total"></span></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -524,13 +476,13 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
                 <!-- this row will not appear when printing -->
                 <div class="row no-print">
                     <div class="col-xs-12">
-                        <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                        <button type="button" class="btn btn-success pull-right">
-                            <i class="fa fa-credit-card"></i> Submit Payment
-                        </button>
-                        <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                            <i class="fa fa-download"></i> Generate PDF
-                        </button>
+                        @* <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a> *@
+                        @* <button type="button" class="btn btn-success pull-right"> *@
+                        @*     <i class="fa fa-credit-card"></i> Submit Payment *@
+                        @* </button> *@
+                        @* <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;"> *@
+                        @*     <i class="fa fa-download"></i> Generate PDF *@
+                        @* </button> *@
                     </div>
                 </div>
             </section>
@@ -538,33 +490,35 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
     </div>
 </div>
 
-<script src="/Scripts/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         //Start Image / File Upload Preview Code
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     $('#DetailProfilePic').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        $("#DetailProfilePic").click(function() {
+        $("#DetailProfilePic").click(function () {
             $("input[id='my_file']").click();
-            $("#my_file").change(function() {
+            $("#my_file").change(function () {
                 readURL(this);
             });
         });
 
         //End Image / File Upload Preview Code
         $('input').on('ifChecked',
-            function(event) {
+            function (event) {
                 $(this).closest("input").attr('checked', true);
                 $("#inputName").prop("disabled", false);
                 $("#inputEmail").prop("disabled", false);
@@ -575,7 +529,7 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 
         // Check-box unchecked click Disabling controls
         $('input').on('ifUnchecked',
-            function(event) {
+            function (event) {
                 $(this).closest("input").attr('checked', false);
                 $("#inputName").prop("disabled", true);
                 $("#inputEmail").prop("disabled", true);
@@ -585,20 +539,21 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 
 
         // Color Change on Account Transaction Tab Click
-        $('#timelineTab').click(function() {
+        $('#timelineTab').click(function () {
             //            alert('I am in timeline');
-            $('.fa-money').each(function() {
+            $('.fa-money').each(function () {
                 $(this).css('background-color', randomColor());
                 $(this).css('color', 'white');
             });
-            $('#timeLabel').each(function() {
+            //            $('#timeLabel').each(function() {
+            //                $(this).css('background-color', randomColor());
+            //                $(this).css('color', 'white');
+            //            });
+            $('.timeLabel').each(function () {
                 $(this).css('background-color', randomColor());
                 $(this).css('color', 'white');
             });
-            $('#timeLabel2').each(function() {
-                $(this).css('background-color', randomColor());
-                $(this).css('color', 'white');
-            });
+
         });
         //End Color Change on Account Transaction Tab Click
 
@@ -607,23 +562,87 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
 
     // Color Change on Account Transaction Tab Click
     var colors = ['#3c8dbc', '#f39c12', '#D81B60', '#605ca8', '#f56954', '#00a65a'];
-    var rand = function() {
+    var rand = function () {
         return Math.floor(Math.random() * 6);
     };
 
-    var randomColor = function() {
+    var randomColor = function () {
         var color = colors[rand()];
         return color;
     };
     //End Color Change on Account Transaction Tab Click
 
 
+    $("#modalinfoclose").click(function () {
+        if (document.getElementById("modal-info").style.display === "block")
+            document.getElementById("modal-info").style.display = "none";
+
+        $("#modal-info").toggleClass("fade");
+    });
+
+    $('.btn-xs').click(function () {
+        if (document.getElementById("modal-info").style.display === "none") {
+            document.getElementById("modal-info").style.display = "block";
+        }
+        $("#modal-info").toggleClass("in");
+
+        //        $("#modal-info").toggleClass("fade");
+
+
+        // Get UserId from attribute (id) for col-md-3 div
+        var creditInvoiceId = $(this).attr("id");
+
+        console.log(creditInvoiceId);
+
+        // Ajax call to HttpGet Method
+        $.ajax({
+            //base address/controller/Action
+            url: '/Client/GetInvoiceDetails',
+            type: 'GET',
+            dataType: 'json',
+            contentType: "application/json; charset=UTF-8",
+            data: {
+                //Passing Input parameter
+                id: creditInvoiceId
+            },
+            success: function (result) {
+                var creditInvoice = result;
+                //                console.log(creditInvoice.User.FullName);
+                console.log(creditInvoice.InvoiceNo);
+
+
+                $("#userFullName").text(creditInvoice.User.FullName);
+                $("#userEmail").text(creditInvoice.User.Email);
+                $("#invoiceNo").text(creditInvoice.InvoiceNo);
+                $("#phoneNumber").text(creditInvoice.InvoiceNo);
+                $("#subTotal").text(creditInvoice.TotalPrice);
+                $("#total").text(creditInvoice.TotalPrice);
+
+                // Date Format from json
+                var createdDateTime = moment(creditInvoice.CreatedDate).format("MM-DD-YYYY");;
+                $("#createdDate").text(createdDateTime);
+                $("#createdDate1").text(createdDateTime);
+                //End Date Format from json
+                $("#skuCode").text(creditInvoice.SkuCode);
+                $("#name").text(creditInvoice.Name);
+                $("#qty").text(creditInvoice.Quantity);
+                $("#description").text(creditInvoice.Description);
+                $("#subtotal").text(creditInvoice.Price);
+
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+        return false;
+    });
+
 </script>
 @*SUCCESS ALERT and Check Box DIV JQUERY*@
 <script>
 
     // Start Check box show behavior code
-    $(function() {
+    $(function () {
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
@@ -634,18 +653,19 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
     //End Check box show behaviour code
 
     //Alert Script Code
-    setTimeout(function() {
-            $("#alert").fadeTo(1000, 200).slideUp(200,
-                function() {
-                    $("#alert").remove();
-                });
-        },
+    setTimeout(function () {
+        $("#alert").fadeTo(1000, 200).slideUp(200,
+            function () {
+                $("#alert").remove();
+            });
+    },
         1000); //5000=5 seconds
 </script>
 @*SUCCESS ALERT and Check Box DIV JQUERY*@
 
 
 <script type="text/javascript">
+
     $('.minus-btn').on('click',
         function(e) {
             e.preventDefault();
@@ -658,8 +678,8 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
             } else {
                 value = 0;
             }
-            var totalprice = value * 100;
-            $('.total-price').val(totalprice);
+            totalPrice = value * @Model.LgsSetting.CreditPerMoney;
+            $('.total-price').val(totalPrice);
             $input.val(value);
 
         });
@@ -676,9 +696,9 @@ else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
             } else {
                 value = 100;
             }
-            var totalprice = value * 100;
+            totalPrice = value * @Model.LgsSetting.CreditPerMoney;
 
-            $('.total-price').val(totalprice);
+            $('.total-price').val(totalPrice);
             $input.val(value);
         });
 

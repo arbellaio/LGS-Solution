@@ -77,6 +77,7 @@ namespace LGS.Data.Services.ClientServices
                     clientAppUser.Client.ProfilePhoto = userViewModel.Client.ProfilePhoto;
                     clientAppUser.User.FullName = userViewModel.User.FullName;
                     clientAppUser.User.Email = userViewModel.User.Email;
+                    clientAppUser.User.PhoneNumber = userViewModel.User.PhoneNumber;
                     _context.Users.AddOrUpdate(clientAppUser.User);
                     _context.Clients.AddOrUpdate(clientAppUser.Client);
                     await _context.SaveChangesAsync();
@@ -173,7 +174,34 @@ namespace LGS.Data.Services.ClientServices
         }
 
 
-      
+        public async Task<bool> BlockCompany(int id)
+        {
+            if (id > 0)
+            {
+                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id.Equals(id));
+                if (company != null)
+                {
+                    if (company.IsBlocked)
+                    {
+                        company.IsBlocked = false;
+                    }
+                    else
+                    {
+                        company.IsBlocked = true;
+                    }
+
+                    _context.Companies.AddOrUpdate(company);
+                    await _context.SaveChangesAsync();
+                    return company.IsBlocked;
+                }
+
+                return false;
+            }
+
+            return false;
+        }
+
+
 
         public async Task<bool> DeleteClient(int id)
         {
@@ -385,11 +413,11 @@ namespace LGS.Data.Services.ClientServices
         #endregion
 
 
-        public async Task<List<CustomerReview>> GetCustomerReviews(string email)
+        public async Task<List<CustomerReview>> GetCustomerReviews(string email, int companyId)
         {
             if (!string.IsNullOrEmpty(email))
             {
-                return await _context.CustomerReviews.Where(x => x.CustomerEmail.Equals(email)).ToListAsync();
+                return await _context.CustomerReviews.Include(x => x.CustomerReviewReplies).Where(x => x.CustomerEmail.Equals(email) && x.CompanyId.Equals(companyId)).ToListAsync();
             }
 
             return null;
@@ -508,7 +536,7 @@ namespace LGS.Data.Services.ClientServices
         Task<CompanyInventory> GetCompanyInventory(int companyId);
 
         Task<bool> SaveCompanySettings(Company company);
-        Task<List<CustomerReview>> GetCustomerReviews(string email);
+        Task<List<CustomerReview>> GetCustomerReviews(string email,int companyId);
         Task<CustomerMessage> GetCustomerMessage(int messageId);
         Task<LgsSetting> GetSettings();
 
@@ -527,5 +555,6 @@ namespace LGS.Data.Services.ClientServices
 
         bool SaveGoogleKeyId(CompanyGoogleKey companyGoogleKey);
         bool DeleteGoogleKeyId(CompanyGoogleKey companyGoogleKey);
+        Task<bool> BlockCompany(int id);
     }
 }

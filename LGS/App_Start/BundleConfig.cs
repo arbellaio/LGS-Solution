@@ -9,12 +9,15 @@ namespace LGS
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            string token = "?alt=media&token=2d00aa06-a757-4ba5-88f5-7c69909dc4b0";
-            string path = "https://firebasestorage.googleapis.com/v0/b/testcdn-fd624.appspot.com/o/cdn%2F";
 //            bundles.UseCdn = true;
-//            BundleTable.EnableOptimizations = true;
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/jquery-{version}.js"));
+
+//            bundles.Add(new ScriptBundle("~/admin-lte/js", "https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/dist/js/adminlte.js"));
+//            bundles.Add(new ScriptBundle("~/admin-lte/js", "https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/bower_components/chart.js/Chart.js"));
+//            bundles.Add(new ScriptBundle("~/admin-lte/js", "https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/bower_components/jquery/dist/jquery.min.js"));
+//            bundles.Add(new ScriptBundle("~/admin-lte/js", "https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/plugins/iCheck/icheck.min.js"));
+
+//            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+//                "~/Scripts/jquery-{version}.js"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));
 
@@ -26,35 +29,21 @@ namespace LGS
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.js"));
             bundles.Add(new ScriptBundle("~/admin-lte/js").Include(
-                "~/admin-lte/js/adminlte.js",
-                //                                  "~/admin-lte/ckeditor/ckeditor.js",
-                //                                  "~/admin-lte/ckeditor/styles.js",
-                //                                  "~/admin-lte/ckeditor/config.js",
-                "~/admin-lte/plugins/iCheck/icheck.min.js",
-                "~/admin-lte/js/chart.js",
-                "~/admin-lte/js/jquery.min.js",
-                "~/admin-lte/js/fastclick.js",
-                "~/Scripts/jquery-ui-1.10.1.custom.min.js",
-                "~/Scripts/respond.js",
+                "~/admin-lte/js/fastclick.min.js",
+                "~/Scripts/respond.min.js",
                 "~/Scripts/moment.min.js",
-                "~/Scripts/datetimeFormat.js"
-                //                                 "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
+                "~/Scripts/datetimeFormat.min.js"
             ));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap.css",
-                "~/Content/cardview.css",
-                //                      "~/Content/Loader.css",
-                //                      "~/Content/iFrameLayout.css",
-                "~/admin-lte/css/AdminLTE.css",
-                "~/admin-lte/css/font-awesome.css",
-                "~/admin-lte/css/ionicons.css",
-                //                      "~/admin-lte/ckeditor/skins/moono-lisa/editor.css",
-                //                      "~/admin-lte/ckeditor/skins/moono-lisa/dialog.css",
-                "~/admin-lte/css/skins/skin-purple-light.css",
-                //                      "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
-                "~/admin-lte/plugins/iCheck/square/blue.css"
+                "~/Content/bootstrap.min.css",
+                "~/Content/cardview.min.css",
+                "~/admin-lte/css/AdminLTE.min.css",
+                "~/admin-lte/css/font-awesome.min.css",
+                "~/admin-lte/css/ionicons.min.css",
+                "~/admin-lte/css/skins/skin-purple-light.min.css",
+                "~/admin-lte/plugins/iCheck/square/blue.min.css"
             ));
 
 

@@ -1,0 +1,351 @@
+﻿@using LGS.AppProperties
+@model LGS.Models.ViewModels.DashboardViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "SubAdmins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1>
+        Admin Dashboard
+        <small>LGS Control Panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"><i class="fa fa-dashboard"></i> Level</a>
+        </li>
+        <li class="active">Admin Dashboard</li>
+    </ol>
+</section>
+<hr/>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Sub-Admins View Panel</h3>
+
+                <div class="box-tools pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">
+                            <i class="fa fa-user"> Add SubAdmin </i>
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+
+
+                </div>
+            </div>
+            <!-- /.box-header -->
+            @* SUCCESS ALERT DIV *@
+            @if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.SuccessfulRegistration))
+            {
+                <div id="alert" class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                    <strong>Great! </strong> Client is Registered.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.UserExist))
+            {
+                <div id="alert" class="alert alert-error alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <strong>Sorry! </strong> User already exist with this email.
+                </div>
+            }
+            else if (ViewBag.AlertDialog.Equals((int) LgsAlertEnums.InvalidModel))
+            {
+                <div id="alert" class="alert alert-error alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <strong>Sorry! </strong> Something is wrong with information you entered.
+                </div>
+            }
+
+            @*SUCCESS ALERT DIV CLOSED*@
+
+            <div class="box-body">
+                @if (Model.UserViewModels == null || Model.UserViewModels.Count == 0)
+                {
+                    <p style="text-align: center">
+                        <b>No sub-admins found.</b>
+                    </p>
+                }
+                else
+                {
+                    foreach (var subAdmin in Model.UserViewModels)
+                    {
+@*                         <div id="@("sub-admin-link"+subAdmin.SubAdmin.Id)" class="col-md-3" data-toggle="modal" data-target="#modal-warning"> *@
+                        <div id="@subAdmin.SubAdmin.Id" class="col-md-3">
+                            <div class="box box-primary" data-toggle="modal" data-target="#modal-edit">
+                                <div class="box-body box-profile">
+                                    @if (string.IsNullOrEmpty(subAdmin.SubAdmin.ProfilePhoto))
+                                    {
+                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/profiledefault.png" alt="User profile picture">
+                                    }
+                                    else
+                                    {
+                                        <img class="profile-user-img img-responsive img-circle" src="../../LgsImageRepo/ProfileImages/@subAdmin.SubAdmin.ProfilePhoto" alt="User profile picture">
+                                    }
+                                    @Html.Hidden("UserId", @subAdmin.SubAdmin.Id, new {@id = "userId"})
+                                    <a>
+                                        <h3 class="profile-username text-center">@subAdmin.User.FullName</h3>
+                                    </a>
+                                    <p class="text-muted text-center">@subAdmin.RoleName</p>
+
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item">
+                                            <b>Email Address :</b> <a class="pull-right">@subAdmin.User.Email</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Created Date</b> <a class="pull-right">@subAdmin.SubAdmin.CreatedDate.ToShortDateString()</a>
+                                        </li>
+                                    </ul>
+
+
+                                    @* <a href="#" class="btn btn-primary btn-block"> *@
+                                    @*     <b>Follow</b> *@
+                                    @* </a> *@
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                    }
+                }
+
+                <!-- /.row -->
+            </div>
+            <!-- ./box-body -->
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block border-right">
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block border-right">
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block border-right">
+                            @* <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span> *@
+                            @* <h5 class="description-header">$24,813.53</h5> *@
+                            @* <span class="description-text">TOTAL PROFIT</span> *@
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="description-block">
+
+                        </div>
+                        <!-- /.description-block -->
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.box-footer -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+<div class="modal modal-info fade" id="modal-info" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Sub-Admin Registration Form</h4>
+            </div>
+            @using (Ajax.BeginForm("SubAdminRegister", "Admin", new AjaxOptions {HttpMethod = "POST"}))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    @Html.ValidationSummary("", new {@class = "text-danger"})
+
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"></h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" style="color: black">Email Address</label>
+                                @Html.TextBoxFor(m => m.RegisterVm.Email, new {@class = "form-control", @placeholder = "Email"})
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputFullName1" style="color: black">Full Name</label>
+                                @Html.TextBoxFor(m => m.RegisterVm.FullName, new {@class = "form-control", @placeholder = "Full Name"})
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword1" style="color: black">Password</label>
+                                @Html.PasswordFor(m => m.RegisterVm.Password, new {@class = "form-control", @placeholder = "Password"})
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputConfirmPassword1" style="color: black">Confirm Password</label>
+                                @Html.PasswordFor(m => m.RegisterVm.ConfirmPassword, new {@class = "form-control", @placeholder = "Confirm Password"})
+
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+
+                    </div>
+
+
+                    @* <p>One fine body…</p> *@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Save changes</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal modal-info fade" id="modal-edit" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" id="modaleditclose" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Sub-Admin Detail / Edit Form</h4>
+            </div>
+            @using (Ajax.BeginForm("SubAdminDetails", "Admin", new AjaxOptions {HttpMethod = "POST"}))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    @Html.ValidationSummary("", new {@class = "text-danger"})
+
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"></h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1edit" style="color: black">Email Address</label>
+                                <input class="form-control" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="DetailEmail" name="RegisterVm.Email" placeholder="Email" type="text" value="">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputFullName1edit" style="color: black">Full Name</label>
+                                <input class="form-control" data-val="true" data-val-required="The FullName field is required." id="DetailFullName" name="RegisterVm.FullName" placeholder="Full Name" type="text" value="">
+                            </div>
+
+                        </div>
+                        <!-- /.box-body -->
+
+                    </div>
+
+
+                    @* <p>One fine body…</p> *@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" id="modaleditclose" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Save changes</button>
+                </div>
+            }
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@*SUCCESS ALERT DIV JQUERY*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    var userVm = null;
+    $(document).ready(function() {
+
+        $("#modaleditclose").click(function() {
+            if (document.getElementById("modal-edit").style.display === "block") {
+                document.getElementById("modal-edit").style.display = "none";
+            } 
+
+            $("#modal-edit").toggleClass("fade");
+        });
+
+        $('.col-md-3').click(function() {
+
+            if (document.getElementById("modal-edit").style.display === "none") {
+                document.getElementById("modal-edit").style.display = "block";
+            } 
+
+            $("#modal-edit").toggleClass("in");
+
+
+
+            var userId = $(this).attr("id");
+            console.log(userId);
+            $.ajax({
+                //base address/controller/Action
+                url: '/Admin/SubAdminDetails',
+                type: 'GET',
+                dataType: 'json',
+                contentType: "application/json; charset=UTF-8",
+                data: {
+                    //Passing Input parameter
+                    id: userId
+                },
+                success: function(result) {
+                    userVm = result;
+                    console.log(userVm.User.FullName);
+                    $("#DetailFullName").val(userVm.User.FullName);
+                    $("#DetailEmail").val(userVm.User.Email);
+                },
+                error: function() {
+                    alert("error");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<script>
+    //Alert Script Code
+    setTimeout(function() {
+            $("#alert").fadeTo(1000, 200).slideUp(200,
+                function() {
+                    $("#alert").remove();
+                });
+        },
+        1000); //5000=5 seconds
+</script>
+@*SUCCESS ALERT DIV JQUERY*@

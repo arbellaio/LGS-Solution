@@ -41,6 +41,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
+    <MvcBuildViews>true</MvcBuildViews>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -293,6 +294,7 @@
     <Compile Include="AppProperties\AppStrings.cs" />
     <Compile Include="AppProperties\LgsEnums.cs" />
     <Compile Include="App_Start\BundleConfig - Copy.cs" />
+    <Compile Include="App_Start\BundleConfigOld - Copy.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -312,6 +314,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Sweet\SweetController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Extensions\NotificationExtensions.cs" />
     <Compile Include="Filters\CompressAttribute.cs" />
     <Compile Include="Filters\CompressionMiddleware.cs" />
@@ -331,6 +334,11 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\OtherLanguage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OtherLanguage.resx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -338,7 +346,13 @@
     <Content Include="admin-lte\ckeditor\build-config.js" />
     <Content Include="admin-lte\ckeditor\CHANGES.md" />
     <Content Include="admin-lte\ckeditor\ckeditor.js" />
+    <Content Include="admin-lte\ckeditor\ckeditor.min.js">
+      <DependentUpon>ckeditor.js</DependentUpon>
+    </Content>
     <Content Include="admin-lte\ckeditor\config.js" />
+    <Content Include="admin-lte\ckeditor\config.min.js">
+      <DependentUpon>config.js</DependentUpon>
+    </Content>
     <Content Include="admin-lte\ckeditor\contents.css" />
     <Content Include="admin-lte\ckeditor\lang\af.js" />
     <Content Include="admin-lte\ckeditor\lang\ar.js" />
@@ -671,9 +685,14 @@
     <Content Include="admin-lte\ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="admin-lte\ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="admin-lte\ckeditor\styles.js" />
+    <Content Include="admin-lte\ckeditor\styles.min.js">
+      <DependentUpon>styles.js</DependentUpon>
+    </Content>
     <Content Include="admin-lte\ckeditor\vendor\promise.js" />
     <Content Include="admin-lte\css\AdminLTE.css" />
-    <Content Include="admin-lte\css\AdminLTE.min.css" />
+    <Content Include="admin-lte\css\AdminLTE.min.css">
+      <DependentUpon>AdminLTE.css</DependentUpon>
+    </Content>
     <Content Include="admin-lte\css\alt\AdminLTE-bootstrap-social.css" />
     <Content Include="admin-lte\css\alt\AdminLTE-bootstrap-social.min.css" />
     <Content Include="admin-lte\css\alt\AdminLTE-fullcalendar.css" />
@@ -683,9 +702,15 @@
     <Content Include="admin-lte\css\alt\AdminLTE-without-plugins.css" />
     <Content Include="admin-lte\css\alt\AdminLTE-without-plugins.min.css" />
     <Content Include="admin-lte\css\font-awesome.css" />
+    <Content Include="admin-lte\css\font-awesome.min.css">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
     <Content Include="admin-lte\css\fonts\fontawesome-webfont.svg" />
     <Content Include="admin-lte\css\icons.png" />
     <Content Include="admin-lte\css\ionicons.css" />
+    <Content Include="admin-lte\css\ionicons.min.css">
+      <DependentUpon>ionicons.css</DependentUpon>
+    </Content>
     <Content Include="admin-lte\css\skins\skin-black-light.css" />
     <Content Include="admin-lte\css\skins\skin-black-light.min.css" />
     <Content Include="admin-lte\css\skins\skin-black.css" />
@@ -700,7 +725,9 @@
     <Content Include="admin-lte\css\skins\skin-green.min.css" />
     <Content Include="admin-lte\css\skins\skin-purple-light - Copy.css" />
     <Content Include="admin-lte\css\skins\skin-purple-light.css" />
-    <Content Include="admin-lte\css\skins\skin-purple-light.min.css" />
+    <Content Include="admin-lte\css\skins\skin-purple-light.min.css">
+      <DependentUpon>skin-purple-light.css</DependentUpon>
+    </Content>
     <Content Include="admin-lte\css\skins\skin-purple.css" />
     <Content Include="admin-lte\css\skins\skin-purple.min.css" />
     <Content Include="admin-lte\css\skins\skin-red-light.css" />
@@ -765,11 +792,18 @@
     <Content Include="admin-lte\jquery-slimscroll\examples\start-position.html" />
     <Content Include="admin-lte\jquery-slimscroll\examples\style.css" />
     <Content Include="admin-lte\jquery-slimscroll\jquery.slimscroll.js" />
-    <Content Include="admin-lte\jquery-slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="admin-lte\jquery-slimscroll\jquery.slimscroll.min.js">
+      <DependentUpon>jquery.slimscroll.js</DependentUpon>
+    </Content>
     <Content Include="admin-lte\js\adminlte.js" />
-    <Content Include="admin-lte\js\adminlte.min.js" />
+    <Content Include="admin-lte\js\adminlte.min.js">
+      <DependentUpon>adminlte.js</DependentUpon>
+    </Content>
     <Content Include="admin-lte\js\demo.js" />
     <Content Include="admin-lte\js\fastclick.js" />
+    <Content Include="admin-lte\js\fastclick.min.js">
+      <DependentUpon>fastclick.js</DependentUpon>
+    </Content>
     <Content Include="admin-lte\js\jquery.min.js" />
     <Content Include="admin-lte\js\pages\dashboard.js" />
     <Content Include="admin-lte\js\pages\dashboard2.js" />
@@ -868,6 +902,9 @@
     <Content Include="admin-lte\plugins\iCheck\square\aero.png" />
     <Content Include="admin-lte\plugins\iCheck\square\blue%402x.png" />
     <Content Include="admin-lte\plugins\iCheck\square\blue.css" />
+    <Content Include="admin-lte\plugins\iCheck\square\blue.min.css">
+      <DependentUpon>blue.css</DependentUpon>
+    </Content>
     <Content Include="admin-lte\plugins\iCheck\square\blue.png" />
     <Content Include="admin-lte\plugins\iCheck\square\green%402x.png" />
     <Content Include="admin-lte\plugins\iCheck\square\green.css" />
@@ -919,9 +956,14 @@
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="Content\cardview - Copy.css" />
     <Content Include="Content\cardview.css" />
+    <Content Include="Content\cardview.min.css">
+      <DependentUpon>cardview.css</DependentUpon>
+    </Content>
     <Content Include="Content\cart\coin.png" />
     <Content Include="Content\cart\delete-icn.svg" />
     <Content Include="Content\cart\funnel-512.png" />
@@ -941,6 +983,9 @@
     <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
     <Content Include="Content\sweetalert\docs.css" />
     <Content Include="Content\sweetalert\sweet-alert.css" />
+    <Content Include="Content\sweetalert\sweet-alert.min.css">
+      <DependentUpon>sweet-alert.css</DependentUpon>
+    </Content>
     <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
@@ -967,7 +1012,9 @@
     <Content Include="LgsImageRepo\ProfileImages\profiledefault.png" />
     <Content Include="LgsImageRepo\ProfileImages\subadmin2\img8-14-20196-05-08.jpg" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\fontawesome-webfont.woff" />
@@ -994,13 +1041,22 @@
     <Content Include="Content\sweetalert\sweet-alert-animations.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\mixins.less" />
+    <None Include="bundleconfig.json" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\datetimeFormat.js" />
+    <Content Include="Scripts\datetimeFormat.min.js">
+      <DependentUpon>datetimeFormat.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js">
+      <DependentUpon>jquery-1.10.2.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js">
+      <DependentUpon>jquery-3.3.1.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -1008,15 +1064,23 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.min.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\modernizr-2.8.3.min.js">
+      <DependentUpon>modernizr-2.8.3.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js">
+      <DependentUpon>respond.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Scripts\tether.js" />
     <Content Include="Scripts\tether.min.js" />
@@ -1081,6 +1145,10 @@
     <Content Include="Views\Client\Cart.cshtml" />
     <Content Include="Views\Client\ClientSubView\Reviews.cshtml" />
     <Content Include="Views\Admin\LgsSettings.cshtml" />
+    <Content Include="Views\Test\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1113,6 +1181,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\OtherLanguage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OtherLanguage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

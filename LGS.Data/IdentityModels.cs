@@ -36,6 +36,7 @@ namespace LGS.Data
         public DbSet<FacebookLead> FacebookLeads { get; set; }
         public DbSet<FacebookLeadDetail> FacebookLeadsDetails { get; set; }
         public DbSet<CompanyGoogleKey> CompanyGoogleKeys { get; set; }
+        public DbSet<CustomerReviewReply> CustomerReviewReplies { get; set; }
 
 
         public ApplicationDbContext()

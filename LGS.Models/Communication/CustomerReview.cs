@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LGS.Models.Companies;
@@ -34,5 +35,7 @@ namespace LGS.Models.Communication
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ReviewReplyDate { get; set; }
+
+        public virtual List<CustomerReviewReply> CustomerReviewReplies { get; set; }
     }
 }

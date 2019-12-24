@@ -111,46 +111,7 @@
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
-            <!-- About Me Box -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">About Me</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
 
-                    <p class="text-muted">
-                        B.S. in Computer Science from the University of Tennessee at Knoxville
-                    </p>
-
-                    <hr>
-
-                    <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-
-                    <p class="text-muted">Malibu, California</p>
-
-                    <hr>
-
-                    <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
-                    <p>
-                        <span class="label label-danger">UI Design</span>
-                        <span class="label label-success">Coding</span>
-                        <span class="label label-info">Javascript</span>
-                        <span class="label label-warning">PHP</span>
-                        <span class="label label-primary">Node.js</span>
-                    </p>
-
-                    <hr>
-
-                    <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-                </div>
-                <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
         </div>
         <div class="col-md-9">
             <div class="nav-tabs-custom">
@@ -215,6 +176,12 @@
                                             @* <label for="CompanyPostalCodeEdit" style="color: red; opacity: 0.5">Enter area / company postal code</label> *@
                                         </dd>
 
+                                        <dt style="margin-top: 5px">Facebook Page Id</dt>
+                                        <dd style="margin-top: 5px">
+                                            <input type="text" name="Company.FacebookId" style="width: 300px" id="CompanyFacebookPageEdit" placeholder="Facebook Page Id">
+                                            @* <label for="CompanyPostalCodeEdit" style="color: red; opacity: 0.5">Enter area / company postal code</label> *@
+                                        </dd>
+
                                         <dt style="margin-top: 5px">City / District</dt>
                                         <dd style="margin-top: 5px">
                                             <input type="text" name="Company.AddressThreeLocality" style="width: 300px" id="CompanyAddressThreeLocalityEdit" placeholder="City / Locality">
@@ -267,11 +234,11 @@
                                                     <input type="text" style="width: 300px" placeholder="Company Location Map Link" name="Company.MapLocation" />
                                                     <label style="color: red; opacity: 0.7">Enter your google maps location link here. For eg. iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3401.8663554539085!2d74.2725851!3d31.5003571!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903a6fc5e4fe1%3A0x4494aa375d8f4c01!2sGourmet+Bakers+%26+Sweets!5e0!3m2!1sen!2s!4v1566248785201!5m2!1sen!2s" width="600" height="450" frameborder="0" style="border:0" allowfullscreen> iframe> ! Copy complete iframe </label>
                                                     <div id="mapIframe1">
-                                                       
-                                                            <iframe width="800" height="500" id="gmap_canvas1" src=" https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-                                                            </iframe>
-                                                        
+
+                                                        <iframe width="800" height="500" id="gmap_canvas1" src=" https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+                                                        </iframe>
+
                                                     </div>
 
 
@@ -293,19 +260,17 @@
     </div>
 </section>
 
-<script src="/Scripts/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@2.4.18/bower_components/ckeditor/ckeditor.js"></script>
+@* <script src="~/admin-lte/ckeditor/ckeditor.js"></script> *@
+<script src="~/admin-lte/ckeditor/styles.js"></script>
+<script src="~/admin-lte/ckeditor/config.js"></script>
+@* <script src="/Scripts/jquery-3.3.1.js"></script> *@
 <script>
-    $(document).ready(function() {
-
-
-        // Get CkEditor
-        $(function() {
-            @*         // Replace the <textarea id="editor1"> with a CKEditor  *@
-            @*         // instance, using default configuration.  *@
+    $(document).ready(function () {
+        $(function () {
             CKEDITOR.replace('CompanyShortDescriptionEdit');
             CKEDITOR.replace('CompanyLongDescriptionEdit');
-            @*                      //bootstrap WYSIHTML5 - text editor  *@
-            @*         $('.textarea').wysihtml5(); *@
         });
 
 
@@ -314,16 +279,16 @@
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     $('#CompanyLogoPic').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        $("#CompanyLogoPic").click(function() {
+        $("#CompanyLogoPic").click(function () {
             $("input[id='my_file']").click();
-            $("#my_file").change(function() {
+            $("#my_file").change(function () {
                 readURL(this);
             });
         });
@@ -331,43 +296,7 @@
         //End Image / File Upload Preview Code
 
 
-//        // Check-box checked click Enabling controls
-//        $('input').on('ifChecked',
-//            function(event) {
-//                $(this).closest("input").attr('checked', true);
-//                $("#inputName").prop("disabled", false);
-//                $("#inputEmail").prop("disabled", false);
-//                $("#my_file").prop("disabled", false);
-//                console.log(false);
-//
-//            });
-//
-//        // Check-box unchecked click Disabling controls
-//        $('input').on('ifUnchecked',
-//            function(event) {
-//                $(this).closest("input").attr('checked', false);
-//                $("#inputName").prop("disabled", true);
-//                $("#inputEmail").prop("disabled", true);
-//                $("#my_file").prop("disabled", true);
-//                console.log(true);
-//            });
 
-
-        //Start Get Star Rating From Number
-//        $(function () {
-//
-//            $("#rateYo").rateYo({
-//                rating: @Model?.Company.Ratings
-//            });
-//            $("#rateYo").rateYo()
-//                .on("rateyo.set", function (e, data) {
-//
-//                    $("#CompanyRating").val(data.rating);
-////                    alert("The rating is set to " + data.rating + "!");
-//                });
-//            $("#rateYo").rateYo("option", "starWidth", "20px");
-
-//        });
 
 
 
@@ -375,8 +304,8 @@
         //End Star Rating From Number
 
         // Block Company For Later
-        $('#BlockCompany').click(function() {
-//            alert('I am in timeline');
+        $('#BlockCompany').click(function () {
+            //            alert('I am in timeline');
 
         });
         //End Block Company
@@ -393,17 +322,17 @@
         //End Company Map Resize
 
         // Color Change on Account Transaction Tab Click
-        $('#timelineTab').click(function() {
-//            alert('I am in timeline');
-            $('.fa-money').each(function() {
+        $('#timelineTab').click(function () {
+            //            alert('I am in timeline');
+            $('.fa-money').each(function () {
                 $(this).css('background-color', randomColor());
                 $(this).css('color', 'white');
             });
-            $('#timeLabel').each(function() {
+            $('#timeLabel').each(function () {
                 $(this).css('background-color', randomColor());
                 $(this).css('color', 'white');
             });
-            $('#timeLabel2').each(function() {
+            $('#timeLabel2').each(function () {
                 $(this).css('background-color', randomColor());
                 $(this).css('color', 'white');
             });
@@ -415,11 +344,11 @@
 
     // Color Change on Account Transaction Tab Click
     var colors = ['#3c8dbc', '#f39c12', '#D81B60', '#605ca8', '#f56954', '#00a65a'];
-    var rand = function() {
+    var rand = function () {
         return Math.floor(Math.random() * 6);
     };
 
-    var randomColor = function() {
+    var randomColor = function () {
         var color = colors[rand()];
         return color;
     };
@@ -428,60 +357,13 @@
 
 </script>
 
-@* // Start Hide Label when Text Input Box is filled *@
-<script>
-            // Hide Label when Text Input Box is filled
-
-//    $("#CompanyNameEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyNameEdit"]').hide();
-//        });
-//    $("#CompanyMainDescriptionEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyMainDescriptionEdit"]').hide();
-//        });
-//    $("#CompanyPhoneNumberEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyPhoneNumberEdit"]').hide();
-//        });
-//    $("#CompanyEmailEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyEmailEdit"]').hide();
-//        });
-//    $("#CompanyAddressTwoStreetEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyAddressTwoStreetEdit"]').hide();
-//        });
-//    $("#CompanyNameEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyNameEdit"]').hide();
-//        });
-//    $("#CompanyNameEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyNameEdit"]').hide();
-//        });
-//    $("#CompanyNameEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyNameEdit"]').hide();
-//        });
-//    $("#CompanyShortDescriptionEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyShortDescriptionEdit"]').hide();
-//        });
-//    $("#CompanyLongDescriptionEdit").bind("keyup",
-//        function (e) {
-//            $('label[for="CompanyLongDescriptionEdit"]').hide();
-//        });
-
-</script>
-@* // End Hide Label when Text Input Box is filled *@
 
 
 @*SUCCESS ALERT and Check Box DIV JQUERY*@
 <script>
 
     // Start Check box show behavior code
-    $(function() {
+    $(function () {
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
@@ -492,12 +374,12 @@
     //End Check box show behaviour code
 
     //Alert Script Code
-    setTimeout(function() {
-            $("#alert").fadeTo(1000, 200).slideUp(200,
-                function() {
-                    $("#alert").remove();
-                });
-        },
+    setTimeout(function () {
+        $("#alert").fadeTo(1000, 200).slideUp(200,
+            function () {
+                $("#alert").remove();
+            });
+    },
         1000); //5000=5 seconds
 </script>
 @*SUCCESS ALERT and Check Box DIV JQUERY*@
